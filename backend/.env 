@@ -1,0 +1,4 @@
+MONGODB_URI=mongodb://localhost:27017/skillselect
+JWT_SECRET=your-long-random-secret-here
+JWT_EXPIRES_IN=1d
+BCRYPT_ROUNDS=10
