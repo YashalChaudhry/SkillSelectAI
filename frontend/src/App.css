@@ -1,0 +1,19 @@
+.app {
+  display: flex;
+  min-height: 100vh;   /* allows content to grow normally */
+  width: 100%;
+}
+
+.main-content {
+  width: 100%;
+  padding: 40px;        /* natural spacing */
+  box-sizing: border-box;
+  overflow-y: auto;
+  background: linear-gradient(
+    135deg,
+    #0f0c18 0%,
+    #1a1625 40%,
+    #2e2440 100%
+  );
+  color: #e1d8f7;
+}

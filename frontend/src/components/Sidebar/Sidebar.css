@@ -1,0 +1,76 @@
+body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden; /* stops page scroll */
+}
+.sidebar {
+  width: 80px;
+  background-color: #0f0c18; /* dark black-purple shade */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0;
+  height: 100vh;
+  border-right: 1px solid #2a2040;
+}
+
+/* Each icon wrapper box */
+.sidebar-icon-box {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 12px 0;
+  border-radius: 14px;
+  cursor: pointer;
+  position: relative;
+  background-color: transparent;
+  transition: all 0.3s ease;
+}
+
+/* Hover effect: modern glow/transparent effect */
+.sidebar-icon-box:hover {
+  background: linear-gradient(135deg, rgba(181, 150, 229, 0.12), rgba(181, 150, 229, 0.04));
+  box-shadow: 0 0 12px rgba(181, 150, 229, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Active state (selected icon) */
+.sidebar-icon-box.active {
+  background: linear-gradient(135deg, rgba(181, 150, 229, 0.25), rgba(181, 150, 229, 0.1));
+  box-shadow: 0 0 14px rgba(181, 150, 229, 0.3);
+}
+
+/* Icon itself */
+.sidebar-icon {
+  color: #b596e5;
+  font-size: 26px;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.sidebar-icon-box:hover .sidebar-icon {
+  color: #d5b9ff;
+  transform: scale(1.1);
+}
+
+/* Tooltip styling */
+.sidebar-tooltip {
+  position: absolute;
+  left: 70px;
+  background-color: #2e2440;
+  color: #e1d8f7;
+  padding: 6px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  font-size: 14px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.sidebar-icon-box:hover .sidebar-tooltip {
+  opacity: 1;
+  transform: translateX(0);
+}
