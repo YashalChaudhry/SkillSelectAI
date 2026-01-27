@@ -1,0 +1,1373 @@
+✅ Connected to MongoDB
+🚀 Backend server running in development mode on port 5000
+🚀 Job creation request received
+📝 Body: [Object: null prototype] {
+  title: 'Fresh Server Test',
+  description: 'Testing with fresh server'
+}
+📁 Files: [
+  {
+    fieldname: 'cvs',
+    originalname: 'sample_cv.pdf',
+    encoding: '7bit',
+    mimetype: 'application/pdf',
+    destination: '/Users/yashal/Desktop/SkillSelectAI/backend/uploads',
+    filename: '95e9dec0-92a7-4a94-a407-3d629c13a8a8.pdf',
+    path: '/Users/yashal/Desktop/SkillSelectAI/backend/uploads/95e9dec0-92a7-4a94-a407-3d629c13a8a8.pdf',
+    size: 57180
+  }
+]
+🚀 Job creation request received
+📝 Body: [Object: null prototype] {
+  title: 'Fresh Server Test',
+  description: 'Testing with fresh server'
+}
+📁 Files: [
+  {
+    fieldname: 'cvs',
+    originalname: 'sample_cv.pdf',
+    encoding: '7bit',
+    mimetype: 'application/pdf',
+    destination: '/Users/yashal/Desktop/SkillSelectAI/backend/uploads',
+    filename: '95e9dec0-92a7-4a94-a407-3d629c13a8a8.pdf',
+    path: '/Users/yashal/Desktop/SkillSelectAI/backend/uploads/95e9dec0-92a7-4a94-a407-3d629c13a8a8.pdf',
+    size: 57180
+  }
+]
+📁 CVs received: 1
+🔄 Processing 1 CVs...
+Parsing CV: /Users/yashal/Desktop/SkillSelectAI/backend/uploads/95e9dec0-92a7-4a94-a407-3d629c13a8a8.pdf
+Extracted skills from job description: []
+Job Skills: []
+Using 24 web development templates (fallback)
+Using random content: Angular for placeholder web_technology
+Using random content: component reusability for placeholder challenge
+Using random content: responsive design implementation for placeholder challenge
+Using random content: third-party API for placeholder api_type
+Using random content: file upload for placeholder feature
+Using random content: Angular for placeholder web_framework
+Using random content: page load time for placeholder performance_metric
+Using random content: social media application for placeholder application_type
+Using random content: event-driven architecture for placeholder architecture_pattern
+Using random content: file upload for placeholder feature
+Using random content: file upload for placeholder feature
+Using random content: user authentication for placeholder feature
+Using random content: SQL injection attacks for placeholder security_threat
+Using random content: bundle size for placeholder performance_metric
+Using random content: dashboard application for placeholder application_type
+Using random content: Progressive Web Apps for placeholder advanced_topic
+Using random content: system downtime incidents for placeholder critical_situation
+Using random content: performance optimization for placeholder task
+Using random content: Next.js for placeholder web_technology
+Using random content: Angular components for placeholder component
+Using random content: content management system for placeholder application_type
+Using random content: WCAG accessibility standards for placeholder quality_aspect
+Using random content: GraphQL API for placeholder api_type
+Using random content: component architecture design for placeholder complex_problem
+Using random content: cross-browser testing for placeholder task
+Using random content: custom components for placeholder component
+Using random content: e-commerce platform for placeholder application_type
+Using random content: DOM manipulation for placeholder concept
+Using random content: WCAG accessibility standards for placeholder quality_aspect
+Using random content: performance bottlenecks for placeholder issue
+Using random content: frontend architecture for placeholder system_type
+Using random content: e-commerce platform for placeholder application_type
+Using random content: frontend architecture for placeholder system_type
+Using random content: content management system for placeholder application_type
+Using random content: performance bottlenecks for placeholder issue
+Using random content: performance bottlenecks for placeholder complex_problem
+Using random content: data corruption scenarios for placeholder critical_situation
+Using random content: event handling for placeholder concept
+Using random content: WebAssembly integration for placeholder advanced_topic
+Using random content: CSRF attacks for placeholder security_threat
+Generated 30 questions in 48 attempts
+Difficulty distribution: { Easy: 10, Medium: 10, Hard: 10 }
+Job skills extracted: []
+Question: What is Angular and when would you use it?...
+  Matched skills: frontend development, development
+  Score: 13/0 = 100%
+Fallback: web development question
+Question: What strategies do you use for component reusabili...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: What strategies do you use for responsive design i...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: How would you integrate third-party API into a web...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Question: Describe your approach to implementing file upload...
+  Matched skills: frontend development, development
+  Score: 13/0 = 100%
+Universal fallback: development question
+Question: What strategies would you use to optimize page loa...
+  Matched skills: general development, frontend development, development
+  Score: 23/0 = 100%
+Fallback: web development question
+Question: Describe your experience with event-driven archite...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Question: How would you explain the approach to creating fil...
+  Matched skills: frontend development, development
+  Score: 13/0 = 100%
+Question: How would you explain the approach to creating use...
+  Matched skills: frontend development, development
+  Score: 13/0 = 100%
+Fallback: web development question
+Question: How do you ensure web application security against...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Universal fallback: development question
+Question: What strategies would you use to optimize bundle s...
+  Matched skills: general development, frontend development, development
+  Score: 23/0 = 100%
+Fallback: web development question
+Question: Describe your approach to Progressive Web Apps in ...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: How would you handle system downtime incidents in ...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: What tools do you use for performance optimization...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Question: What is Next.js and when would you use it?...
+  Matched skills: frontend development, development
+  Score: 13/0 = 100%
+Question: What testing considerations would you keep in mind...
+  Matched skills: frontend development, development
+  Score: 13/0 = 100%
+Fallback: web development question
+Question: How do you ensure WCAG accessibility standards in ...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: How would you integrate GraphQL API into a web app...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: How would you solve component architecture design ...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: What tools do you use for cross-browser testing in...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Question: What testing considerations would you keep in mind...
+  Matched skills: frontend development, development
+  Score: 13/0 = 100%
+Fallback: web development question
+Question: What is the purpose of DOM manipulation in web dev...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: Describe how you would debug a performance bottlen...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Question: Design a scalable frontend architecture for e-comm...
+  Matched skills: frontend development, development
+  Score: 13/0 = 100%
+Question: Design a scalable frontend architecture for conten...
+  Matched skills: frontend development, development
+  Score: 13/0 = 100%
+Fallback: web development question
+Question: How would you solve performance bottlenecks in a l...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: How would you handle data corruption scenarios in ...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: What is the purpose of event handling in web devel...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: Describe your approach to WebAssembly integration ...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: How do you ensure web application security against...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Generated 30 total questions
+Filtered to 30 relevant questions (1%+ skill match)
+Relevance distribution:
+  90-100%: 30 questions
+  70-89%: 0 questions
+  50-69%: 0 questions
+  Below 50%: 0 questions
+CV parsing result for /Users/yashal/Desktop/SkillSelectAI/backend/uploads/95e9dec0-92a7-4a94-a407-3d629c13a8a8.pdf: [
+  {
+    "personal_info": {
+      "Name": "Yashal Naeem",
+      "Email": "yashalchaudhry@gmail.com",
+      "Phone": "(+92) 3062994791",
+      "Address": "Islamabad Pakistan"
+    },
+    "work_experience": "C&AE, NASTP \nFull-Stack Engineer (Intern) \n Designed and implemented responsive frontend pages using React 18, Tailwind CSS, and TypeScript, ensuring\noptimized routing, UI state management, and seamless user experience.\n Developed and integrated backend services with Node.js/Express and database connectivity (PostgreSQL) to\nsupport data storage and retrieval.\n Built and connected REST APIs to enable smooth communication between frontend and backend components.\n Collaborated with the AI team to integrate LLM-driven features into the user-facing application.\n Conducted debugging, testing, and performance optimizations to ensure scalable and reliable deployment.\n Ardent Thrive \nSEO Executive \n[ Oct 2024 Mar 2025 ] \n Managed off-page SEO, focusing on backlink building and optimization.\n Regularly checked and resolved indexation issues for website pages.\n Assisted in social media engagement and digital marketing efforts.\nSEO Intern \n[ Jul 2024 Oct 2024 ] \n Built backlinks to improve search engine rankings.\n Monitored and ensured proper indexation of website pages.\n Brand New Tube \nEditor \n[ Nov 2021 Feb 2022 ] \n Snapdel \nExecutive Lead \n[ May 2021 Nov 2021 ] \n Gathered information from Canadian companies to contact them for renting purposes\n Rentable \n \n \n \n\fExecutive Lead \n[ Jul 2020 Aug 2021 ] \nBlog Editor \n[ Jul 2020 Aug 2021 ]",
+    "education_and_training": "Matric in Sciences \nHITEC School and College for Girls \nFSC Pre Engineering \nHITEC School and College for Girls \nBachelor of Software Engineering \nBahria University [ 2022 Current ]",
+    "skills": "Mother tongue(s): Urdu \nOther language(s): English \n \nLanguages: C++, Java, C#, ASP .NET, Python, JavaScript (Beginner) / Soft : Time Management, Communication,\nPresentation  / Creative : Proficient in Canva and Figma, Photography / Platforms: Vercel, AWS,\nCloudinary, Visual Studio, Cisco Packet Tracer / Frameworks: React.js, Express.js, Mongoose, Node.js / Marketing:\nSocial Media Management, SEO & Digital Marketing, Technical SEO / Technical Foundation: OOP, Data Structures,\nDBMS, Cloud Computing, AI, Linux Shell Scripting, SQL",
+    "_id": "696a633b8e28fd00f26ffaa7"
+  }
+]
+✅ CV processing result: {
+  success: true,
+  jobId: new ObjectId("696a633a105e9fe373a6f771"),
+  totalCVs: 1,
+  parsedCandidates: [],
+  failedCVs: [],
+  totalProcessed: 0,
+  matches: [],
+  candidateIds: [],
+  averageScore: NaN
+}
+🚀 Job creation request received
+📝 Body: [Object: null prototype] {
+  title: 'Fixed Array Issue',
+  description: 'Testing fixed array handling'
+}
+📁 Files: [
+  {
+    fieldname: 'cvs',
+    originalname: 'sample_cv.pdf',
+    encoding: '7bit',
+    mimetype: 'application/pdf',
+    destination: '/Users/yashal/Desktop/SkillSelectAI/backend/uploads',
+    filename: 'd78c36f9-3063-4433-bac4-84b1fe16eda3.pdf',
+    path: '/Users/yashal/Desktop/SkillSelectAI/backend/uploads/d78c36f9-3063-4433-bac4-84b1fe16eda3.pdf',
+    size: 57180
+  }
+]
+🚀 Job creation request received
+📝 Body: [Object: null prototype] {
+  title: 'Fixed Array Issue',
+  description: 'Testing fixed array handling'
+}
+📁 Files: [
+  {
+    fieldname: 'cvs',
+    originalname: 'sample_cv.pdf',
+    encoding: '7bit',
+    mimetype: 'application/pdf',
+    destination: '/Users/yashal/Desktop/SkillSelectAI/backend/uploads',
+    filename: 'd78c36f9-3063-4433-bac4-84b1fe16eda3.pdf',
+    path: '/Users/yashal/Desktop/SkillSelectAI/backend/uploads/d78c36f9-3063-4433-bac4-84b1fe16eda3.pdf',
+    size: 57180
+  }
+]
+📁 CVs received: 1
+🔄 Processing 1 CVs...
+Extracted skills from job description: []
+Parsing CV: /Users/yashal/Desktop/SkillSelectAI/backend/uploads/d78c36f9-3063-4433-bac4-84b1fe16eda3.pdf
+Job Skills: []
+Using 24 web development templates (fallback)
+Using random content: WCAG accessibility standards for placeholder quality_aspect
+Using random content: layered architecture for placeholder architecture_pattern
+Using random content: performance bottlenecks for placeholder complex_problem
+Using random content: component library for placeholder system_type
+Using random content: real-time chat application for placeholder application_type
+Using random content: real-time chat for placeholder feature
+Using random content: JavaScript for placeholder web_technology
+Using random content: DOM manipulation for placeholder concept
+Using random content: SQL injection attacks for placeholder security_threat
+Using random content: component library for placeholder system_type
+Using random content: e-commerce platform for placeholder application_type
+Using random content: DOM manipulation for placeholder concept
+Using random content: DOM manipulation for placeholder concept
+Using random content: Server-Side Rendering for placeholder cutting_edge_technology
+Using random content: desktop browsers for placeholder device_category
+Using random content: WebAssembly integration for placeholder advanced_topic
+Using random content: bundle size for placeholder performance_metric
+Using random content: content management system for placeholder application_type
+Using random content: user authentication for placeholder feature
+Using random content: Vue.js for placeholder web_technology
+Using random content: tablet devices for placeholder device_category
+Using random content: real-time data synchronization for placeholder scenario
+Using random content: Angular for placeholder web_framework
+Using random content: dashboard application for placeholder application_type
+Using random content: Angular for placeholder web_framework
+Using random content: dashboard application for placeholder application_type
+Using random content: security vulnerability discovery for placeholder critical_situation
+Using random content: event-driven architecture for placeholder architecture_pattern
+Using random content: bundle size for placeholder performance_metric
+Using random content: real-time chat application for placeholder application_type
+Using random content: security vulnerability discovery for placeholder critical_situation
+Using random content: DOM manipulation for placeholder concept
+Using random content: event handling for placeholder concept
+Using random content: production performance issues for placeholder critical_situation
+Using random content: Server-Side Rendering for placeholder advanced_topic
+Using random content: cross-browser compatibility for placeholder quality_aspect
+Using random content: Vue.js for placeholder web_technology
+Using random content: Angular for placeholder web_framework
+Using random content: XSS attacks for placeholder security_threat
+Using random content: Vue components for placeholder component
+Using random content: social media application for placeholder application_type
+Using random content: Angular for placeholder web_technology
+Using random content: performance optimization for placeholder task
+Using random content: performance optimization for placeholder task
+Using random content: memory leaks for placeholder issue
+Generated 30 questions in 59 attempts
+Difficulty distribution: { Easy: 10, Medium: 10, Hard: 10 }
+Job skills extracted: []
+Fallback: web development question
+Question: How do you ensure WCAG accessibility standards in ...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: Describe your experience with layered architecture...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: How would you solve performance bottlenecks in a l...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Universal fallback: development question
+Question: Design a scalable component library for real-time ...
+  Matched skills: general development, frontend development, development
+  Score: 23/0 = 100%
+Question: How would you approach implementing real-time chat...
+  Matched skills: frontend development, development
+  Score: 13/0 = 100%
+Fallback: web development question
+Question: What is the purpose of DOM manipulation in web dev...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: How do you ensure web application security against...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Question: Design a scalable component library for e-commerce...
+  Matched skills: frontend development, development
+  Score: 13/0 = 100%
+Fallback: web development question
+Question: What is your experience with Server-Side Rendering...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: Describe your approach to responsive web design fo...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: Describe your approach to WebAssembly integration ...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Question: What strategies would you use to optimize bundle s...
+  Matched skills: frontend development, development
+  Score: 13/0 = 100%
+Question: How would you explain the approach to creating use...
+  Matched skills: frontend development, development
+  Score: 13/0 = 100%
+Question: What is Vue.js and when would you use it?...
+  Matched skills: frontend development, development
+  Score: 13/0 = 100%
+Fallback: web development question
+Question: Describe your approach to responsive web design fo...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Universal fallback: development question
+Question: How would you handle real-time data synchronizatio...
+  Matched skills: general development, frontend development, development
+  Score: 23/0 = 100%
+Universal fallback: development question
+Question: What's your experience with Angular for building d...
+  Matched skills: general development, frontend development, development
+  Score: 23/0 = 100%
+Fallback: web development question
+Question: How would you handle security vulnerability discov...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: Describe your experience with event-driven archite...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Universal fallback: development question
+Question: What strategies would you use to optimize bundle s...
+  Matched skills: general development, frontend development, development
+  Score: 23/0 = 100%
+Fallback: web development question
+Question: What is the purpose of event handling in web devel...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: How would you handle production performance issues...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: Describe your approach to Server-Side Rendering in...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: How do you ensure cross-browser compatibility in y...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Question: What is the difference between Vue.js and Angular?...
+  Matched skills: frontend development, development
+  Score: 13/0 = 100%
+Fallback: web development question
+Question: How do you ensure web application security against...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Universal fallback: development question
+Question: What testing considerations would you keep in mind...
+  Matched skills: general development, frontend development, development
+  Score: 23/0 = 100%
+Question: What is Angular and when would you use it?...
+  Matched skills: frontend development, development
+  Score: 13/0 = 100%
+Fallback: web development question
+Question: What tools do you use for performance optimization...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: Describe how you would debug a memory leaks in a w...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Generated 30 total questions
+Filtered to 30 relevant questions (1%+ skill match)
+Relevance distribution:
+  90-100%: 30 questions
+  70-89%: 0 questions
+  50-69%: 0 questions
+  Below 50%: 0 questions
+CV parsing result for /Users/yashal/Desktop/SkillSelectAI/backend/uploads/d78c36f9-3063-4433-bac4-84b1fe16eda3.pdf: [
+  {
+    "personal_info": {
+      "Name": "Yashal Naeem",
+      "Email": "yashalchaudhry@gmail.com",
+      "Phone": "(+92) 3062994791",
+      "Address": "Islamabad Pakistan"
+    },
+    "work_experience": "C&AE, NASTP \nFull-Stack Engineer (Intern) \n Designed and implemented responsive frontend pages using React 18, Tailwind CSS, and TypeScript, ensuring\noptimized routing, UI state management, and seamless user experience.\n Developed and integrated backend services with Node.js/Express and database connectivity (PostgreSQL) to\nsupport data storage and retrieval.\n Built and connected REST APIs to enable smooth communication between frontend and backend components.\n Collaborated with the AI team to integrate LLM-driven features into the user-facing application.\n Conducted debugging, testing, and performance optimizations to ensure scalable and reliable deployment.\n Ardent Thrive \nSEO Executive \n[ Oct 2024 Mar 2025 ] \n Managed off-page SEO, focusing on backlink building and optimization.\n Regularly checked and resolved indexation issues for website pages.\n Assisted in social media engagement and digital marketing efforts.\nSEO Intern \n[ Jul 2024 Oct 2024 ] \n Built backlinks to improve search engine rankings.\n Monitored and ensured proper indexation of website pages.\n Brand New Tube \nEditor \n[ Nov 2021 Feb 2022 ] \n Snapdel \nExecutive Lead \n[ May 2021 Nov 2021 ] \n Gathered information from Canadian companies to contact them for renting purposes\n Rentable \n \n \n \n\fExecutive Lead \n[ Jul 2020 Aug 2021 ] \nBlog Editor \n[ Jul 2020 Aug 2021 ]",
+    "education_and_training": "Matric in Sciences \nHITEC School and College for Girls \nFSC Pre Engineering \nHITEC School and College for Girls \nBachelor of Software Engineering \nBahria University [ 2022 Current ]",
+    "skills": "Mother tongue(s): Urdu \nOther language(s): English \n \nLanguages: C++, Java, C#, ASP .NET, Python, JavaScript (Beginner) / Soft : Time Management, Communication,\nPresentation  / Creative : Proficient in Canva and Figma, Photography / Platforms: Vercel, AWS,\nCloudinary, Visual Studio, Cisco Packet Tracer / Frameworks: React.js, Express.js, Mongoose, Node.js / Marketing:\nSocial Media Management, SEO & Digital Marketing, Technical SEO / Technical Foundation: OOP, Data Structures,\nDBMS, Cloud Computing, AI, Linux Shell Scripting, SQL",
+    "_id": "696a638380b7ce090a06f5d5"
+  }
+]
+✅ CV processing result: {
+  success: true,
+  jobId: new ObjectId("696a6382105e9fe373a6f80c"),
+  totalCVs: 1,
+  parsedCandidates: [],
+  failedCVs: [],
+  totalProcessed: 0,
+  matches: [],
+  candidateIds: [],
+  averageScore: NaN
+}
+🚀 Job creation request received
+📝 Body: [Object: null prototype] {
+  title: 'Debug Candidate Creation',
+  description: 'Testing candidate creation with detailed logs'
+}
+📁 Files: [
+  {
+    fieldname: 'cvs',
+    originalname: 'sample_cv.pdf',
+    encoding: '7bit',
+    mimetype: 'application/pdf',
+    destination: '/Users/yashal/Desktop/SkillSelectAI/backend/uploads',
+    filename: '46b4a969-a174-4921-b570-7c1168ba9b2d.pdf',
+    path: '/Users/yashal/Desktop/SkillSelectAI/backend/uploads/46b4a969-a174-4921-b570-7c1168ba9b2d.pdf',
+    size: 57180
+  }
+]
+🚀 Job creation request received
+📝 Body: [Object: null prototype] {
+  title: 'Debug Candidate Creation',
+  description: 'Testing candidate creation with detailed logs'
+}
+📁 Files: [
+  {
+    fieldname: 'cvs',
+    originalname: 'sample_cv.pdf',
+    encoding: '7bit',
+    mimetype: 'application/pdf',
+    destination: '/Users/yashal/Desktop/SkillSelectAI/backend/uploads',
+    filename: '46b4a969-a174-4921-b570-7c1168ba9b2d.pdf',
+    path: '/Users/yashal/Desktop/SkillSelectAI/backend/uploads/46b4a969-a174-4921-b570-7c1168ba9b2d.pdf',
+    size: 57180
+  }
+]
+📁 CVs received: 1
+🔄 Processing 1 CVs...
+Parsing CV: /Users/yashal/Desktop/SkillSelectAI/backend/uploads/46b4a969-a174-4921-b570-7c1168ba9b2d.pdf
+Extracted skills from job description: []
+Job Skills: []
+Using 24 web development templates (fallback)
+Using random content: state management complexity for placeholder scenario
+Using random content: cross-browser testing for placeholder task
+Using random content: bundle size for placeholder performance_metric
+Using random content: dashboard application for placeholder application_type
+Using random content: Progressive Web Apps for placeholder advanced_topic
+Using random content: real-time data synchronization for placeholder scenario
+Using random content: CSRF attacks for placeholder security_threat
+Using random content: data flow architecture for placeholder system_type
+Using random content: social media application for placeholder application_type
+Using random content: event handling for placeholder concept
+Using random content: code debugging for placeholder task
+Using random content: frontend architecture for placeholder system_type
+Using random content: real-time chat application for placeholder application_type
+Using random content: state management complexity for placeholder challenge
+Using random content: component reusability for placeholder challenge
+Using random content: memory leak resolution for placeholder complex_problem
+Using random content: WebSocket API for placeholder api_type
+Using random content: WebAssembly integration for placeholder advanced_topic
+Using random content: file upload for placeholder feature
+Using random content: React for placeholder web_framework
+Using random content: DOM manipulation for placeholder concept
+Using random content: Angular for placeholder web_framework
+Using random content: dashboard application for placeholder application_type
+Using random content: user authentication for placeholder feature
+Using random content: TypeScript for placeholder web_technology
+Using random content: desktop browsers for placeholder device_category
+Using random content: JavaScript for placeholder web_technology
+Using random content: user authentication for placeholder feature
+Using random content: component architecture design for placeholder complex_problem
+Using random content: SQL injection attacks for placeholder security_threat
+Using random content: HTML5 for placeholder web_technology
+Using random content: HTML5 for placeholder web_technology
+Using random content: Angular for placeholder web_framework
+Using random content: file upload for placeholder feature
+Using random content: Vue.js for placeholder web_technology
+Using random content: Server-Side Rendering for placeholder cutting_edge_technology
+Using random content: Next.js for placeholder web_technology
+Using random content: Angular for placeholder web_framework
+Using random content: file upload for placeholder feature
+Generated 30 questions in 42 attempts
+Difficulty distribution: { Easy: 10, Medium: 10, Hard: 10 }
+Job skills extracted: []
+Universal fallback: development question
+Question: How would you handle state management complexity i...
+  Matched skills: general development, frontend development, development
+  Score: 23/0 = 100%
+Fallback: web development question
+Question: What tools do you use for cross-browser testing in...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Universal fallback: development question
+Question: What strategies would you use to optimize bundle s...
+  Matched skills: general development, frontend development, development
+  Score: 23/0 = 100%
+Fallback: web development question
+Question: Describe your approach to Progressive Web Apps in ...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Universal fallback: development question
+Question: How would you handle real-time data synchronizatio...
+  Matched skills: general development, frontend development, development
+  Score: 23/0 = 100%
+Fallback: web development question
+Question: How do you ensure web application security against...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Universal fallback: development question
+Question: Design a scalable data flow architecture for socia...
+  Matched skills: general development, frontend development, development
+  Score: 23/0 = 100%
+Fallback: web development question
+Question: What is the purpose of event handling in web devel...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: What tools do you use for code debugging in web de...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Universal fallback: development question
+Question: Design a scalable frontend architecture for real-t...
+  Matched skills: general development, frontend development, development
+  Score: 23/0 = 100%
+Fallback: web development question
+Question: What strategies do you use for state management co...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: What strategies do you use for component reusabili...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: How would you solve memory leak resolution in a la...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: How would you integrate WebSocket API into a web a...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: Describe your approach to WebAssembly integration ...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Question: Describe your approach to implementing file upload...
+  Matched skills: frontend development, development
+  Score: 13/0 = 100%
+Fallback: web development question
+Question: What is the purpose of DOM manipulation in web dev...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Universal fallback: development question
+Question: What's your experience with Angular for building d...
+  Matched skills: general development, frontend development, development
+  Score: 23/0 = 100%
+Question: How would you approach implementing user authentic...
+  Matched skills: frontend development, development
+  Score: 13/0 = 100%
+Fallback: web development question
+Question: Describe your approach to responsive web design fo...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Question: What is JavaScript and when would you use it?...
+  Matched skills: frontend development, development
+  Score: 13/0 = 100%
+Question: How would you explain the approach to creating use...
+  Matched skills: frontend development, development
+  Score: 13/0 = 100%
+Fallback: web development question
+Question: How would you solve component architecture design ...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: How do you ensure web application security against...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Question: What is HTML5 and when would you use it?...
+  Matched skills: frontend development, development
+  Score: 13/0 = 100%
+Question: What is the difference between HTML5 and Angular?...
+  Matched skills: frontend development, development
+  Score: 13/0 = 100%
+Question: How would you approach implementing file upload us...
+  Matched skills: frontend development, development
+  Score: 13/0 = 100%
+Fallback: web development question
+Question: What is your experience with Server-Side Rendering...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Question: What is the difference between Next.js and Angular...
+  Matched skills: frontend development, development
+  Score: 13/0 = 100%
+Question: How would you explain the approach to creating fil...
+  Matched skills: frontend development, development
+  Score: 13/0 = 100%
+Generated 30 total questions
+Filtered to 30 relevant questions (1%+ skill match)
+Relevance distribution:
+  90-100%: 30 questions
+  70-89%: 0 questions
+  50-69%: 0 questions
+  Below 50%: 0 questions
+CV parsing result for /Users/yashal/Desktop/SkillSelectAI/backend/uploads/46b4a969-a174-4921-b570-7c1168ba9b2d.pdf: [
+  {
+    "personal_info": {
+      "Name": "Yashal Naeem",
+      "Email": "yashalchaudhry@gmail.com",
+      "Phone": "(+92) 3062994791",
+      "Address": "Islamabad Pakistan"
+    },
+    "work_experience": "C&AE, NASTP \nFull-Stack Engineer (Intern) \n Designed and implemented responsive frontend pages using React 18, Tailwind CSS, and TypeScript, ensuring\noptimized routing, UI state management, and seamless user experience.\n Developed and integrated backend services with Node.js/Express and database connectivity (PostgreSQL) to\nsupport data storage and retrieval.\n Built and connected REST APIs to enable smooth communication between frontend and backend components.\n Collaborated with the AI team to integrate LLM-driven features into the user-facing application.\n Conducted debugging, testing, and performance optimizations to ensure scalable and reliable deployment.\n Ardent Thrive \nSEO Executive \n[ Oct 2024 Mar 2025 ] \n Managed off-page SEO, focusing on backlink building and optimization.\n Regularly checked and resolved indexation issues for website pages.\n Assisted in social media engagement and digital marketing efforts.\nSEO Intern \n[ Jul 2024 Oct 2024 ] \n Built backlinks to improve search engine rankings.\n Monitored and ensured proper indexation of website pages.\n Brand New Tube \nEditor \n[ Nov 2021 Feb 2022 ] \n Snapdel \nExecutive Lead \n[ May 2021 Nov 2021 ] \n Gathered information from Canadian companies to contact them for renting purposes\n Rentable \n \n \n \n\fExecutive Lead \n[ Jul 2020 Aug 2021 ] \nBlog Editor \n[ Jul 2020 Aug 2021 ]",
+    "education_and_training": "Matric in Sciences \nHITEC School and College for Girls \nFSC Pre Engineering \nHITEC School and College for Girls \nBachelor of Software Engineering \nBahria University [ 2022 Current ]",
+    "skills": "Mother tongue(s): Urdu \nOther language(s): English \n \nLanguages: C++, Java, C#, ASP .NET, Python, JavaScript (Beginner) / Soft : Time Management, Communication,\nPresentation  / Creative : Proficient in Canva and Figma, Photography / Platforms: Vercel, AWS,\nCloudinary, Visual Studio, Cisco Packet Tracer / Frameworks: React.js, Express.js, Mongoose, Node.js / Marketing:\nSocial Media Management, SEO & Digital Marketing, Technical SEO / Technical Foundation: OOP, Data Structures,\nDBMS, Cloud Computing, AI, Linux Shell Scripting, SQL",
+    "_id": "696a639875f43e4b62c8dcc3"
+  }
+]
+✅ CV processing result: {
+  success: true,
+  jobId: new ObjectId("696a6397105e9fe373a6f8a7"),
+  totalCVs: 1,
+  parsedCandidates: [],
+  failedCVs: [],
+  totalProcessed: 0,
+  matches: [],
+  candidateIds: [],
+  averageScore: NaN
+}
+🚀 Job creation request received
+📝 Body: [Object: null prototype] {
+  title: 'Fixed Nested Structure',
+  description: 'Testing fixed nested personal_info structure'
+}
+📁 Files: [
+  {
+    fieldname: 'cvs',
+    originalname: 'sample_cv.pdf',
+    encoding: '7bit',
+    mimetype: 'application/pdf',
+    destination: '/Users/yashal/Desktop/SkillSelectAI/backend/uploads',
+    filename: '62a99ec1-f8ee-4549-a53d-ffac68c22545.pdf',
+    path: '/Users/yashal/Desktop/SkillSelectAI/backend/uploads/62a99ec1-f8ee-4549-a53d-ffac68c22545.pdf',
+    size: 57180
+  }
+]
+🚀 Job creation request received
+📝 Body: [Object: null prototype] {
+  title: 'Fixed Nested Structure',
+  description: 'Testing fixed nested personal_info structure'
+}
+📁 Files: [
+  {
+    fieldname: 'cvs',
+    originalname: 'sample_cv.pdf',
+    encoding: '7bit',
+    mimetype: 'application/pdf',
+    destination: '/Users/yashal/Desktop/SkillSelectAI/backend/uploads',
+    filename: '62a99ec1-f8ee-4549-a53d-ffac68c22545.pdf',
+    path: '/Users/yashal/Desktop/SkillSelectAI/backend/uploads/62a99ec1-f8ee-4549-a53d-ffac68c22545.pdf',
+    size: 57180
+  }
+]
+📁 CVs received: 1
+🔄 Processing 1 CVs...
+Parsing CV: /Users/yashal/Desktop/SkillSelectAI/backend/uploads/62a99ec1-f8ee-4549-a53d-ffac68c22545.pdf
+Extracted skills from job description: []
+Job Skills: []
+Using 24 web development templates (fallback)
+Using random content: third-party API for placeholder api_type
+Using random content: file upload for placeholder feature
+Using random content: Vue.js for placeholder web_technology
+Using random content: system downtime incidents for placeholder critical_situation
+Using random content: component reusability for placeholder challenge
+Using random content: cross-browser testing for placeholder task
+Using random content: cross-browser compatibility issues for placeholder issue
+Using random content: WebAssembly integration for placeholder advanced_topic
+Using random content: XSS attacks for placeholder security_threat
+Using random content: Next.js for placeholder web_technology
+Using random content: JavaScript for placeholder web_technology
+Using random content: bundle size for placeholder performance_metric
+Using random content: content management system for placeholder application_type
+Using random content: component-based architecture for placeholder architecture_pattern
+Using random content: cross-browser compatibility issues for placeholder issue
+Using random content: Vue.js for placeholder web_framework
+Using random content: dashboard application for placeholder application_type
+Using random content: modular architecture for placeholder architecture_pattern
+Using random content: WCAG accessibility standards for placeholder quality_aspect
+Using random content: JAMstack architecture for placeholder cutting_edge_technology
+Using random content: XSS attacks for placeholder security_threat
+Using random content: real-time chat for placeholder feature
+Using random content: Vue.js for placeholder web_framework
+Using random content: custom components for placeholder component
+Using random content: content management system for placeholder application_type
+Using random content: file upload for placeholder feature
+Using random content: React for placeholder web_framework
+Using random content: state management system for placeholder system_type
+Using random content: real-time chat application for placeholder application_type
+Using random content: TypeScript for placeholder web_technology
+Using random content: Vue.js for placeholder web_framework
+Using random content: file upload for placeholder feature
+Using random content: data flow architecture for placeholder system_type
+Using random content: content management system for placeholder application_type
+Using random content: real-time chat for placeholder feature
+Using random content: DOM manipulation for placeholder concept
+Using random content: Next.js for placeholder web_technology
+Using random content: Angular for placeholder web_framework
+Using random content: page load time for placeholder performance_metric
+Using random content: dashboard application for placeholder application_type
+Using random content: page load time for placeholder performance_metric
+Using random content: e-commerce platform for placeholder application_type
+Using random content: large-scale state management for placeholder complex_problem
+Using random content: component architecture design for placeholder complex_problem
+Generated 30 questions in 43 attempts
+Difficulty distribution: { Easy: 10, Medium: 10, Hard: 10 }
+Job skills extracted: []
+Fallback: web development question
+Question: How would you integrate third-party API into a web...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Question: How would you approach implementing file upload us...
+  Matched skills: frontend development, development
+  Score: 13/0 = 100%
+Fallback: web development question
+Question: How would you handle system downtime incidents in ...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: What strategies do you use for component reusabili...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: What tools do you use for cross-browser testing in...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: Describe how you would debug a cross-browser compa...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: Describe your approach to WebAssembly integration ...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: How do you ensure web application security against...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Question: What is Next.js and when would you use it?...
+  Matched skills: frontend development, development
+  Score: 13/0 = 100%
+Question: What is JavaScript and when would you use it?...
+  Matched skills: frontend development, development
+  Score: 13/0 = 100%
+Question: What strategies would you use to optimize bundle s...
+  Matched skills: frontend development, development
+  Score: 13/0 = 100%
+Fallback: web development question
+Question: Describe your experience with component-based arch...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Universal fallback: development question
+Question: What's your experience with Vue.js for building da...
+  Matched skills: general development, frontend development, development
+  Score: 23/0 = 100%
+Fallback: web development question
+Question: Describe your experience with modular architecture...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: How do you ensure WCAG accessibility standards in ...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: What is your experience with JAMstack architecture...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Question: Describe your approach to implementing real-time c...
+  Matched skills: frontend development, development
+  Score: 13/0 = 100%
+Question: What testing considerations would you keep in mind...
+  Matched skills: frontend development, development
+  Score: 13/0 = 100%
+Question: Describe your approach to implementing file upload...
+  Matched skills: frontend development, development
+  Score: 13/0 = 100%
+Universal fallback: development question
+Question: Design a scalable state management system for real...
+  Matched skills: general development, frontend development, development
+  Score: 23/0 = 100%
+Question: What is the difference between TypeScript and Vue....
+  Matched skills: frontend development, development
+  Score: 13/0 = 100%
+Question: How would you explain the approach to creating fil...
+  Matched skills: frontend development, development
+  Score: 13/0 = 100%
+Question: Design a scalable data flow architecture for conte...
+  Matched skills: frontend development, development
+  Score: 13/0 = 100%
+Question: How would you explain the approach to creating rea...
+  Matched skills: frontend development, development
+  Score: 13/0 = 100%
+Fallback: web development question
+Question: What is the purpose of DOM manipulation in web dev...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Question: What is the difference between Next.js and Angular...
+  Matched skills: frontend development, development
+  Score: 13/0 = 100%
+Universal fallback: development question
+Question: What strategies would you use to optimize page loa...
+  Matched skills: general development, frontend development, development
+  Score: 23/0 = 100%
+Question: What strategies would you use to optimize page loa...
+  Matched skills: frontend development, development
+  Score: 13/0 = 100%
+Fallback: web development question
+Question: How would you solve large-scale state management i...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: How would you solve component architecture design ...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Generated 30 total questions
+Filtered to 30 relevant questions (1%+ skill match)
+Relevance distribution:
+  90-100%: 30 questions
+  70-89%: 0 questions
+  50-69%: 0 questions
+  Below 50%: 0 questions
+CV parsing result for /Users/yashal/Desktop/SkillSelectAI/backend/uploads/62a99ec1-f8ee-4549-a53d-ffac68c22545.pdf: [
+  {
+    "personal_info": {
+      "Name": "Yashal Naeem",
+      "Email": "yashalchaudhry@gmail.com",
+      "Phone": "(+92) 3062994791",
+      "Address": "Islamabad Pakistan"
+    },
+    "work_experience": "C&AE, NASTP \nFull-Stack Engineer (Intern) \n Designed and implemented responsive frontend pages using React 18, Tailwind CSS, and TypeScript, ensuring\noptimized routing, UI state management, and seamless user experience.\n Developed and integrated backend services with Node.js/Express and database connectivity (PostgreSQL) to\nsupport data storage and retrieval.\n Built and connected REST APIs to enable smooth communication between frontend and backend components.\n Collaborated with the AI team to integrate LLM-driven features into the user-facing application.\n Conducted debugging, testing, and performance optimizations to ensure scalable and reliable deployment.\n Ardent Thrive \nSEO Executive \n[ Oct 2024 Mar 2025 ] \n Managed off-page SEO, focusing on backlink building and optimization.\n Regularly checked and resolved indexation issues for website pages.\n Assisted in social media engagement and digital marketing efforts.\nSEO Intern \n[ Jul 2024 Oct 2024 ] \n Built backlinks to improve search engine rankings.\n Monitored and ensured proper indexation of website pages.\n Brand New Tube \nEditor \n[ Nov 2021 Feb 2022 ] \n Snapdel \nExecutive Lead \n[ May 2021 Nov 2021 ] \n Gathered information from Canadian companies to contact them for renting purposes\n Rentable \n \n \n \n\fExecutive Lead \n[ Jul 2020 Aug 2021 ] \nBlog Editor \n[ Jul 2020 Aug 2021 ]",
+    "education_and_training": "Matric in Sciences \nHITEC School and College for Girls \nFSC Pre Engineering \nHITEC School and College for Girls \nBachelor of Software Engineering \nBahria University [ 2022 Current ]",
+    "skills": "Mother tongue(s): Urdu \nOther language(s): English \n \nLanguages: C++, Java, C#, ASP .NET, Python, JavaScript (Beginner) / Soft : Time Management, Communication,\nPresentation  / Creative : Proficient in Canva and Figma, Photography / Platforms: Vercel, AWS,\nCloudinary, Visual Studio, Cisco Packet Tracer / Frameworks: React.js, Express.js, Mongoose, Node.js / Marketing:\nSocial Media Management, SEO & Digital Marketing, Technical SEO / Technical Foundation: OOP, Data Structures,\nDBMS, Cloud Computing, AI, Linux Shell Scripting, SQL",
+    "_id": "696a63a98b36a96558621f62"
+  }
+]
+✅ CV processing result: {
+  success: true,
+  jobId: new ObjectId("696a63a9105e9fe373a6f942"),
+  totalCVs: 1,
+  parsedCandidates: [],
+  failedCVs: [],
+  totalProcessed: 0,
+  matches: [],
+  candidateIds: [],
+  averageScore: NaN
+}
+🚀 Job creation request received
+📝 Body: [Object: null prototype] {
+  title: 'Debug Personal Info',
+  description: 'Testing personal info extraction debug'
+}
+📁 Files: [
+  {
+    fieldname: 'cvs',
+    originalname: 'sample_cv.pdf',
+    encoding: '7bit',
+    mimetype: 'application/pdf',
+    destination: '/Users/yashal/Desktop/SkillSelectAI/backend/uploads',
+    filename: 'd18f747e-91a0-4219-b8d7-0b5f5301a98a.pdf',
+    path: '/Users/yashal/Desktop/SkillSelectAI/backend/uploads/d18f747e-91a0-4219-b8d7-0b5f5301a98a.pdf',
+    size: 57180
+  }
+]
+🚀 Job creation request received
+📝 Body: [Object: null prototype] {
+  title: 'Debug Personal Info',
+  description: 'Testing personal info extraction debug'
+}
+📁 Files: [
+  {
+    fieldname: 'cvs',
+    originalname: 'sample_cv.pdf',
+    encoding: '7bit',
+    mimetype: 'application/pdf',
+    destination: '/Users/yashal/Desktop/SkillSelectAI/backend/uploads',
+    filename: 'd18f747e-91a0-4219-b8d7-0b5f5301a98a.pdf',
+    path: '/Users/yashal/Desktop/SkillSelectAI/backend/uploads/d18f747e-91a0-4219-b8d7-0b5f5301a98a.pdf',
+    size: 57180
+  }
+]
+📁 CVs received: 1
+🔄 Processing 1 CVs...
+Parsing CV: /Users/yashal/Desktop/SkillSelectAI/backend/uploads/d18f747e-91a0-4219-b8d7-0b5f5301a98a.pdf
+Extracted skills from job description: []
+Job Skills: []
+Using 24 web development templates (fallback)
+Using random content: system downtime incidents for placeholder critical_situation
+Using random content: JavaScript for placeholder web_technology
+Using random content: RESTful API for placeholder api_type
+Using random content: event handling for placeholder concept
+Using random content: large-scale state management for placeholder complex_problem
+Using random content: CSRF attacks for placeholder security_threat
+Using random content: JavaScript for placeholder web_technology
+Using random content: Progressive Web Apps for placeholder advanced_topic
+Using random content: Server-Side Rendering for placeholder advanced_topic
+Using random content: bundle size for placeholder performance_metric
+Using random content: real-time chat application for placeholder application_type
+Using random content: Progressive Web Apps for placeholder cutting_edge_technology
+Using random content: cross-browser compatibility for placeholder quality_aspect
+Using random content: system downtime incidents for placeholder critical_situation
+Using random content: page load time for placeholder performance_metric
+Using random content: social media application for placeholder application_type
+Using random content: cross-browser compatibility for placeholder quality_aspect
+Using random content: CSRF attacks for placeholder security_threat
+Using random content: bundle size for placeholder performance_metric
+Using random content: content management system for placeholder application_type
+Using random content: event handling for placeholder concept
+Using random content: bundle size for placeholder performance_metric
+Using random content: dashboard application for placeholder application_type
+Using random content: CSS3 for placeholder web_technology
+Using random content: React for placeholder web_framework
+Using random content: dashboard application for placeholder application_type
+Using random content: modular architecture for placeholder architecture_pattern
+Using random content: large-scale state management for placeholder complex_problem
+Using random content: DOM manipulation for placeholder concept
+Using random content: cross-browser testing for placeholder task
+Using random content: code debugging for placeholder task
+Using random content: component library for placeholder system_type
+Using random content: real-time chat application for placeholder application_type
+Using random content: responsive design implementation for placeholder challenge
+Using random content: production performance issues for placeholder critical_situation
+Using random content: state management complexity for placeholder scenario
+Using random content: responsive design implementation for placeholder challenge
+Using random content: React for placeholder web_framework
+Using random content: social media application for placeholder application_type
+Using random content: real-time chat for placeholder feature
+Using random content: real-time data synchronization for placeholder scenario
+Using random content: mobile devices for placeholder device_category
+Using random content: React for placeholder web_technology
+Using random content: Vue.js for placeholder web_framework
+Using random content: performance optimization for placeholder quality_aspect
+Generated 30 questions in 62 attempts
+Difficulty distribution: { Easy: 10, Medium: 10, Hard: 10 }
+Job skills extracted: []
+Fallback: web development question
+Question: How would you handle system downtime incidents in ...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Question: What is JavaScript and when would you use it?...
+  Matched skills: frontend development, development
+  Score: 13/0 = 100%
+Fallback: web development question
+Question: How would you integrate RESTful API into a web app...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: What is the purpose of event handling in web devel...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: How would you solve large-scale state management i...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: How do you ensure web application security against...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: Describe your approach to Progressive Web Apps in ...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: Describe your approach to Server-Side Rendering in...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Universal fallback: development question
+Question: What strategies would you use to optimize bundle s...
+  Matched skills: general development, frontend development, development
+  Score: 23/0 = 100%
+Fallback: web development question
+Question: What is your experience with Progressive Web Apps ...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: How do you ensure cross-browser compatibility in y...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Universal fallback: development question
+Question: What strategies would you use to optimize page loa...
+  Matched skills: general development, frontend development, development
+  Score: 23/0 = 100%
+Question: What strategies would you use to optimize bundle s...
+  Matched skills: frontend development, development
+  Score: 13/0 = 100%
+Universal fallback: development question
+Question: What strategies would you use to optimize bundle s...
+  Matched skills: general development, frontend development, development
+  Score: 23/0 = 100%
+Question: What is CSS3 and when would you use it?...
+  Matched skills: frontend development, development
+  Score: 13/0 = 100%
+Universal fallback: development question
+Question: What's your experience with React for building das...
+  Matched skills: general development, frontend development, development
+  Score: 23/0 = 100%
+Fallback: web development question
+Question: Describe your experience with modular architecture...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: What is the purpose of DOM manipulation in web dev...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: What tools do you use for cross-browser testing in...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: What tools do you use for code debugging in web de...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Universal fallback: development question
+Question: Design a scalable component library for real-time ...
+  Matched skills: general development, frontend development, development
+  Score: 23/0 = 100%
+Fallback: web development question
+Question: What strategies do you use for responsive design i...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: How would you handle production performance issues...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Universal fallback: development question
+Question: How would you handle state management complexity i...
+  Matched skills: general development, frontend development, development
+  Score: 23/0 = 100%
+Universal fallback: development question
+Question: What's your experience with React for building soc...
+  Matched skills: general development, frontend development, development
+  Score: 23/0 = 100%
+Question: How would you explain the approach to creating rea...
+  Matched skills: frontend development, development
+  Score: 13/0 = 100%
+Universal fallback: development question
+Question: How would you handle real-time data synchronizatio...
+  Matched skills: general development, frontend development, development
+  Score: 23/0 = 100%
+Fallback: web development question
+Question: Describe your approach to responsive web design fo...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Question: What is the difference between React and Vue.js?...
+  Matched skills: frontend development, development
+  Score: 13/0 = 100%
+Fallback: web development question
+Question: How do you ensure performance optimization in your...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Generated 30 total questions
+Filtered to 30 relevant questions (1%+ skill match)
+Relevance distribution:
+  90-100%: 30 questions
+  70-89%: 0 questions
+  50-69%: 0 questions
+  Below 50%: 0 questions
+CV parsing result for /Users/yashal/Desktop/SkillSelectAI/backend/uploads/d18f747e-91a0-4219-b8d7-0b5f5301a98a.pdf: [
+  {
+    "personal_info": {
+      "Name": "Yashal Naeem",
+      "Email": "yashalchaudhry@gmail.com",
+      "Phone": "(+92) 3062994791",
+      "Address": "Islamabad Pakistan"
+    },
+    "work_experience": "C&AE, NASTP \nFull-Stack Engineer (Intern) \n Designed and implemented responsive frontend pages using React 18, Tailwind CSS, and TypeScript, ensuring\noptimized routing, UI state management, and seamless user experience.\n Developed and integrated backend services with Node.js/Express and database connectivity (PostgreSQL) to\nsupport data storage and retrieval.\n Built and connected REST APIs to enable smooth communication between frontend and backend components.\n Collaborated with the AI team to integrate LLM-driven features into the user-facing application.\n Conducted debugging, testing, and performance optimizations to ensure scalable and reliable deployment.\n Ardent Thrive \nSEO Executive \n[ Oct 2024 Mar 2025 ] \n Managed off-page SEO, focusing on backlink building and optimization.\n Regularly checked and resolved indexation issues for website pages.\n Assisted in social media engagement and digital marketing efforts.\nSEO Intern \n[ Jul 2024 Oct 2024 ] \n Built backlinks to improve search engine rankings.\n Monitored and ensured proper indexation of website pages.\n Brand New Tube \nEditor \n[ Nov 2021 Feb 2022 ] \n Snapdel \nExecutive Lead \n[ May 2021 Nov 2021 ] \n Gathered information from Canadian companies to contact them for renting purposes\n Rentable \n \n \n \n\fExecutive Lead \n[ Jul 2020 Aug 2021 ] \nBlog Editor \n[ Jul 2020 Aug 2021 ]",
+    "education_and_training": "Matric in Sciences \nHITEC School and College for Girls \nFSC Pre Engineering \nHITEC School and College for Girls \nBachelor of Software Engineering \nBahria University [ 2022 Current ]",
+    "skills": "Mother tongue(s): Urdu \nOther language(s): English \n \nLanguages: C++, Java, C#, ASP .NET, Python, JavaScript (Beginner) / Soft : Time Management, Communication,\nPresentation  / Creative : Proficient in Canva and Figma, Photography / Platforms: Vercel, AWS,\nCloudinary, Visual Studio, Cisco Packet Tracer / Frameworks: React.js, Express.js, Mongoose, Node.js / Marketing:\nSocial Media Management, SEO & Digital Marketing, Technical SEO / Technical Foundation: OOP, Data Structures,\nDBMS, Cloud Computing, AI, Linux Shell Scripting, SQL",
+    "_id": "696a63d9f281231af9353b2c"
+  }
+]
+✅ CV processing result: {
+  success: true,
+  jobId: new ObjectId("696a63d8105e9fe373a6f9dd"),
+  totalCVs: 1,
+  parsedCandidates: [],
+  failedCVs: [],
+  totalProcessed: 0,
+  matches: [],
+  candidateIds: [],
+  averageScore: NaN
+}
+🚀 Job creation request received
+📝 Body: [Object: null prototype] {
+  title: 'Test Candidate Creation',
+  description: 'Testing test candidate creation'
+}
+📁 Files: [
+  {
+    fieldname: 'cvs',
+    originalname: 'sample_cv.pdf',
+    encoding: '7bit',
+    mimetype: 'application/pdf',
+    destination: '/Users/yashal/Desktop/SkillSelectAI/backend/uploads',
+    filename: '0575563e-155e-4fc5-95e9-0fecca61f629.pdf',
+    path: '/Users/yashal/Desktop/SkillSelectAI/backend/uploads/0575563e-155e-4fc5-95e9-0fecca61f629.pdf',
+    size: 57180
+  }
+]
+🚀 Job creation request received
+📝 Body: [Object: null prototype] {
+  title: 'Test Candidate Creation',
+  description: 'Testing test candidate creation'
+}
+📁 Files: [
+  {
+    fieldname: 'cvs',
+    originalname: 'sample_cv.pdf',
+    encoding: '7bit',
+    mimetype: 'application/pdf',
+    destination: '/Users/yashal/Desktop/SkillSelectAI/backend/uploads',
+    filename: '0575563e-155e-4fc5-95e9-0fecca61f629.pdf',
+    path: '/Users/yashal/Desktop/SkillSelectAI/backend/uploads/0575563e-155e-4fc5-95e9-0fecca61f629.pdf',
+    size: 57180
+  }
+]
+📁 CVs received: 1
+🔄 Processing 1 CVs...
+Parsing CV: /Users/yashal/Desktop/SkillSelectAI/backend/uploads/0575563e-155e-4fc5-95e9-0fecca61f629.pdf
+Extracted skills from job description: []
+Job Skills: []
+Using 24 web development templates (fallback)
+Using random content: cross-browser compatibility issues for placeholder issue
+Using random content: page load time for placeholder performance_metric
+Using random content: real-time chat application for placeholder application_type
+Using random content: HTML5 for placeholder web_technology
+Using random content: event handling for placeholder concept
+Using random content: Progressive Web Apps for placeholder advanced_topic
+Using random content: tablet devices for placeholder device_category
+Using random content: file upload for placeholder feature
+Using random content: Next.js for placeholder web_technology
+Using random content: real-time chat for placeholder feature
+Using random content: Angular for placeholder web_technology
+Using random content: DOM manipulation for placeholder concept
+Using random content: routing system for placeholder system_type
+Using random content: e-commerce platform for placeholder application_type
+Using random content: performance optimization for placeholder quality_aspect
+Using random content: frontend architecture for placeholder system_type
+Using random content: dashboard application for placeholder application_type
+Using random content: internal API for placeholder api_type
+Using random content: bundle size for placeholder performance_metric
+Using random content: real-time chat application for placeholder application_type
+Using random content: performance bottlenecks for placeholder issue
+Using random content: state management complexity for placeholder scenario
+Using random content: WCAG accessibility standards for placeholder quality_aspect
+Using random content: SQL injection attacks for placeholder security_threat
+Using random content: Vue.js for placeholder web_technology
+Using random content: React for placeholder web_framework
+Using random content: system downtime incidents for placeholder critical_situation
+Using random content: third-party API for placeholder api_type
+Using random content: React components for placeholder component
+Using random content: social media application for placeholder application_type
+Using random content: file upload for placeholder feature
+Using random content: Vue.js for placeholder web_framework
+Using random content: real-time data synchronization for placeholder scenario
+Using random content: memory leak resolution for placeholder complex_problem
+Using random content: Angular components for placeholder component
+Using random content: content management system for placeholder application_type
+Using random content: data corruption scenarios for placeholder critical_situation
+Using random content: mobile devices for placeholder device_category
+Using random content: WebAssembly integration for placeholder advanced_topic
+Generated 30 questions in 48 attempts
+Difficulty distribution: { Easy: 10, Medium: 10, Hard: 10 }
+Job skills extracted: []
+Fallback: web development question
+Question: Describe how you would debug a cross-browser compa...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Universal fallback: development question
+Question: What strategies would you use to optimize page loa...
+  Matched skills: general development, frontend development, development
+  Score: 23/0 = 100%
+Question: What is HTML5 and when would you use it?...
+  Matched skills: frontend development, development
+  Score: 13/0 = 100%
+Fallback: web development question
+Question: What is the purpose of event handling in web devel...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: Describe your approach to Progressive Web Apps in ...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: Describe your approach to responsive web design fo...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Question: How would you approach implementing file upload us...
+  Matched skills: frontend development, development
+  Score: 13/0 = 100%
+Question: How would you explain the approach to creating rea...
+  Matched skills: frontend development, development
+  Score: 13/0 = 100%
+Question: What is Angular and when would you use it?...
+  Matched skills: frontend development, development
+  Score: 13/0 = 100%
+Fallback: web development question
+Question: What is the purpose of DOM manipulation in web dev...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Question: Design a scalable routing system for e-commerce pl...
+  Matched skills: frontend development, development
+  Score: 13/0 = 100%
+Fallback: web development question
+Question: How do you ensure performance optimization in your...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Universal fallback: development question
+Question: Design a scalable frontend architecture for dashbo...
+  Matched skills: general development, frontend development, development
+  Score: 23/0 = 100%
+Fallback: web development question
+Question: How would you integrate internal API into a web ap...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Universal fallback: development question
+Question: What strategies would you use to optimize bundle s...
+  Matched skills: general development, frontend development, development
+  Score: 23/0 = 100%
+Fallback: web development question
+Question: Describe how you would debug a performance bottlen...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Universal fallback: development question
+Question: How would you handle state management complexity i...
+  Matched skills: general development, frontend development, development
+  Score: 23/0 = 100%
+Fallback: web development question
+Question: How do you ensure WCAG accessibility standards in ...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: How do you ensure web application security against...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Question: What is the difference between Vue.js and React?...
+  Matched skills: frontend development, development
+  Score: 13/0 = 100%
+Fallback: web development question
+Question: How would you handle system downtime incidents in ...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: How would you integrate third-party API into a web...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Universal fallback: development question
+Question: What testing considerations would you keep in mind...
+  Matched skills: general development, frontend development, development
+  Score: 23/0 = 100%
+Question: Describe your approach to implementing file upload...
+  Matched skills: frontend development, development
+  Score: 13/0 = 100%
+Universal fallback: development question
+Question: How would you handle real-time data synchronizatio...
+  Matched skills: general development, frontend development, development
+  Score: 23/0 = 100%
+Fallback: web development question
+Question: How would you solve memory leak resolution in a la...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Question: What testing considerations would you keep in mind...
+  Matched skills: frontend development, development
+  Score: 13/0 = 100%
+Fallback: web development question
+Question: How would you handle data corruption scenarios in ...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: Describe your approach to responsive web design fo...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Fallback: web development question
+Question: Describe your approach to WebAssembly integration ...
+  Matched skills: web development, frontend development, development
+  Score: 28/0 = 100%
+Generated 30 total questions
+Filtered to 30 relevant questions (1%+ skill match)
+Relevance distribution:
+  90-100%: 30 questions
+  70-89%: 0 questions
+  50-69%: 0 questions
+  Below 50%: 0 questions
+CV parsing result for /Users/yashal/Desktop/SkillSelectAI/backend/uploads/0575563e-155e-4fc5-95e9-0fecca61f629.pdf: [
+  {
+    "personal_info": {
+      "Name": "Yashal Naeem",
+      "Email": "yashalchaudhry@gmail.com",
+      "Phone": "(+92) 3062994791",
+      "Address": "Islamabad Pakistan"
+    },
+    "work_experience": "C&AE, NASTP \nFull-Stack Engineer (Intern) \n Designed and implemented responsive frontend pages using React 18, Tailwind CSS, and TypeScript, ensuring\noptimized routing, UI state management, and seamless user experience.\n Developed and integrated backend services with Node.js/Express and database connectivity (PostgreSQL) to\nsupport data storage and retrieval.\n Built and connected REST APIs to enable smooth communication between frontend and backend components.\n Collaborated with the AI team to integrate LLM-driven features into the user-facing application.\n Conducted debugging, testing, and performance optimizations to ensure scalable and reliable deployment.\n Ardent Thrive \nSEO Executive \n[ Oct 2024 Mar 2025 ] \n Managed off-page SEO, focusing on backlink building and optimization.\n Regularly checked and resolved indexation issues for website pages.\n Assisted in social media engagement and digital marketing efforts.\nSEO Intern \n[ Jul 2024 Oct 2024 ] \n Built backlinks to improve search engine rankings.\n Monitored and ensured proper indexation of website pages.\n Brand New Tube \nEditor \n[ Nov 2021 Feb 2022 ] \n Snapdel \nExecutive Lead \n[ May 2021 Nov 2021 ] \n Gathered information from Canadian companies to contact them for renting purposes\n Rentable \n \n \n \n\fExecutive Lead \n[ Jul 2020 Aug 2021 ] \nBlog Editor \n[ Jul 2020 Aug 2021 ]",
+    "education_and_training": "Matric in Sciences \nHITEC School and College for Girls \nFSC Pre Engineering \nHITEC School and College for Girls \nBachelor of Software Engineering \nBahria University [ 2022 Current ]",
+    "skills": "Mother tongue(s): Urdu \nOther language(s): English \n \nLanguages: C++, Java, C#, ASP .NET, Python, JavaScript (Beginner) / Soft : Time Management, Communication,\nPresentation  / Creative : Proficient in Canva and Figma, Photography / Platforms: Vercel, AWS,\nCloudinary, Visual Studio, Cisco Packet Tracer / Frameworks: React.js, Express.js, Mongoose, Node.js / Marketing:\nSocial Media Management, SEO & Digital Marketing, Technical SEO / Technical Foundation: OOP, Data Structures,\nDBMS, Cloud Computing, AI, Linux Shell Scripting, SQL",
+    "_id": "696a63fa4d95c5675ee4413c"
+  }
+]
+✅ CV processing result: {
+  success: true,
+  jobId: new ObjectId("696a63fa105e9fe373a6fa78"),
+  totalCVs: 1,
+  parsedCandidates: [],
+  failedCVs: [],
+  totalProcessed: 0,
+  matches: [],
+  candidateIds: [],
+  averageScore: NaN
+}

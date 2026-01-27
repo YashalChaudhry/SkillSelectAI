@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Sidebar from "./components/Sidebar/Sidebar";
 import Candidates from "./pages/Candidates/Candidates";
 import JobManagement from "./pages/JobManagement/JobManagement";
+import Interviews from "./pages/Interviews/Interviews";
 import LandingPage from "./pages/LandingPage/LandingPage";
 
 function App() {
@@ -40,10 +41,12 @@ function App() {
         padding: 0,
         display: 'flex',
         flexDirection: 'column',
-        overflow: 'hidden'
+        overflow: 'hidden',
+        backgroundColor: '#f5f5f5'
       }}>
         {activePage === "candidates" && <Candidates />}
         {activePage === "jobManagement" && <JobManagement />}
+        {activePage === "interviews" && <Interviews />}
       </div>
     </div>
   );

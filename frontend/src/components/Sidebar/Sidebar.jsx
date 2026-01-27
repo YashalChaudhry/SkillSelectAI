@@ -1,5 +1,5 @@
 import React from "react";
-import { PersonOutline, WorkOutline } from "@mui/icons-material";
+import { PersonOutline, WorkOutline, QuestionAnswerOutlined } from "@mui/icons-material";
 import "./Sidebar.css";
 
 const Sidebar = ({ activePage, setActivePage }) => {
@@ -21,6 +21,14 @@ const Sidebar = ({ activePage, setActivePage }) => {
         onClick={() => setActivePage("candidates")}
       >
         <PersonOutline className="sidebar-icon" />
+      </div>
+
+      {/* Interviews Icon */}
+      <div
+        className={`sidebar-icon-box ${activePage === "interviews" ? "active" : ""}`}
+        onClick={() => setActivePage("interviews")}
+      >
+        <QuestionAnswerOutlined className="sidebar-icon" />
       </div>
     </div>
   );

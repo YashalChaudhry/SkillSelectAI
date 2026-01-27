@@ -2,3 +2,7 @@ MONGODB_URI=mongodb://localhost:27017/skillselect
 JWT_SECRET=your-long-random-secret-here
 JWT_EXPIRES_IN=1d
 BCRYPT_ROUNDS=10
+GOOGLE_CLIENT_ID=646752922275-m8k2661e1jlgq8cibkso795ja984mvke.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=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
+GOOGLE_REDIRECT_URI=https://developers.google.com/oauthplayground
+GOOGLE_REFRESH_TOKEN=1//04sShvhom3eN6CgYIARAAGAQSNwF-L9Irp6L-OeXEmu_HQfvCeSXknJRDTI_4UmIUrVN_pZrqQRHH4b_b_drtviOfN0Qe877X9Zs

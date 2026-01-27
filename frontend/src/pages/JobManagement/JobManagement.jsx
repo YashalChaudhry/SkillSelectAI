@@ -63,21 +63,6 @@ const refreshJobs = ()=>{
     }catch(e){alert("Failed to delete");}
   };
 
-  const handleEdit = async(job)=>{
-    const newTitle = prompt("Edit job title", job.title);
-    if(newTitle===null) return;
-    const newDesc = prompt("Edit description", job.description);
-    if(newDesc===null) return;
-    try{
-      await fetch(`http://localhost:5000/api/jobs/${job._id}`,{
-        method:"PUT",
-        headers:{"Content-Type":"application/json"},
-        body: JSON.stringify({title:newTitle, description:newDesc})
-      });
-      refreshJobs();
-    }catch(e){alert("Update failed");}
-  };
-
   return (
     <div className="job-management-container">
       <div className="page-header">
@@ -151,15 +136,10 @@ const refreshJobs = ()=>{
               <div className="job-list">
                 {jobs.map((job) => (
                   <div key={job.id} className="job-card">
-                    <span>{job.name}</span>
-                    <div className="job-actions">
-  <button className="action-btn edit-btn" onClick={() => handleEdit(job)}>
-    Edit
-  </button>
-  <button className="action-btn delete-btn" onClick={() => handleDelete(job._id)}>
-    Delete
-  </button>
-</div>
+                    <div className="job-name">{job.name}</div>
+                    <button className="action-btn delete-btn" onClick={() => handleDelete(job._id)}>
+                      Delete
+                    </button>
                   </div>
                 ))}
               </div>
