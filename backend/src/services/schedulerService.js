@@ -48,7 +48,10 @@ const createGoogleCalendarEvent = async (candidateEmail, startTime, meetingLink)
     description: `INTERVIEW LINK:\n${meetingLink}\n\n⚠️ CRITICAL INSTRUCTIONS - READ BEFORE CLICKING:\n------------------------------------------------\n1. ONE-TIME ACCESS: This link is valid for a SINGLE session only.\n2. NO RE-ENTRY: Once you click the link, your interview timer begins immediately. You cannot pause, refresh, or close the window and return later.\n3. STABILITY CHECK: Ensure you have a stable internet connection and 60 minutes of uninterrupted time before clicking.\n\n\nGood luck!\n`,
     start: { dateTime: startTime.toISOString() },
     end: { dateTime: addHours(startTime, 1).toISOString() }, // 1 hour duration
-    attendees: [{ email: candidateEmail }]
+    attendees: [{ email: candidateEmail, responseStatus: 'accepted' }],
+    guestsCanModify: false,
+    guestsCanInviteOthers: false,
+    guestsCanSeeOtherGuests: false
   };
 
   try {
@@ -113,7 +116,7 @@ export const processInvitesForJob = async (jobId) => {
 
     // PHASE 2: The Security Token
     const token = uuidv4();
-    const uniqueLink = `https://skillselect.ai/start?token=${token}`;
+    const uniqueLink = `${process.env.FRONTEND_URL || 'http://localhost:3000'}/interview?candidateID=${candidate._id}&jobID=${jobId}`;
 
     // PHASE 4: Delivery
     // Note: requires candidate.email to exist

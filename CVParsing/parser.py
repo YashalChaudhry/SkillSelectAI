@@ -130,20 +130,77 @@ def extract_personal_info_from_top(text: str, first_heading_pos: int = None) -> 
     # --- C. Name ---
     lines = [ln.strip() for ln in top.splitlines() if ln.strip()]
     name = "Unnamed Candidate" 
-    forbidden_words = ["resume", "curriculum", "vitae", "cv", "bio", "profile", "summary", "objective", "about", "myself", "me", "contact", "info", "information", "address", "location", "email", "phone", "mobile", "personal", "details", "page", "confidential"]
+    # Only match these as WHOLE WORDS, not substrings
+    forbidden_words = ["resume", "curriculum", "vitae", "cv", "bio", "profile", "summary", "objective", "about", "myself", "contact", "info", "information", "address", "location", "email", "phone", "mobile", "personal", "details", "page", "confidential", "applicant", "candidate", "application"]
 
-    for ln in lines:
-        if re.search(r'(@|www\.|http|\d)', ln, flags=re.I): continue
-        if any(bad_word in ln.lower() for bad_word in forbidden_words): continue
-        clean_line = ' '.join(ln.split())
+    def is_likely_name(line):
+        """Check if a line looks like a person's name."""
+        clean_line = ' '.join(line.split())
         words = clean_line.split()
-        if 2 <= len(words) <= 4:
-            is_title_case = all(re.match(r'^[A-Z][a-z\.\-\']+$', w) for w in words)
-            is_all_caps = all(re.match(r'^[A-Z\.\-\']+$', w) for w in words) and not ln.isupper() 
-            if all(re.match(r'^[A-Z\.\-\']+$', w) for w in words): is_all_caps = True
-            if is_title_case or is_all_caps:
-                name = clean_line
-                break
+        
+        # Must have 1-5 words
+        if not (1 <= len(words) <= 5):
+            return False
+        
+        # Skip if contains forbidden words (as WHOLE WORDS only, not substrings)
+        line_lower = line.lower()
+        for bad in forbidden_words:
+            # Use word boundary matching to avoid false positives like "Ahmed" matching "me"
+            if re.search(r'\b' + re.escape(bad) + r'\b', line_lower):
+                return False
+        
+        # Skip if contains numbers, emails, URLs
+        if re.search(r'(@|www\.|http|\.com|\.org|\d{3,})', line, flags=re.I):
+            return False
+        
+        # Skip if too short (likely abbreviations) or too long
+        if len(clean_line) < 3 or len(clean_line) > 50:
+            return False
+        
+        # Check various name patterns
+        # Pattern 1: Title Case (John Smith, Mary Jane Watson)
+        is_title_case = all(
+            re.match(r'^[A-Z][a-z]+\.?$', w) or  # Normal word: John, Smith
+            re.match(r'^[A-Z]\.$', w) or          # Initial: J.
+            re.match(r'^[A-Z][a-z]*-[A-Z][a-z]+$', w) or  # Hyphenated: Mary-Jane
+            re.match(r"^[A-Z][a-z]+'[a-z]+$", w)  # Apostrophe: O'Brien
+            for w in words
+        )
+        
+        # Pattern 2: ALL CAPS (JOHN SMITH)
+        is_all_caps = all(
+            re.match(r'^[A-Z]+\.?$', w) or        # JOHN, SMITH
+            re.match(r'^[A-Z]\.$', w) or          # J.
+            re.match(r'^[A-Z]+-[A-Z]+$', w)       # MARY-JANE
+            for w in words
+        ) and len(clean_line) > 3  # Avoid matching single letters
+        
+        # Pattern 3: Mixed case common in some regions (McDonald, DeVito)
+        is_mixed = all(
+            re.match(r'^[A-Z][a-zA-Z\'\-\.]+$', w)
+            for w in words
+        ) and any(c.isupper() for c in clean_line[1:])  # Has uppercase after first char
+        
+        # Pattern 4: Single name (common in some cultures)
+        is_single_name = len(words) == 1 and re.match(r'^[A-Z][a-z]{2,15}$', words[0])
+        
+        return is_title_case or is_all_caps or is_mixed or is_single_name
+
+    # Try to find name in first 15 lines
+    for ln in lines[:15]:
+        if is_likely_name(ln):
+            name = ' '.join(ln.split())
+            break
+    
+    # If still unnamed, try more aggressive search - look for "Name:" label
+    if name == "Unnamed Candidate":
+        for ln in lines[:20]:
+            match = re.match(r'^(?:Name|Full Name|Applicant Name)\s*[:\-]?\s*(.+)$', ln, re.I)
+            if match:
+                potential_name = match.group(1).strip()
+                if len(potential_name) > 2 and not re.search(r'\d{3,}|@', potential_name):
+                    name = potential_name
+                    break
                 
     # --- D. Address (UPDATED) ---
     address = ""

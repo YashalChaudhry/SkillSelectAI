@@ -1,42 +1,6 @@
 import Question from '../models/Question.js';
 import QuestionTemplate from '../models/QuestionTemplate.js';
-import questionGenerator from '../services/questionGenerator.js';
 import mongoose from 'mongoose';
-
-/**
- * @desc    Generate questions for a job
- * @route   POST /api/jobs/:jobId/generate-questions
- * @access  Private/Recruiter
- */
-export const generateQuestions = async (req, res) => {
-  try {
-    const { jobId } = req.params;
-    
-    // In a real app, you would fetch the job from the database
-    // For now, we'll use a mock job object
-    const job = {
-      _id: jobId,
-      title: req.body.title || 'Software Engineer',
-      skills: req.body.skills || ['JavaScript', 'Node.js', 'React'],
-      // Add other job properties as needed
-    };
-
-    const questions = await questionGenerator.generateQuestionsForJob(job);
-    
-    res.status(201).json({
-      success: true,
-      count: questions.length,
-      data: questions,
-    });
-  } catch (error) {
-    console.error('Error generating questions:', error);
-    res.status(500).json({
-      success: false,
-      error: 'Error generating questions',
-      details: error.message,
-    });
-  }
-};
 
 /**
  * @desc    Get all questions for a job
@@ -236,6 +200,36 @@ export const createQuestionTemplate = async (req, res) => {
     res.status(500).json({
       success: false,
       error: 'Error creating question template',
+    });
+  }
+};
+
+/**
+ * @desc    Seed question templates (for initial setup)
+ * @route   POST /api/question-templates/seed
+ * @access  Private/Admin
+ */
+export const seedTemplates = async (req, res) => {
+  try {
+    const { COMPREHENSIVE_TEMPLATES } = await import('../seeds/questionTemplates.js');
+    
+    // Clear existing templates
+    await QuestionTemplate.deleteMany({});
+    
+    const inserted = await QuestionTemplate.insertMany(COMPREHENSIVE_TEMPLATES);
+    
+    res.status(201).json({
+      success: true,
+      count: inserted.length,
+      message: `Seeded ${inserted.length} question templates across all categories`,
+      data: inserted,
+    });
+  } catch (error) {
+    console.error('Error seeding templates:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Error seeding templates',
+      details: error.message,
     });
   }
 };

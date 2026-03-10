@@ -1,9 +1,14 @@
 import React from "react";
-import { PersonOutline, WorkOutline, QuestionAnswerOutlined } from "@mui/icons-material";
+import { PersonOutline, WorkOutline, QuestionAnswerOutlined, LogoutOutlined } from "@mui/icons-material";
 import "./Sidebar.css";
 
-const Sidebar = ({ activePage, setActivePage }) => {
-
+const Sidebar = ({ activePage, setActivePage, onLogout }) => {
+  const handleLogout = () => {
+    // Clear any stored authentication data
+    localStorage.removeItem('authToken');
+    // Call the logout function passed from parent
+    onLogout();
+  };
   return (
     <div className="sidebar">
 
@@ -29,6 +34,15 @@ const Sidebar = ({ activePage, setActivePage }) => {
         onClick={() => setActivePage("interviews")}
       >
         <QuestionAnswerOutlined className="sidebar-icon" />
+      </div>
+
+      {/* Logout Button - at the bottom */}
+      <div className="sidebar-spacer" />
+      <div
+        className="sidebar-icon-box logout-btn"
+        onClick={handleLogout}
+      >
+        <LogoutOutlined className="sidebar-icon" />
       </div>
     </div>
   );

@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+venv310/
+ENV/
+*.egg-info/
+dist/
+build/
+
+# Flask
+instance/
+.webassets-cache
+
+# Environment
+.env
+.env.production
+
+# Uploads and temporary files
+static/uploads/*
+!static/uploads/.gitkeep
+logs/*
+!logs/.gitkeep
+temp_audio.wav
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Model files (large)
+*.task
+
+# Jupyter
+.ipynb_checkpoints/

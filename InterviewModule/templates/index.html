@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+
+{% block title %}Upload Video - AI Interview Assessment{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-10 col-xl-9">
+        <!-- Hero Header -->
+        <div class="text-center mb-5 animate__animated animate__fadeIn">
+            <div class="mb-4">
+                <span class="badge rounded-pill px-4 py-2 mb-3" style="background: var(--primary-gradient); font-size: 0.875rem; letter-spacing: 0.1em;">
+                    <i class="fas fa-sparkles me-2"></i>AI-POWERED ANALYSIS
+                </span>
+            </div>
+            <h1 class="display-4 mb-3">🎯 Interview Assessment Platform</h1>
+            <p class="lead">
+                Transform your interview videos into actionable insights with advanced AI technology
+            </p>
+            <div class="d-flex justify-content-center gap-3 mt-4 flex-wrap">
+                <span class="badge bg-light text-dark px-3 py-2"><i class="fas fa-eye text-primary"></i> Visual Analysis</span>
+                <span class="badge bg-light text-dark px-3 py-2"><i class="fas fa-microphone text-success"></i> Audio Processing</span>
+                <span class="badge bg-light text-dark px-3 py-2"><i class="fas fa-brain text-warning"></i> NLP Analysis</span>
+            </div>
+        </div>
+
+        <!-- Upload Card -->
+        <div class="card shadow">
+            <div class="card-body p-4">
+                <form id="uploadForm" enctype="multipart/form-data">
+                    <!-- Video Upload -->
+                    <div class="mb-4">
+                        <label for="videoFile" class="form-label fw-bold">
+                            <i class="fas fa-video text-primary"></i> Interview Video *
+                        </label>
+                        <input type="file" class="form-control" id="videoFile" 
+                               accept="video/mp4,video/avi,video/mov,video/mkv" required>
+                        <div class="form-text">
+                            Accepted formats: MP4, AVI, MOV, MKV (Max: 500MB)
+                        </div>
+                    </div>
+
+                    <!-- Keywords (Optional) -->
+                    <div class="mb-4">
+                        <label for="keywords" class="form-label fw-bold">
+                            <i class="fas fa-tags text-success"></i> Expected Keywords (Optional)
+                        </label>
+                        <input type="text" class="form-control" id="keywords" 
+                               placeholder="e.g., experience, skills, project, team">
+                        <div class="form-text">
+                            Comma-separated terms you expect in the answer
+                        </div>
+                    </div>
+
+                    <!-- Model Answer (Optional) -->
+                    <div class="mb-4">
+                        <label for="modelAnswer" class="form-label fw-bold">
+                            <i class="fas fa-lightbulb text-warning"></i> Ideal Answer (Optional)
+                        </label>
+                        <textarea class="form-control" id="modelAnswer" rows="4"
+                                  placeholder="Enter the ideal answer for comparison..."></textarea>
+                        <div class="form-text">
+                            Provide a model answer to compare semantic similarity
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg" id="analyzeBtn">
+                            <i class="fas fa-brain"></i> Analyze Interview
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Progress Section (Hidden by default) -->
+                <div id="progressSection" class="mt-4" style="display: none;">
+                    <div class="text-center">
+                        <div class="spinner-border text-primary mb-3" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <h5 id="progressText">Uploading video...</h5>
+                        <p class="text-muted" id="progressDetails">Please wait, this may take 1-2 minutes</p>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                                 role="progressbar" style="width: 100%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Error Alert (Hidden by default) -->
+                <div id="errorAlert" class="alert alert-danger mt-4" role="alert" style="display: none;">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <strong>Error:</strong> <span id="errorMessage"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="row mt-5">
+            <div class="col-md-4 text-center">
+                <div class="feature-box p-3">
+                    <i class="fas fa-eye fa-3x text-primary mb-3"></i>
+                    <h5>Visual Analysis</h5>
+                    <p class="text-muted">Eye contact tracking & emotion detection</p>
+                </div>
+            </div>
+            <div class="col-md-4 text-center">
+                <div class="feature-box p-3">
+                    <i class="fas fa-microphone fa-3x text-success mb-3"></i>
+                    <h5>Audio Analysis</h5>
+                    <p class="text-muted">Speech pace, tone & confidence scoring</p>
+                </div>
+            </div>
+            <div class="col-md-4 text-center">
+                <div class="feature-box p-3">
+                    <i class="fas fa-brain fa-3x text-warning mb-3"></i>
+                    <h5>NLP Analysis</h5>
+                    <p class="text-muted">Content relevance & keyword matching</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+{% endblock %}
+        
+        <div class="upload-section">
+            <form id="uploadForm" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="videoFile">Video File *</label>
+                    <input type="file" id="videoFile" name="video" accept="video/*" required>
+                    <small>Supported formats: MP4, AVI, MOV, MKV (Max 500MB)</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="keywords">Expected Keywords (Optional)</label>
+                    <input type="text" id="keywords" name="keywords" placeholder="e.g., experience, skills, project">
+                    <small>Comma-separated keywords for content analysis</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="modelAnswer">Model Answer (Optional)</label>
+                    <textarea id="modelAnswer" name="model_answer" rows="4" placeholder="Provide an ideal answer for semantic comparison..."></textarea>
+                </div>
+                
+                <button type="submit" id="submitBtn" class="btn-primary">
+                    Analyze Video
+                </button>
+            </form>
+            
+            <div id="progressSection" class="hidden">
+                <div class="progress-bar">
+                    <div id="progressFill" class="progress-fill"></div>
+                </div>
+                <p id="statusText">Uploading video...</p>
+            </div>
+            
+            <div id="errorSection" class="hidden error-box">
+                <p id="errorText"></p>
+            </div>
+        </div>
+        
+        <div class="features">
+            <h2>What We Analyze</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <span class="icon">👁️</span>
+                    <h3>Visual Analysis</h3>
+                    <p>Eye contact, facial expressions, emotional presence</p>
+                </div>
+                <div class="feature-card">
+                    <span class="icon">🎤</span>
+                    <h3>Audio Analysis</h3>
+                    <p>Speaking pace, confidence, vocal variety</p>
+                </div>
+                <div class="feature-card">
+                    <span class="icon">📝</span>
+                    <h3>Content Analysis</h3>
+                    <p>Keyword matching, semantic relevance, sentiment</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

@@ -60,75 +60,155 @@ function parseCVWithPython(cvPath) {
 
 export async function processCVsAndMatch(cvPaths, jobDescriptionText, jobId) {
   const results = [];
+  const MIN_FALLBACK_SCORE = 15; // Minimum score if matching fails but parsing succeeds
 
   for (const cvPath of cvPaths) {
+    let cvData = null;
+    let matchScore = MIN_FALLBACK_SCORE;
+    
     try {
       // cvData is the full object: { personal_info: {...}, work_experience: "...", ... }
-      const cvData = await parseCVWithPython(cvPath);
+      cvData = await parseCVWithPython(cvPath);
 
-      console.log(`Node: PARSED CV: ${cvData.personal_info.Name}`);
+      // Validate parsed data
+      if (!cvData || !cvData.personal_info) {
+        console.error(`[matchingService] Invalid CV data structure for: ${cvPath}`);
+        continue;
+      }
 
-      const payload = JSON.stringify({
-        jd: jobDescriptionText,
-        cv: [
-          ...Object.values(cvData.personal_info || {}),
-          cvData.work_experience || "",
-          cvData.education_and_training || "",
-          cvData.skills || ""
-        ].join(" ")
-      });
+      const candidateName = cvData.personal_info.Name || "Unnamed Candidate";
+      console.log(`[matchingService] PARSED CV: ${candidateName}`);
 
-      const absoluteMatcherScript = path.resolve(backendDir, matcherScript);
+      // Combine CV text for matching
+      const cvTextParts = [
+        ...Object.values(cvData.personal_info || {}).filter(v => v),
+        cvData.work_experience || "",
+        cvData.education_and_training || "",
+        cvData.skills || ""
+      ];
+      const cvText = cvTextParts.join(" ").trim();
 
-      const score = await new Promise((resolve, reject) => {
-        const proc = spawn(pythonExecutable, [absoluteMatcherScript]);
-        let stdout = "";
-        let stderr = "";
-
-        proc.stdout.on("data", (d) => (stdout += d.toString()));
-        proc.stderr.on("data", (d) => (stderr += d.toString()));
-        proc.on("error", reject);
-
-        proc.on("close", (code) => {
-          if (code !== 0) {
-            return reject(new Error(`Python Matcher Error (Code ${code}): ${stderr}`));
-          }
-          if (!stdout) {
-            return reject(new Error(`Python Matcher gave no output. Logs: ${stderr}`));
-          }
-          try {
-            const val = parseFloat(stdout.trim());
-            if (isNaN(val)) return reject(new Error(`Invalid matcher output: ${stdout}`));
-            resolve(val);
-          } catch (e) {
-            reject(new Error(`Failed to parse matcher output: ${e.message}`));
-          }
+      // Skip candidates with empty/too short CV text entirely
+      if (cvText.length < 20) {
+        console.warn(`[matchingService] Skipping CV - text too short: ${candidateName} (${cvText.length} chars)`);
+        continue; // Don't save this candidate at all
+      } else {
+        const payload = JSON.stringify({
+          jd: jobDescriptionText || "",
+          cv: cvText
         });
 
-        proc.stdin.write(payload);
-        proc.stdin.end();
-      });
+        const absoluteMatcherScript = path.resolve(backendDir, matcherScript);
 
-      const matchScore = Math.round(score * 100);
+        try {
+          const score = await new Promise((resolve, reject) => {
+            const proc = spawn(pythonExecutable, [absoluteMatcherScript]);
+            let stdout = "";
+            let stderr = "";
+            
+            // Add timeout for matcher process
+            const timeout = setTimeout(() => {
+              proc.kill();
+              reject(new Error("Matcher process timed out"));
+            }, 30000);
 
-      // --- THIS IS THE HANDOFF ---
-      // We pass the *entire* cvData object to saveCandidate
+            proc.stdout.on("data", (d) => (stdout += d.toString()));
+            proc.stderr.on("data", (d) => (stderr += d.toString()));
+            proc.on("error", (err) => {
+              clearTimeout(timeout);
+              reject(err);
+            });
+
+            proc.on("close", (code) => {
+              clearTimeout(timeout);
+              if (stderr) {
+                console.log(`[matchingService] Matcher stderr: ${stderr}`);
+              }
+              if (!stdout.trim()) {
+                return reject(new Error(`Python Matcher gave no output. Logs: ${stderr}`));
+              }
+              try {
+                const val = parseFloat(stdout.trim());
+                if (isNaN(val)) {
+                  return reject(new Error(`Invalid matcher output: ${stdout}`));
+                }
+                resolve(val);
+              } catch (e) {
+                reject(new Error(`Failed to parse matcher output: ${e.message}`));
+              }
+            });
+
+            proc.stdin.write(payload);
+            proc.stdin.end();
+          });
+
+          matchScore = Math.round(score * 100);
+          
+          // Skip candidates with 0% score entirely - don't save them
+          if (matchScore === 0 || score === 0) {
+            console.warn(`[matchingService] Skipping candidate with 0% match: ${candidateName}`);
+            continue;
+          }
+          
+          // Ensure score is within valid range (15-100%)
+          matchScore = Math.max(MIN_FALLBACK_SCORE, Math.min(100, matchScore));
+        } catch (matchErr) {
+          console.warn(`[matchingService] Matching failed for ${candidateName}: ${matchErr.message}, using fallback score`);
+          matchScore = MIN_FALLBACK_SCORE;
+        }
+      }
+
+      // Final check - never save 0% candidates
+      if (matchScore <= 0) {
+        console.warn(`[matchingService] Skipping candidate with invalid score: ${candidateName}`);
+        continue;
+      }
+
+      // --- SAVE CANDIDATE ---
       const candId = await saveCandidate(
-        cvData, // The full object from Python
-        matchScore, // The score from the matcher
+        cvData,
+        matchScore,
         jobId
       );
-      // --------------------------
       
-      console.log(` Node: SAVED CANDIDATE: ${cvData.personal_info.Name}`);
+      console.log(`[matchingService] SAVED CANDIDATE: ${cvData.personal_info.Name || "Unknown"} with score: ${matchScore}%`);
 
-      results.push({ id: candId, name: cvData.personal_info.Name, email: cvData.personal_info.Email, score: matchScore });
+      results.push({ 
+        id: candId, 
+        name: cvData.personal_info.Name || "Unnamed Candidate", 
+        email: cvData.personal_info.Email || "", 
+        score: matchScore 
+      });
     
     } catch (err) {
       console.error(
-        ` FAILED TO PROCESS CV: ${cvPath}`,
-        `\nTHE ERROR IS: ${err.message}`
+        `[matchingService] FAILED TO PROCESS CV: ${cvPath}`,
+        `\nError: ${err.message}`
       );
+      
+      // Only save fallback if CV has meaningful content (skills, experience, etc.)
+      if (cvData && cvData.personal_info) {
+        const hasContent = (cvData.skills && cvData.skills.length > 20) ||
+                          (cvData.work_experience && cvData.work_experience.length > 20) ||
+                          (cvData.education_and_training && cvData.education_and_training.length > 20);
+        
+        if (hasContent) {
+          try {
+            const candId = await saveCandidate(cvData, MIN_FALLBACK_SCORE, jobId);
+            console.log(`[matchingService] Saved candidate with fallback score: ${cvData.personal_info.Name || "Unknown"}`);
+            results.push({
+              id: candId,
+              name: cvData.personal_info.Name || "Unnamed Candidate",
+              email: cvData.personal_info.Email || "",
+              score: MIN_FALLBACK_SCORE
+            });
+          } catch (saveErr) {
+            console.error(`[matchingService] Failed to save fallback candidate: ${saveErr.message}`);
+          }
+        } else {
+          console.warn(`[matchingService] Skipping candidate - no meaningful content in CV`);
+        }
+      }
     }
   }
 
@@ -138,8 +218,9 @@ export async function processCVsAndMatch(cvPaths, jobDescriptionText, jobId) {
   try {
     await fs.mkdir(matchesDir, { recursive: true });
     await fs.writeFile(path.join(matchesDir, `matches_${jobId}.json`), JSON.stringify(results, null, 2));
+    console.log(`[matchingService] Saved ${results.length} candidates for job ${jobId}`);
   } catch (err) {
-    console.warn("Could not write matches file:", err.message);
+    console.warn("[matchingService] Could not write matches file:", err.message);
   }
 
   return results.map(r => r.id);

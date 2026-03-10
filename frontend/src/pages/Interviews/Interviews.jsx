@@ -23,6 +23,15 @@ const Interviews = () => {
   });
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [showValidationDetails, setShowValidationDetails] = useState(false);
+  const [invitesSent, setInvitesSent] = useState({});
+
+  // Handle invite sent callback
+  const handleInvitesSent = (jobId) => {
+    setInvitesSent(prev => ({
+      ...prev,
+      [jobId]: true
+    }));
+  };
 
   // Fetch jobs
   useEffect(() => {
@@ -46,11 +55,13 @@ const Interviews = () => {
   const fetchQuestions = async (jobId) => {
     try {
       setLoading(true);
-      const response = await fetch(`http://localhost:5000/api/jobs/${jobId}/questions`);
+      const response = await fetch(`http://localhost:5000/api/questions/jobs/${jobId}/questions`);
       const data = await response.json();
-      setQuestions(data);
+      // Ensure we always set an array
+      setQuestions(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error('Error fetching questions:', error);
+      setQuestions([]); // Set empty array on error
     } finally {
       setLoading(false);
     }
@@ -74,30 +85,10 @@ const Interviews = () => {
     });
   };
 
-  // Handle question selection for details view
-  const handleQuestionSelect = async (question) => {
-    setSelectedQuestion(question);
-    setShowValidationDetails(false);
-    
-    // Fetch validation details if not already loaded
-    if (!question.validationDetails) {
-      try {
-        const response = await fetch(`http://localhost:5000/api/questions/${question._id}/validation`);
-        const validationData = await response.json();
-        setSelectedQuestion({
-          ...question,
-          validationDetails: validationData
-        });
-      } catch (error) {
-        console.error('Error fetching validation details:', error);
-      }
-    }
-  };
-
   // Handle question status update
   const handleStatusUpdate = async (questionId, status, rejectionReason = '') => {
     try {
-      const response = await fetch(`http://localhost:5000/api/${questionId}`, {
+      const response = await fetch(`http://localhost:5000/api/questions/${questionId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -108,10 +99,10 @@ const Interviews = () => {
       if (response.ok) {
         if (status === 'Rejected') {
           // Remove the rejected question from the list
-          setQuestions(questions.filter(q => q._id !== questionId));
+          setQuestions((questions || []).filter(q => q._id !== questionId));
         } else {
           // Update the question status
-          setQuestions(questions.map(q => 
+          setQuestions((questions || []).map(q => 
             q._id === questionId ? { ...q, status, ...(rejectionReason && { rejectionReason }) } : q
           ));
         }
@@ -144,7 +135,7 @@ const Interviews = () => {
       });
       
       if (response.ok) {
-        setQuestions(questions.map(q => 
+        setQuestions((questions || []).map(q => 
           q._id === editingQuestion._id ? { ...q, ...editForm } : q
         ));
         setEditingQuestion(null);
@@ -162,15 +153,18 @@ const Interviews = () => {
   };
 
   // Filter questions based on filters
-  const filteredQuestions = questions.filter(question => {
+  const filteredQuestions = (questions || []).filter(question => {
     return (
       (filters.status === 'all' || question.status === filters.status) &&
       (filters.difficulty === 'all' || question.difficulty === filters.difficulty) &&
       (filters.type === 'all' || question.type === filters.type) &&
-      (question.text.toLowerCase().includes(filters.search.toLowerCase()) ||
-       question.skill.toLowerCase().includes(filters.search.toLowerCase()))
+      ((question.text && question.text.toLowerCase().includes(filters.search.toLowerCase())) ||
+      (question.skill && question.skill.toLowerCase().includes(filters.search.toLowerCase())))
     );
   });
+
+  // Count approved questions
+  const approvedCount = (questions || []).filter(q => q.status === 'Approved').length;
 
   if (loading && jobs.length === 0) {
     return (
@@ -295,7 +289,6 @@ const Interviews = () => {
                 </div>
               ) : questions.length === 0 ? (
                 <div className="no-questions">
-                  <div className="no-questions-icon">❓</div>
                   <h3>No Questions Yet</h3>
                   <p>Questions will be automatically generated when this job is processed</p>
                 </div>
@@ -304,12 +297,12 @@ const Interviews = () => {
                   <table className="questions-table">
                     <thead>
                       <tr>
-                        <th>Question</th>
-                        <th>Skill</th>
-                        <th>Difficulty</th>
-                        <th>Type</th>
-                        <th>Status</th>
-                        <th>Actions</th>
+                        <th style={{ width: '35%' }}>Question</th>
+                        <th style={{ width: '12%' }}>Skill</th>
+                        <th style={{ width: '10%' }}>Difficulty</th>
+                        <th style={{ width: '10%' }}>Type</th>
+                        <th style={{ width: '10%' }}>Status</th>
+                        <th style={{ width: '23%' }}>Actions</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -335,7 +328,14 @@ const Interviews = () => {
                           </td>
                           <td className="actions-cell">
                             <div className="action-buttons">
-                              {question.status !== 'Approved' && (
+                              {question.status === 'Approved' ? (
+                                <button 
+                                  className="btn btn-unapprove"
+                                  onClick={() => handleStatusUpdate(question._id, 'Pending')}
+                                >
+                                  Unapprove
+                                </button>
+                              ) : (
                                 <button 
                                   className="btn btn-approve"
                                   onClick={() => handleStatusUpdate(question._id, 'Approved')}
@@ -370,11 +370,18 @@ const Interviews = () => {
               {questions.length > 0 && (
                 <div className="send-invites-section">
                   <div className="send-invites-container">
+                    <div className="invite-info">
+                      <span className="approved-count">
+                        {approvedCount} / 30 questions approved (10 will be used per interview)
+                      </span>
+                    </div>
                     <SendInvitesButton 
                       key={`send-invites-${selectedJob._id}`}
                       jobId={selectedJob._id} 
-                      hasInvitesSent={false} 
-                      jobName={selectedJob.name} 
+                      hasInvitesSent={invitesSent[selectedJob._id] || false}
+                      jobName={selectedJob.title}
+                      onInvitesSent={handleInvitesSent}
+                      approvedCount={approvedCount}
                     />
                   </div>
                 </div>
@@ -540,13 +547,13 @@ const Interviews = () => {
                               <span className="issue-type">{issue.type}:</span>
                               <span className="issue-message">{issue.message}</span>
                               {issue.suggestion && (
-                                <span className="issue-suggestion">💡 {issue.suggestion}</span>
+                                <span className="issue-suggestion">Suggestion: {issue.suggestion}</span>
                               )}
                             </li>
                           ))}
                         </ul>
                       ) : (
-                        <p className="no-issues">✅ No validation issues found</p>
+                        <p className="no-issues">No validation issues found</p>
                       )}
                     </div>
                   )}

@@ -20,7 +20,8 @@ export const startInterview = async (req, res) => {
         interviewId: interview._id,
         candidateId: interview.candidateId,
         jobId: interview.jobId,
-        scheduledAt: interview.scheduledAt
+        scheduledAt: interview.scheduledAt,
+        token: token // Include token for interview session initialization
       }
     });
     

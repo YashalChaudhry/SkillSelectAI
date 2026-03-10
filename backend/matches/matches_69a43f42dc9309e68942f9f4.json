@@ -1,0 +1,32 @@
+[
+  {
+    "id": "69a43f48dc9309e68942fa92",
+    "name": "Ayesha Khan",
+    "email": "ayesha.mushy.khan@gmail.com",
+    "score": 45
+  },
+  {
+    "id": "69a43f44dc9309e68942fa8c",
+    "name": "Adil Shahzad",
+    "email": "adilshahzad0330@gmail.com",
+    "score": 20
+  },
+  {
+    "id": "69a43f46dc9309e68942fa8e",
+    "name": "Ahmed Tasadduq",
+    "email": "ahmedtasadduq6123@gmail.com",
+    "score": 17
+  },
+  {
+    "id": "69a43f49dc9309e68942fa94",
+    "name": "Muhammad Bilal Masood",
+    "email": "bilalmasood013@gmail.com",
+    "score": 17
+  },
+  {
+    "id": "69a43f47dc9309e68942fa90",
+    "name": "Muhammad Arqam Malik",
+    "email": "arqammalik711@gmail.com",
+    "score": 15
+  }
+]

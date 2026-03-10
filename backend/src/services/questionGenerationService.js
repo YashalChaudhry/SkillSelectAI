@@ -28,11 +28,20 @@ const DEFAULT_TEMPLATES = [
 
 export const generateQuestionsForJob = async (jobId) => {
   try {
+    console.log('\n' + '🎯'.repeat(30));
+    console.log('📝 QUESTION GENERATION STARTED');
+    console.log(`Target: 30 questions (10 Easy, 10 Medium, 10 Hard)`);
+    console.log(`Job ID: ${jobId}`);
+    console.log('🎯'.repeat(30) + '\n');
+    
     // 1. Get job details
     const job = await Job.findById(jobId);
     if (!job) {
       throw new Error('Job not found');
     }
+    
+    console.log(`Job Title: ${job.title}`);
+    console.log(`Job Description length: ${(job.description || '').length} characters\n`);
 
     // 2. Extract skills from job description
     const jobDesc = job.description || '';
@@ -109,12 +118,27 @@ export const generateQuestionsForJob = async (jobId) => {
     else if (jobTitle.includes('data engineer') || jobTitle.includes('data pipeline')) {
       templatesToUse = templates.filter(t => t.category === 'Data Engineering');
       console.log(`Using ${templatesToUse.length} data engineering templates`);
-    } else if (jobTitle.includes('data scientist') || jobTitle.includes('data science')) {
+    } else if (jobTitle.includes('data scientist') || jobTitle.includes('data science') || jobTitle.includes('data analyst')) {
       templatesToUse = templates.filter(t => t.category === 'Data Science');
       console.log(`Using ${templatesToUse.length} data science templates`);
-    } else if (jobTitle.includes('machine learning') || jobTitle.includes('ml engineer') || jobTitle.includes('ai engineer')) {
+    } else if (
+      jobTitle.includes('machine learning') || jobTitle.includes('ml engineer') ||
+      jobTitle.includes('ai engineer') || jobTitle.includes('ai developer') ||
+      jobTitle.includes('artificial intelligence') ||
+      jobTitle.includes('deep learning') || jobTitle.includes('neural network') ||
+      jobTitle.includes('nlp') || jobTitle.includes('natural language processing') ||
+      jobTitle.includes('computer vision') || jobTitle.includes('cv engineer') ||
+      jobTitle.includes('llm') || jobTitle.includes('large language model') ||
+      jobTitle.includes('genai') || jobTitle.includes('generative ai') ||
+      jobTitle.includes('ai/ml') || jobTitle.includes('ml/ai') ||
+      jobTitle.includes('ai specialist') || jobTitle.includes('ai researcher') ||
+      jobTitle.includes('prompt engineer') || jobTitle.includes('ai ops') ||
+      jobTitle.includes('applied scientist') || jobTitle.includes('research scientist') ||
+      jobTitle.includes('data science') ||
+      (jobTitle.includes('ai') && !jobTitle.includes('maintain') && !jobTitle.includes('contain'))
+    ) {
       templatesToUse = templates.filter(t => t.category === 'Machine Learning Engineering');
-      console.log(`Using ${templatesToUse.length} ML engineering templates`);
+      console.log(`Using ${templatesToUse.length} AI/ML engineering templates`);
     } else if (jobTitle.includes('mlops') || jobTitle.includes('analytics engineer')) {
       templatesToUse = templates.filter(t => t.category === 'Machine Learning Engineering');
       console.log(`Using ${templatesToUse.length} MLOps templates`);
@@ -190,40 +214,61 @@ export const generateQuestionsForJob = async (jobId) => {
       console.log(`Role not detected, using all ${templatesToUse.length} templates`);
     }
 
+    // CRITICAL: If no templates found for specific role, use ALL templates as fallback
+    if (templatesToUse.length === 0) {
+      console.warn(`No templates found for role. Using all available templates as fallback.`);
+      templatesToUse = templates;
+    }
+
     // 6. Generate questions with strict difficulty quotas (Three-Bucket Approach)
     const questions = [];
-    const usedTexts = new Set(); // Track used question texts to prevent duplicates
-    const maxAttempts = 200; // Prevent infinite loops
+    const usedTexts = new Set();
+    const maxAttempts = 500; // Increased from 200 to ensure we generate 30 questions
     let attempts = 0;
 
-    // Define strict quotas for each difficulty
     const targetQuotas = { Easy: 10, Medium: 10, Hard: 10 };
     const currentCounts = { Easy: 0, Medium: 0, Hard: 0 };
     
     // Generate questions for each difficulty level separately
     for (const difficulty of ['Easy', 'Medium', 'Hard']) {
       const targetCount = targetQuotas[difficulty];
-      const difficultyTemplates = templatesToUse.filter(t => t.difficulty === difficulty);
+      let difficultyTemplates = templatesToUse.filter(t => t.difficulty === difficulty);
+      
+      // If no templates for this difficulty, use ALL templates (they'll be reused with different placeholders)
+      if (difficultyTemplates.length === 0) {
+        console.warn(`No ${difficulty} templates found. Using all templates.`);
+        difficultyTemplates = templatesToUse;
+      }
       
       console.log(`Generating ${targetCount} ${difficulty} questions from ${difficultyTemplates.length} templates`);
       
       while (currentCounts[difficulty] < targetCount && attempts < maxAttempts) {
         attempts++;
         
-        // Pick a random template from this difficulty only
+        if (difficultyTemplates.length === 0) {
+          console.warn(`No templates available. Stopping.`);
+          break;
+        }
+        
         const randomIndex = Math.floor(Math.random() * difficultyTemplates.length);
-        const template = difficultyTemplates[randomIndex];
+        let template = difficultyTemplates[randomIndex];
 
-        // Skip if we've already used this template too many times (max 2 times)
+        // If template doesn't have correct difficulty, clone it with the target difficulty
+        if (template.difficulty !== difficulty) {
+          template = { ...template, difficulty };
+        }
+
+        // Skip if we've already used this template too many times (max 3 times to allow enough variety for 30 questions)
         const templateKey = template._id.toString();
         const templateUsageCount = questions.filter(q => q.templateId?.toString() === templateKey).length;
-        if (templateUsageCount >= 2) {
+        if (templateUsageCount >= 3) {
           continue;
         }
 
       // Replace placeholders with content from pool, prioritizing job-specific skills
       let questionText = template.text; // Use 'text' field instead of 'template'
       const placeholders = questionText.match(/\{(.*?)\}/g) || [];
+      let hasInvalidContent = false; // Flag to track if we couldn't find appropriate content
       
       for (const placeholder of placeholders) {
         const placeholderType = placeholder.substring(1, placeholder.length - 1); // Remove { and }
@@ -244,42 +289,83 @@ export const generateQuestionsForJob = async (jobId) => {
           if (matchingJobSkills.length > 0) {
             // Use job-specific content
             selectedContent = matchingJobSkills[Math.floor(Math.random() * matchingJobSkills.length)];
-            console.log(`Using job-specific skill: ${selectedContent.value} for placeholder ${placeholderType}`);
+            console.log(`✅ Using job-specific skill: ${selectedContent.value} for placeholder ${placeholderType}`);
           } else {
-            // Priority 2: Use role-appropriate content
+            // Priority 2: Use role-appropriate content (STRICT MATCHING)
             const roleAppropriateContent = contentItems.filter(item => {
               const itemCategory = item.category?.toLowerCase() || '';
               const jobTitleLower = jobTitle.toLowerCase();
               
-              // Match content category to job role
+              // Match content category to job role - COMPREHENSIVE MATCHING
               if (jobTitleLower.includes('mobile') || jobTitleLower.includes('android') || jobTitleLower.includes('ios')) {
                 return itemCategory === 'mobile';
-              } else if (jobTitleLower.includes('web') || jobTitleLower.includes('frontend')) {
-                return itemCategory === 'web';
-              } else if (jobTitleLower.includes('devops') || jobTitleLower.includes('sre')) {
-                return itemCategory === 'devops';
+              } else if (jobTitleLower.includes('web') || jobTitleLower.includes('frontend') || jobTitleLower.includes('front-end')) {
+                return itemCategory === 'web' || itemCategory === 'frontend';
+              } else if (jobTitleLower.includes('devops') || jobTitleLower.includes('sre') || jobTitleLower.includes('site reliability')) {
+                return itemCategory === 'devops' || itemCategory === 'cloud';
               } else if (jobTitleLower.includes('security')) {
                 return itemCategory === 'security';
-              } else if (jobTitleLower.includes('data') || jobTitleLower.includes('ml') || jobTitleLower.includes('ai')) {
+              } else if (jobTitleLower.includes('data engineer') || jobTitleLower.includes('data pipeline')) {
+                return itemCategory === 'ai' || itemCategory === 'backend';
+              } else if (jobTitleLower.includes('machine learning') || jobTitleLower.includes('ml ') || jobTitleLower.includes('ai ') || 
+                         jobTitleLower.includes('ai engineer') || jobTitleLower.includes('ml engineer') || 
+                         jobTitleLower.includes('deep learning') || jobTitleLower.includes('data scientist') ||
+                         jobTitleLower.includes('mlops') || jobTitleLower.includes('nlp') ||
+                         jobTitleLower.includes('computer vision') || jobTitleLower.includes('llm') ||
+                         jobTitleLower.includes('genai') || jobTitleLower.includes('generative ai') ||
+                         jobTitleLower.includes('artificial intelligence') || jobTitleLower.includes('ai/ml') ||
+                         jobTitleLower.includes('ml/ai') || jobTitleLower.includes('prompt engineer') ||
+                         jobTitleLower.includes('applied scientist') || jobTitleLower.includes('research scientist') ||
+                         jobTitleLower.includes('ai researcher') || jobTitleLower.includes('ai specialist') ||
+                         jobTitleLower.includes('ai developer') || jobTitleLower.includes('cv engineer') ||
+                         jobTitleLower.includes('neural') || jobTitleLower.includes('ai ops')) {
                 return itemCategory === 'ai';
               } else if (jobTitleLower.includes('architect')) {
                 return itemCategory === 'architecture';
+              } else if (jobTitleLower.includes('backend') || jobTitleLower.includes('back-end')) {
+                return itemCategory === 'backend';
+              } else if (jobTitleLower.includes('cloud')) {
+                return itemCategory === 'cloud';
               }
-              return false;
+              // For general roles, accept general content
+              return itemCategory === 'general';
             });
             
             if (roleAppropriateContent.length > 0) {
               selectedContent = roleAppropriateContent[Math.floor(Math.random() * roleAppropriateContent.length)];
-              console.log(`Using role-appropriate content: ${selectedContent.value} for placeholder ${placeholderType}`);
+              console.log(`✅ Using role-appropriate content: ${selectedContent.value} (${selectedContent.category}) for placeholder ${placeholderType}`);
             } else {
-              // Priority 3: Use random content as fallback
-              selectedContent = contentItems[Math.floor(Math.random() * contentItems.length)];
-              console.log(`Using random content: ${selectedContent.value} for placeholder ${placeholderType}`);
+              // Fallback: If we're close to the target and having trouble finding content, use any related content
+              const remainingForDifficulty = targetCount - currentCounts[difficulty];
+              const shouldUseFallback = remainingForDifficulty <= 3 && contentItems.length > 0;
+              
+              if (shouldUseFallback) {
+                // Use any available content from the pool (more lenient)
+                selectedContent = contentItems[Math.floor(Math.random() * contentItems.length)];
+                console.log(`⚠️ Using fallback content: ${selectedContent.value} (${selectedContent.category}) - ${remainingForDifficulty} questions remaining`);
+              } else {
+                // Strict mode: Mark as invalid and skip this question
+                console.warn(`❌ No role-appropriate content found for ${placeholderType} in ${jobTitle} role. Skipping question.`);
+                hasInvalidContent = true;
+                break; // Exit the placeholder loop early
+              }
             }
           }
           
-          questionText = questionText.replace(placeholder, selectedContent.value);
+          if (selectedContent) {
+            questionText = questionText.replace(placeholder, selectedContent.value);
+          }
+        } else {
+          // If no content pool items, mark as invalid
+          console.warn(`❌ No content pool for ${placeholderType}. Skipping question.`);
+          hasInvalidContent = true;
+          break;
         }
+      }
+
+      // Skip this question if we couldn't find appropriate content for all placeholders
+      if (hasInvalidContent) {
+        continue;
       }
 
       // Check if this exact question text has been used before
@@ -295,10 +381,12 @@ export const generateQuestionsForJob = async (jobId) => {
         jobId,
         text: questionText,
         skill: template.skillMappings?.[0] || template.skill || 'General',
-        difficulty: template.difficulty,
+        difficulty: difficulty, // Use the loop difficulty, not template.difficulty
         type: template.type,
+        category: template.category || 'Software Engineering', // Add category from template
         templateId: template._id,
         status: 'Pending',
+        isGenerated: true,
         metadata: {
           generatedAt: new Date(),
           lastModified: new Date(),
@@ -307,13 +395,23 @@ export const generateQuestionsForJob = async (jobId) => {
         }
       });
       
-      currentCounts[template.difficulty]++;
-      console.log(`Generated ${currentCounts[template.difficulty]}/${targetCount} ${template.difficulty} questions`);
+      currentCounts[difficulty]++;
+      console.log(`Generated ${currentCounts[difficulty]}/${targetCount} ${difficulty} questions`);
     }
   }
 
-    console.log(`Generated ${questions.length} questions in ${attempts} attempts`);
+    console.log('\n' + '='.repeat(60));
+    console.log(`✅ Generation Complete: ${questions.length}/30 total questions`);
     console.log('Difficulty distribution:', currentCounts);
+    console.log('Target: Easy: 10, Medium: 10, Hard: 10');
+    
+    // Warn if we didn't generate the full 30 questions
+    if (questions.length < 30) {
+      console.warn(`⚠️ WARNING: Only generated ${questions.length}/30 questions!`);
+      console.warn(`   Missing: Easy: ${10 - currentCounts.Easy}, Medium: ${10 - currentCounts.Medium}, Hard: ${10 - currentCounts.Hard}`);
+      console.warn(`   This may be due to strict content filtering or insufficient templates`);
+    }
+    console.log('='.repeat(60) + '\n');
 
     // 7. Calculate skill relevance score for each question and filter
     console.log('Job skills extracted:', jobSkills);
@@ -482,15 +580,19 @@ export const generateQuestionsForJob = async (jobId) => {
     // 8. Save questions with relevance data
     if (questionsWithRelevance.length > 0) {
       await Question.insertMany(questionsWithRelevance);
+      console.log(`\n💾 Saved ${questionsWithRelevance.length} questions to database`);
+      console.log(`📋 Workflow: Recruiter reviews → Approves questions → 10 randomly selected for interview\n`);
     }
 
     return {
       success: true,
-      message: `${relevantQuestions.length} relevant questions generated (filtered from ${questions.length} total)`,
+      message: `Generated ${questions.length} questions for recruiter review (Target: 30 total - 10 Easy, 10 Medium, 10 Hard). Recruiter will approve questions, then 10 will be randomly selected for each interview.`,
       questions: relevantQuestions,
       totalGenerated: questions.length,
       relevantCount: relevantQuestions.length,
-      filteredOut: questions.length - relevantQuestions.length
+      filteredOut: questions.length - relevantQuestions.length,
+      targetQuotas: { Easy: 10, Medium: 10, Hard: 10 },
+      actualCounts: currentCounts
     };
 
   } catch (error) {

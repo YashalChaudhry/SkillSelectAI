@@ -2,82 +2,88 @@
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
+import mongoose from "mongoose";
 import path from "path";
 import { fileURLToPath } from "url";
-import cookieParser from 'cookie-parser';
 import jobRoutes from "./src/routes/jobRoutes.js";
 import candidateRoutes from "./src/routes/candidateRoutes.js";
 import authRoutes from "./src/routes/authRoutes.js";
 import questionRoutes from "./src/routes/questionRoutes.js";
 import interviewRoutes from "./src/routes/interviewRoutes.js";
-import { connectDB } from "./src/db.js";
-import ErrorResponse from "./src/utils/errorResponse.js";
+import { skillselectRouter, interviewModuleRouter, interviewAnalysisRouter, interviewVideoRouter } from "./src/routes/interviewSessionRoutes.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
 
-// Enable CORS with credentials
-app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
-  credentials: true
+// Middleware
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Serve interview videos as static files with proper headers for streaming
+app.use('/uploads/interview-videos', express.static(path.join(__dirname, 'uploads/interview-videos'), {
+  setHeaders: (res, filePath) => {
+    res.set('Accept-Ranges', 'bytes');
+    res.set('Cache-Control', 'public, max-age=3600');
+    if (filePath.endsWith('.webm')) {
+      res.set('Content-Type', 'video/webm');
+    }
+  }
 }));
 
-// Body parser
-app.use(express.json());
+// MongoDB Connection
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/skillselect')
+  .then(() => console.log('✅ MongoDB connected'))
+  .catch(err => console.error('❌ MongoDB error:', err));
 
-// Cookie parser
-app.use(cookieParser());
+// Routes Registration
+console.log('📍 Registering routes...');
+app.use('/api/jobs', jobRoutes);
+app.use('/api/questions', questionRoutes);
+app.use('/api/interviews', interviewRoutes);
+app.use('/api/skillselect', skillselectRouter);
+app.use('/api/interview-module', interviewModuleRouter);
+app.use('/api/interview-analysis', interviewAnalysisRouter);
+app.use('/api/interview-video', interviewVideoRouter);
+app.use('/api/candidates', candidateRoutes);
+app.use('/api/auth', authRoutes);
 
-// Static storage directory for uploads
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+// Health check
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'OK', timestamp: new Date() });
+});
 
-// Routes (API-prefixed and fallback non-prefixed for legacy frontend)
-app.use("/api/auth", authRoutes);
-app.use("/auth", authRoutes);
-
-app.use("/api/jobs", jobRoutes);
-app.use("/jobs", jobRoutes);
-
-app.use("/api/candidates", candidateRoutes);
-app.use("/candidates", candidateRoutes);
-
-// Question routes
-app.use("/api", questionRoutes);
-
-// Interview routes
-app.use("/api/interviews", interviewRoutes);
-
-// Error handling middleware
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  
-  const statusCode = err.statusCode || 500;
-  const message = err.message || 'Internal Server Error';
-  
-  res.status(statusCode).json({
+// 404 Handler
+app.use((req, res) => {
+  console.log(`❌ 404 - ${req.method} ${req.path}`);
+  res.status(404).json({ 
     success: false,
-    error: message,
-    ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
+    message: `Route not found: ${req.method} ${req.path}` 
   });
 });
 
-// Handle 404
-app.use((req, res, next) => {
-  res.status(404).json({
+// Error Handler
+app.use((err, req, res, next) => {
+  console.error('❌ Server error:', err);
+  res.status(500).json({ 
     success: false,
-    error: 'Not Found'
+    message: 'Internal server error',
+    error: err.message 
   });
 });
 
 const PORT = process.env.PORT || 5000;
 
-connectDB().then(() => {
-  app.listen(PORT, () => {
-    console.log(`🚀 Backend server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
-  });
-}).catch(err => {
-  console.error('Failed to connect to database:', err);
-  process.exit(1);
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
+  console.log(`📍 Available routes:`);
+  console.log(`   POST /api/interviews/send-invites`);
+  console.log(`   GET  /api/interviews/start`);
+  console.log(`   POST /api/skillselect/interview-context`);
+  console.log(`   POST /api/interview-module/analyze`);
+  console.log(`   POST /api/skillselect/candidate-score`);
+  console.log(`   GET  /api/interview-analysis/:candidateID/:jobID`);
+  console.log(`   GET  /api/interview-video/:candidateID/:jobID`);
 });

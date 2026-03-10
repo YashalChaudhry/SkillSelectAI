@@ -1,28 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./JobManagement.css";
 
 const JobManagement = () => {
   const [jobs, setJobs] = useState([]);
-
-  React.useEffect(() => {
-    fetch("http://localhost:5000/api/jobs")
-      .then(r => r.json())
-      .then(setJobs)
-      .catch(() => {});
-  }, []);
   const [jobName, setJobName] = useState("");
   const [jobDescription, setJobDescription] = useState("");
-// State for CV uploads only
-const [cvFiles, setCvFiles] = useState([]);
+  const [cvFiles, setCvFiles] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const fileInputRef = useRef(null);
 
-const refreshJobs = ()=>{
-  fetch("http://localhost:5000/api/jobs").then(r=>r.json()).then(setJobs).catch(()=>{});
-};
+  useEffect(() => {
+    refreshJobs();
+  }, []);
 
-  // Function to handle adding a job
+  const refreshJobs = () => {
+    fetch("http://localhost:5000/api/jobs")
+      .then((r) => r.json())
+      .then(setJobs)
+      .catch(() => {});
+  };
+
   const handleAddJob = async () => {
     if (!jobName.trim() || !jobDescription.trim()) {
-      alert("Please enter both job name and description text.");
+      alert("Please enter both job name and description.");
       return;
     }
     if (cvFiles.length === 0) {
@@ -30,6 +32,7 @@ const refreshJobs = ()=>{
       return;
     }
 
+    setIsLoading(true);
     const formData = new FormData();
     formData.append("title", jobName);
     formData.append("description", jobDescription);
@@ -41,109 +44,239 @@ const refreshJobs = ()=>{
         body: formData,
       });
       const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.message || "Upload failed");
-      }
-      alert("Job posted successfully!");
+      if (!res.ok) throw new Error(data.message || "Upload failed");
+      
+      setShowSuccess(true);
+      setTimeout(() => setShowSuccess(false), 3000);
       refreshJobs();
-      // reset
       setJobName("");
       setJobDescription("");
       setCvFiles([]);
     } catch (err) {
       alert(err.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const handleDelete = async(id)=>{
-    if(!window.confirm("Delete this job?")) return;
-    try{
-      await fetch(`http://localhost:5000/api/jobs/${id}`, { method:"DELETE"});
+  const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this job?")) return;
+    try {
+      await fetch(`http://localhost:5000/api/jobs/${id}`, { method: "DELETE" });
       refreshJobs();
-    }catch(e){alert("Failed to delete");}
+    } catch (e) {
+      alert("Failed to delete job");
+    }
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e) => {
+    e.preventDefault();
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    setIsDragging(false);
+    const files = Array.from(e.dataTransfer.files).filter(
+      (file) => file.type === "application/pdf"
+    );
+    if (files.length > 0) {
+      setCvFiles((prev) => [...prev, ...files]);
+    }
+  };
+
+  const removeFile = (index) => {
+    setCvFiles((prev) => prev.filter((_, i) => i !== index));
   };
 
   return (
-    <div className="job-management-container">
-      <div className="page-header">
-        <h1>JOB MANAGEMENT</h1>
-      </div>
-
-      <div className="job-management-content">
-        {/* ============ ADD JOB FORM ============ */}
-        <div className="job-form">
-          <h2 className="section-heading">Add a Job</h2>
-
-          <div className="form-group">
-            <label htmlFor="job-name">Job Name</label>
-            <input
-              type="text"
-              id="job-name"
-              placeholder="Enter the job name"
-              className="job-input"
-              value={jobName}
-              onChange={(e) => setJobName(e.target.value)}
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="job-description">Job Description</label>
-            <textarea
-              id="job-description"
-              placeholder="Write or paste the job description here..."
-              className="job-textarea"
-              value={jobDescription}
-              onChange={(e) => setJobDescription(e.target.value)}
-            ></textarea>
-          </div>
-
-          {/* Hidden input for CV selection */}
-          <input
-            type="file"
-            id="cv-files"
-            style={{ display: "none" }}
-            multiple
-            accept=".pdf"
-            onChange={(e) => setCvFiles(Array.from(e.target.files))}
-          />
-
-          <div className="form-group">
-            <div className="upload-box" onClick={() => document.getElementById('cv-files').click()}>
-              <p>Drag & Drop CVs here or click to upload</p>
-            </div>
-            {cvFiles.length > 0 && <small style={{ color: '#0f0' }}>{cvFiles.length} CV(s) selected</small>}
-          </div>
-
-          {/* ✅ Submit Button */}
-          <button className="submit-btn" onClick={handleAddJob}>
-            + Add Job
-          </button>
+    <div className="jm-container">
+      {/* Success Toast */}
+      {showSuccess && (
+        <div className="jm-toast">
+          <span className="jm-toast-icon">✓</span>
+          Job posted successfully!
         </div>
+      )}
 
-        {/* ============ EXISTING JOBS LIST ============ */}
-        <div className="jobs-list-section">
-          <h2 className="section-heading">Existing Jobs</h2>
+      {/* Header */}
+      <header className="jm-header">
+        <div className="jm-header-content">
+          <h1 className="jm-title">
+            Job <span className="jm-gradient-text">Management</span>
+          </h1>
+          <p className="jm-subtitle">
+            Create jobs, upload CVs, and let AI find the best candidates
+          </p>
+        </div>
+      </header>
 
-          {jobs.length === 0 ? (
-            <p className="no-jobs">📂 No jobs have been added yet.</p>
-          ) : (
-            <>
-              <div className="job-list-header">
-                <span className="job-list-title">Job Name</span>
-                <span className="job-list-actions">Actions</span>
+      {/* Main Content */}
+      <div className="jm-content">
+        {/* Create Job Card */}
+        <div className="jm-card jm-form-card">
+          <div className="jm-card-header">
+            <h2>Create New Job</h2>
+          </div>
+
+          <div className="jm-form">
+            <div className="jm-form-group">
+              <label className="jm-label">
+                Job Title
+              </label>
+              <input
+                type="text"
+                className="jm-input"
+                placeholder="e.g., Senior React Developer"
+                value={jobName}
+                onChange={(e) => setJobName(e.target.value)}
+              />
+            </div>
+
+            <div className="jm-form-group">
+              <label className="jm-label">
+                Job Description
+              </label>
+              <textarea
+                className="jm-textarea"
+                placeholder="Paste the complete job description here including requirements, responsibilities, and qualifications..."
+                value={jobDescription}
+                onChange={(e) => setJobDescription(e.target.value)}
+              />
+            </div>
+
+            <div className="jm-form-group">
+              <label className="jm-label">
+                Upload CVs
+              </label>
+              <div
+                className={`jm-upload-zone ${isDragging ? "jm-dragging" : ""} ${
+                  cvFiles.length > 0 ? "jm-has-files" : ""
+                }`}
+                onDragOver={handleDragOver}
+                onDragLeave={handleDragLeave}
+                onDrop={handleDrop}
+                onClick={() => fileInputRef.current?.click()}
+              >
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  multiple
+                  accept=".pdf"
+                  onChange={(e) =>
+                    setCvFiles((prev) => [...prev, ...Array.from(e.target.files)])
+                  }
+                  style={{ display: "none" }}
+                />
+                <div className="jm-upload-content">
+                  <p className="jm-upload-text">
+                    {isDragging
+                      ? "Drop your CVs here!"
+                      : "Drag & drop PDF files or click to browse"}
+                  </p>
+                  <span className="jm-upload-hint">
+                    Supports multiple PDF files
+                  </span>
+                </div>
               </div>
 
-              <div className="job-list">
-                {jobs.map((job) => (
-                  <div key={job.id} className="job-card">
-                    <div className="job-name">{job.name}</div>
-                    <button className="action-btn delete-btn" onClick={() => handleDelete(job._id)}>
+              {/* File List */}
+              {cvFiles.length > 0 && (
+                <div className="jm-file-list">
+                  <div className="jm-file-count">
+                    <span className="jm-file-badge">{cvFiles.length}</span>
+                    CV{cvFiles.length > 1 ? "s" : ""} selected
+                  </div>
+                  <div className="jm-files">
+                    {cvFiles.map((file, index) => (
+                      <div key={index} className="jm-file-item">
+                        <span className="jm-file-name">{file.name}</span>
+                        <button
+                          className="jm-file-remove"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            removeFile(index);
+                          }}
+                        >
+                          ×
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <button
+              className={`jm-submit-btn ${isLoading ? "jm-loading" : ""}`}
+              onClick={handleAddJob}
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <>
+                  <span className="jm-spinner"></span>
+                  Processing CVs...
+                </>
+              ) : (
+                "Post Job & Analyze CVs"
+              )}
+            </button>
+          </div>
+        </div>
+
+        {/* Jobs List Card */}
+        <div className="jm-card jm-jobs-card">
+          <div className="jm-card-header">
+            <h2>Active Jobs</h2>
+            <span className="jm-job-count">{jobs.length}</span>
+          </div>
+
+          {jobs.length === 0 ? (
+            <div className="jm-empty-state">
+              <h3>No Jobs Yet</h3>
+              <p>Create your first job to start receiving candidates</p>
+            </div>
+          ) : (
+            <div className="jm-jobs-list">
+              {jobs.map((job, index) => (
+                <div
+                  key={job._id || job.id}
+                  className="jm-job-item"
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                >
+                  <div className="jm-job-info">
+                    <div className="jm-job-avatar">
+                      {job.title?.[0]?.toUpperCase() || job.name?.[0]?.toUpperCase() || "J"}
+                    </div>
+                    <div className="jm-job-details">
+                      <h3 className="jm-job-title">{job.title || job.name}</h3>
+                      <div className="jm-job-meta">
+                        <span className="jm-job-candidates">
+                          {job.candidates?.length || 0} candidates
+                        </span>
+                        <span className="jm-job-status">
+                          <span className="jm-status-dot"></span>
+                          Active
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="jm-job-actions">
+                    <button
+                      className="jm-action-btn jm-delete-btn"
+                      onClick={() => handleDelete(job._id || job.id)}
+                    >
                       Delete
                     </button>
                   </div>
-                ))}
-              </div>
-            </>
+                </div>
+              ))}
+            </div>
           )}
         </div>
       </div>

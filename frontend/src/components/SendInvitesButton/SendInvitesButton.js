@@ -1,32 +1,68 @@
 import React, { useState } from 'react';
+import './SendInvitesButton.css';
 
-const SendInvitesButton = ({ jobId, hasInvitesSent, jobName }) => {
+const SendInvitesButton = ({ jobId, hasInvitesSent, jobName, onInvitesSent, approvedCount = 0 }) => {
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(hasInvitesSent);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const isDisabled = approvedCount < 10 || sent || loading;
 
   const handleSendInvites = async () => {
     setShowConfirm(false);
     setLoading(true);
+    setErrorMessage('');
+    
     try {
-      const res = await fetch('/api/interviews/send-invites', {
+      console.log('📧 Sending invites for job:', jobId);
+      
+      const url = 'http://localhost:5000/api/interviews/send-invites';
+      console.log('🔗 Calling endpoint:', url);
+      
+      const res = await fetch(url, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
         body: JSON.stringify({ jobId })
       });
 
+      console.log('📊 Response status:', res.status);
+
+      const data = await res.json();
+      console.log('📦 Response data:', data);
+
       if (res.status === 409) {
-         alert("Invites were already sent for this job!");
-         setSent(true);
-         return;
+        setErrorMessage("Invites were already sent for this job!");
+        setSent(true);
+        if (onInvitesSent) {
+          onInvitesSent(jobId);
+        }
+        return;
       }
 
-      if (res.ok) {
+      if (res.ok && data.success) {
         setSent(true);
-        alert("Invites sent successfully!");
+        setSuccessMessage(`Invites sent successfully to ${data.data?.length || 0} candidates!`);
+        
+        // Call the callback to update parent component
+        if (onInvitesSent) {
+          onInvitesSent(jobId);
+        }
+        
+        // Hide success message after 4 seconds
+        setTimeout(() => {
+          setSuccessMessage('');
+        }, 4000);
+      } else {
+        setErrorMessage(data.message || "Failed to send invites");
       }
     } catch (err) {
-      alert("Error sending invites");
+      console.error("❌ Error sending invites:", err);
+      setErrorMessage(err.message || "Error sending invites. Check console for details.");
     } finally {
       setLoading(false);
     }
@@ -34,8 +70,8 @@ const SendInvitesButton = ({ jobId, hasInvitesSent, jobName }) => {
 
   if (sent) {
     return (
-      <button disabled className="bg-gray-600 text-white px-6 py-2 rounded cursor-not-allowed opacity-75">
-        Invites Sent ✓
+      <button disabled className="invite-btn invite-btn-sent">
+        Invites Sent
       </button>
     );
   }
@@ -43,40 +79,47 @@ const SendInvitesButton = ({ jobId, hasInvitesSent, jobName }) => {
   return (
     <>
       {!showConfirm && !sent && (
-        <button 
-          onClick={() => setShowConfirm(true)} 
-          disabled={loading}
-          className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded shadow-lg transition-all duration-200 disabled:bg-gray-600 disabled:opacity-75 disabled:cursor-not-allowed"
-        >
-          {loading ? 'Scheduling...' : 'Send Invites'}
-        </button>
-      )}
-
-      {sent && (
-        <button disabled className="bg-gray-600 text-white px-6 py-2 rounded cursor-not-allowed opacity-75">
-          Invites Sent ✓
-        </button>
+        <div className="invite-button-wrapper">
+          <button 
+            onClick={() => setShowConfirm(true)} 
+            disabled={isDisabled}
+            className={`invite-btn ${isDisabled ? 'invite-btn-disabled' : 'invite-btn-active'}`}
+            title={approvedCount < 10 ? `Approve ${10 - approvedCount} more question(s) to enable` : ''}
+          >
+            {loading ? 'Scheduling...' : 'Send Interview Invites'}
+          </button>
+          {successMessage && (
+            <div className="invite-message invite-message-success">
+              {successMessage}
+            </div>
+          )}
+          {errorMessage && (
+            <div className="invite-message invite-message-error">
+              {errorMessage}
+            </div>
+          )}
+        </div>
       )}
 
       {showConfirm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-gray-800 border border-gray-700 rounded-lg p-6 max-w-sm mx-4">
-            <h3 className="text-lg font-semibold text-white mb-2">Send Interview Invites</h3>
-            <p className="text-gray-300 mb-4">
+        <div className="invite-modal-overlay">
+          <div className="invite-modal-content">
+            <h3 className="invite-modal-title">Send Interview Invites</h3>
+            <p className="invite-modal-text">
               Send interview invitations to all candidates for "{jobName || 'this job'}"?
             </p>
-            <div className="flex gap-3 justify-end">
+            <div className="invite-modal-actions">
               <button
                 onClick={() => setShowConfirm(false)}
                 disabled={loading}
-                className="px-4 py-2 text-gray-300 border border-gray-600 rounded hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="invite-modal-btn invite-modal-btn-cancel"
               >
                 Cancel
               </button>
               <button
                 onClick={handleSendInvites}
                 disabled={loading}
-                className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 transition-colors disabled:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="invite-modal-btn invite-modal-btn-confirm"
               >
                 {loading ? 'Sending...' : 'Send Invites'}
               </button>

@@ -21,9 +21,10 @@ const contentPoolSchema = new mongoose.Schema({
     category: {
       type: String,
       enum: [
+        // Legacy categories
         'Frontend', 'Backend', 'DevOps', 'Full Stack', 'General', 'JavaScript', 'React', 'Node.js', 'Architecture', 'Design Pattern', 'State Management', 'Database', 'Networking', 'Performance', 'Application', 'OOP', 'System Design', 'Algorithms', 'Security', 'Communication', 'Leadership', 'Problem Solving', 'Time Management', 'Teamwork', 'Adaptability', 'Programming',
-        // New role-specific categories
-        'Mobile', 'Web', 'Cloud', 'Security', 'AI', 'Architecture', 'DevOps'
+        // Software Engineering Subfield Categories
+        'Mobile', 'Web', 'Cloud', 'AI', 'QA', 'Blockchain', 'AR/VR', 'Management', 'SRE', 'Data', 'API'
       ],
       default: 'General',
     },

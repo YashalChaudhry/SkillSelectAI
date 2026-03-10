@@ -74,6 +74,10 @@ const questionSchema = new mongoose.Schema({
     type: Number,
     default: 1,
   },
+  isGenerated: {
+    type: Boolean,
+    default: false,
+  },
 }, {
   timestamps: true,
 });

@@ -1,0 +1,39 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Start Frontend",
+			"type": "shell",
+			"command": "cd /Users/yashal/Desktop/SkillSelectAI/frontend && npm start",
+			"isBackground": true,
+			"problemMatcher": []
+		},
+		{
+			"label": "Start Backend",
+			"type": "shell",
+			"command": "cd /Users/yashal/Desktop/SkillSelectAI/backend && npm run dev",
+			"isBackground": true,
+			"problemMatcher": []
+		},
+		{
+			"label": "Start InterviewModule (Flask)",
+			"type": "shell",
+			"command": "cd /Users/yashal/Desktop/SkillSelectAI/InterviewModule && source venv311/bin/activate && python run.py",
+			"isBackground": true,
+			"problemMatcher": []
+		},
+		{
+			"label": "Start Celery Worker",
+			"type": "shell",
+			"command": "cd /Users/yashal/Desktop/SkillSelectAI/InterviewModule && source venv311/bin/activate && celery -A celery_app.celery worker --loglevel=info --pool=solo",
+			"isBackground": true,
+			"problemMatcher": []
+		},
+		{
+			"label": "Start All Services",
+			"dependsOn": ["Start Backend", "Start Frontend", "Start InterviewModule (Flask)", "Start Celery Worker"],
+			"dependsOrder": "parallel",
+			"problemMatcher": []
+		}
+	]
+}

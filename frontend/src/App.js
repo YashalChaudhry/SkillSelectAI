@@ -1,12 +1,14 @@
 // src/App.jsx
 import React, { useState } from "react";
+import { Routes, Route } from "react-router-dom";
 import Sidebar from "./components/Sidebar/Sidebar";
 import Candidates from "./pages/Candidates/Candidates";
 import JobManagement from "./pages/JobManagement/JobManagement";
 import Interviews from "./pages/Interviews/Interviews";
 import LandingPage from "./pages/LandingPage/LandingPage";
+import InterviewPage from "./pages/InterviewPage";
 
-function App() {
+function Dashboard() {
   const [showDashboard, setShowDashboard] = useState(false);
   const [activePage, setActivePage] = useState("candidates");
 
@@ -21,27 +23,24 @@ function App() {
     );
   }
 
-  // 2. DASHBOARD MODE (Your existing locked layout)
+  // 2. DASHBOARD MODE (Your existing layout)
   return (
     <div style={{ 
       display: "flex", 
       backgroundColor: "#000", 
-      height: '100%',
-      width: '100%',
-      position: 'fixed', // This locks the dashboard
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      overflow: 'hidden' // This prevents dashboard scroll
+      minHeight: '100vh',
+      width: '100%'
     }}>
-      <Sidebar activePage={activePage} setActivePage={setActivePage} />
+      <Sidebar 
+        activePage={activePage} 
+        setActivePage={setActivePage} 
+        onLogout={() => setShowDashboard(false)} 
+      />
       <div style={{ 
         flex: 1, 
         padding: 0,
         display: 'flex',
         flexDirection: 'column',
-        overflow: 'hidden',
         backgroundColor: '#f5f5f5'
       }}>
         {activePage === "candidates" && <Candidates />}
@@ -49,6 +48,15 @@ function App() {
         {activePage === "interviews" && <Interviews />}
       </div>
     </div>
+  );
+}
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/interview" element={<InterviewPage />} />
+      <Route path="/*" element={<Dashboard />} />
+    </Routes>
   );
 }
 
