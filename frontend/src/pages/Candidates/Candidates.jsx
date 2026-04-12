@@ -73,9 +73,15 @@ const CandidateListPage = ({ onSelectCandidate }) => {
   }, [candidates, selectedJob, searchTerm]);
 
   const getScoreColor = (score) => {
-    if (score >= 70) return "#22c55e";
-    if (score >= 50) return "#eab308";
-    return "#a855f7";
+    if (score >= 70) return "#22C55E";
+    if (score >= 50) return "#F59E0B";
+    return "#EF4444";
+  };
+
+  const getScoreBg = (score) => {
+    if (score >= 70) return "rgba(34, 197, 94, 0.15)";
+    if (score >= 50) return "rgba(245, 158, 11, 0.15)";
+    return "rgba(239, 68, 68, 0.15)";
   };
 
   return (
@@ -105,8 +111,8 @@ const CandidateListPage = ({ onSelectCandidate }) => {
           <FormControl fullWidth size="small">
             <InputLabel
               sx={{
-                color: "#a0a0b0",
-                "&.Mui-focused": { color: "#a855f7" },
+                color: "#6B7280",
+                "&.Mui-focused": { color: "#7C3AED" },
               }}
             >
               Filter by Job
@@ -118,26 +124,26 @@ const CandidateListPage = ({ onSelectCandidate }) => {
               MenuProps={{
                 PaperProps: {
                   sx: {
-                    bgcolor: "#1a1625",
-                    color: "#e1d8f7",
-                    border: "1px solid rgba(255,255,255,0.1)",
+                    bgcolor: "#FFFFFF",
+                    color: "#111827",
+                    border: "1px solid #E5E7EB",
                   },
                 },
               }}
               sx={{
-                color: "#fff",
+                color: "#111827",
                 height: "48px",
-                bgcolor: "rgba(0, 0, 0, 0.3)",
+                bgcolor: "#FFFFFF",
                 borderRadius: "12px",
                 "& .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "rgba(255,255,255,0.1)",
+                  borderColor: "#E5E7EB",
                   borderRadius: "12px",
                 },
                 "&:hover .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "#a855f7",
+                  borderColor: "#7C3AED",
                 },
                 "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "#a855f7",
+                  borderColor: "#7C3AED",
                 },
               }}
             >
@@ -159,7 +165,6 @@ const CandidateListPage = ({ onSelectCandidate }) => {
       <div className="cand-grid">
         {loading ? (
           <div className="cand-loading">
-            <div className="cand-spinner"></div>
             <p>Loading candidates...</p>
           </div>
         ) : filteredCandidates.length === 0 ? (
@@ -192,7 +197,7 @@ const CandidateListPage = ({ onSelectCandidate }) => {
                 <div
                   className="cand-score"
                   style={{
-                    background: `linear-gradient(135deg, ${getScoreColor(c.matchScore)}22, ${getScoreColor(c.matchScore)}44)`,
+                    background: getScoreBg(c.matchScore),
                     color: getScoreColor(c.matchScore),
                     borderColor: getScoreColor(c.matchScore),
                   }}
@@ -247,9 +252,9 @@ const CandidateDetailPage = ({ candidate, onBack }) => {
   };
 
   const getScoreColor = (score) => {
-    if (score >= 70) return "#22c55e";
-    if (score >= 50) return "#eab308";
-    return "#a855f7";
+    if (score >= 70) return "#22C55E";
+    if (score >= 50) return "#F59E0B";
+    return "#EF4444";
   };
 
   return (
@@ -328,7 +333,6 @@ const CandidateDetailPage = ({ candidate, onBack }) => {
           <div className="cand-detail-card cand-full-width">
             <h2 className="cand-detail-title">Interview Analysis</h2>
             <div className="cand-loading">
-              <div className="cand-spinner"></div>
               <p>Loading interview data...</p>
             </div>
           </div>
@@ -339,6 +343,10 @@ const CandidateDetailPage = ({ candidate, onBack }) => {
           </div>
         ) : interviewAnalysis ? (
           <>
+            {(() => {
+              const recordingType = interviewAnalysis.recording?.type || (interviewAnalysis.video?.available ? 'video' : 'voice');
+              return (
+                <>
             {/* Overall Score Card */}
             <div className="cand-detail-card cand-full-width cand-interview-header">
               <h2 className="cand-detail-title">Interview Results</h2>
@@ -348,36 +356,44 @@ const CandidateDetailPage = ({ candidate, onBack }) => {
               </div>
             </div>
 
-            {/* Video Player */}
-            {interviewAnalysis.video?.available && (
+            {/* Interview Recording */}
+            {interviewAnalysis.recording?.available && (
               <div className="cand-detail-card cand-full-width">
                 <h2 className="cand-detail-title">
-                  Interview Recording
-                  {interviewAnalysis.video.duration > 0 && (
+                  {recordingType === 'voice' ? 'Interview Audio' : 'Interview Recording'}
+                  {(interviewAnalysis.recording.duration || 0) > 0 && (
                     <span className="cand-video-duration">
-                      ({Math.floor(interviewAnalysis.video.duration / 60)}:{String(Math.floor(interviewAnalysis.video.duration % 60)).padStart(2, '0')})
+                      ({Math.floor(interviewAnalysis.recording.duration / 60)}:{String(Math.floor(interviewAnalysis.recording.duration % 60)).padStart(2, '0')})
                     </span>
                   )}
                 </h2>
                 <div className="cand-video-container">
-                  <video controls preload="auto" playsInline className="cand-video">
-                    <source src={`http://localhost:5000${interviewAnalysis.video.url}`} type="video/webm" />
-                    Your browser does not support the video tag.
-                  </video>
+                  {recordingType === 'voice' ? (
+                    <audio controls preload="auto" style={{ width: '100%' }}>
+                      <source src={`http://localhost:5000${interviewAnalysis.recording.url}`} type={interviewAnalysis.recording.mimeType || 'audio/webm'} />
+                      Your browser does not support the audio tag.
+                    </audio>
+                  ) : (
+                    <video controls preload="auto" playsInline className="cand-video">
+                      <source src={`http://localhost:5000${interviewAnalysis.recording.url}`} type={interviewAnalysis.recording.mimeType || 'video/webm'} />
+                      Your browser does not support the video tag.
+                    </video>
+                  )}
                 </div>
                 <div className="cand-video-actions">
                   <a 
-                    href={`http://localhost:5000${interviewAnalysis.video.url}`}
-                    download={`interview-${candidate?.name?.replace(/\s+/g, '_')}.webm`}
+                    href={`http://localhost:5000${interviewAnalysis.recording.url}`}
+                    download={`interview-${candidate?.name?.replace(/\s+/g, '_')}.${recordingType === 'voice' ? 'webm' : 'webm'}`}
                     className="cand-download-btn"
                   >
-                    Download Video
+                    {recordingType === 'voice' ? 'Download Audio' : 'Download Video'}
                   </a>
                 </div>
               </div>
             )}
 
             {/* Metrics Cards */}
+            {recordingType === 'video' && (
             <div className="cand-detail-card cand-metric-card">
               <h3 className="cand-metric-title" style={{ color: '#4299e1' }}>Visual Presence</h3>
               <div className="cand-metric-score">{interviewAnalysis.visual.score}/100</div>
@@ -396,6 +412,7 @@ const CandidateDetailPage = ({ candidate, onBack }) => {
                 </div>
               )}
             </div>
+            )}
 
             <div className="cand-detail-card cand-metric-card">
               <h3 className="cand-metric-title" style={{ color: '#48bb78' }}>Communication</h3>
@@ -450,6 +467,9 @@ const CandidateDetailPage = ({ candidate, onBack }) => {
                 </div>
               )}
             </div>
+                </>
+              );
+            })()}
           </>
         ) : null}
       </div>

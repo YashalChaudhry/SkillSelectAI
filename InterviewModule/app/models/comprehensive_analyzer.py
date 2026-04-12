@@ -23,6 +23,7 @@ class ComprehensiveInterviewAnalyzer:
         self,
         video_path: str,
         question: str,
+        interview_type: str = "video",
         question_type: str = "technical",
         expected_points: Optional[List[str]] = None,
         candidate_background: Optional[str] = None
@@ -33,6 +34,7 @@ class ComprehensiveInterviewAnalyzer:
         Args:
             video_path: Path to recorded interview video
             question: The interview question asked
+            interview_type: Interview mode (video/voice)
             question_type: Type of question (technical/behavioral/situational)
             expected_points: Expected points to cover in the answer
             candidate_background: Candidate's background/resume summary
@@ -58,13 +60,13 @@ class ComprehensiveInterviewAnalyzer:
         
         try:
             # STAGE 1: Audio Extraction
-            print("\n[STAGE 1] Extracting audio from video...")
-            print(f"   Video path: {video_path}")
-            print(f"   Video exists: {os.path.exists(video_path)}")
+            print("\n[STAGE 1] Processing recording audio...")
+            print(f"   Recording path: {video_path}")
+            print(f"   Recording exists: {os.path.exists(video_path)}")
             if os.path.exists(video_path):
-                print(f"   Video size: {os.path.getsize(video_path)} bytes")
+                print(f"   Recording size: {os.path.getsize(video_path)} bytes")
             
-            audio_result = self._process_audio(video_path)
+            audio_result = self._process_audio(video_path, interview_type)
             if not audio_result:
                 print("   ⚠️ Audio extraction failed - continuing with visual analysis only")
                 result["stages"]["audio_extraction"] = {"status": "failed", "error": "Could not extract audio"}
@@ -116,15 +118,27 @@ class ComprehensiveInterviewAnalyzer:
             
             # STAGE 4: Visual Analysis
             print("\n[STAGE 4] Analyzing visual engagement...")
-            try:
-                visual_analysis = self.visual_analyzer.analyze_video(video_path)
-                result["stages"]["visual_analysis"] = {"status": "complete", "analysis": visual_analysis}
-                print(f"   ✅ Visual analysis complete - Score: {visual_analysis.get('final_score', 0)}/100")
-            except Exception as visual_error:
-                print(f"   ⚠️ Visual analysis failed: {visual_error}")
-                visual_analysis = {"status": "error", "final_score": 0, "eye_contact_percentage": 0, 
-                                   "emotion_score": 0, "dominant_emotion": "N/A"}
-                result["stages"]["visual_analysis"] = {"status": "failed", "error": str(visual_error)}
+            if interview_type == "voice":
+                visual_analysis = {
+                    "status": "skipped",
+                    "final_score": 0,
+                    "eye_contact_percentage": 0,
+                    "emotion_score": 0,
+                    "dominant_emotion": "N/A",
+                    "feedback": "Visual metrics are disabled for voice interviews"
+                }
+                result["stages"]["visual_analysis"] = {"status": "skipped", "reason": "Voice interview"}
+                print("   ⏭️ Skipping visual analysis for voice interview")
+            else:
+                try:
+                    visual_analysis = self.visual_analyzer.analyze_video(video_path)
+                    result["stages"]["visual_analysis"] = {"status": "complete", "analysis": visual_analysis}
+                    print(f"   ✅ Visual analysis complete - Score: {visual_analysis.get('final_score', 0)}/100")
+                except Exception as visual_error:
+                    print(f"   ⚠️ Visual analysis failed: {visual_error}")
+                    visual_analysis = {"status": "error", "final_score": 0, "eye_contact_percentage": 0, 
+                                       "emotion_score": 0, "dominant_emotion": "N/A"}
+                    result["stages"]["visual_analysis"] = {"status": "failed", "error": str(visual_error)}
             
             # STAGE 5: Score Calculation
             print("\n[STAGE 5] Calculating scores...")
@@ -196,6 +210,7 @@ class ComprehensiveInterviewAnalyzer:
             result.update({
                 "status": "success",
                 "question": question,
+                "interview_type": interview_type,
                 "question_type": question_type,
                 "transcript": transcript,
                 "analysis": analysis,
@@ -290,13 +305,18 @@ class ComprehensiveInterviewAnalyzer:
             "total_answers_analyzed": len(results)
         }
     
-    def _process_audio(self, video_path: str) -> Optional[Dict]:
+    def _process_audio(self, media_path: str, interview_type: str = "video") -> Optional[Dict]:
         """Process video and extract audio"""
         try:
-            # Extract audio
-            audio_path = self.stt_processor.extract_audio_from_video(video_path)
-            if not audio_path:
-                return None
+            if interview_type == "voice":
+                if not os.path.exists(media_path):
+                    return None
+                audio_path = media_path
+            else:
+                # Extract audio from video input.
+                audio_path = self.stt_processor.extract_audio_from_video(media_path)
+                if not audio_path:
+                    return None
             
             # Transcribe
             transcript = self.stt_processor.transcribe_audio(audio_path)

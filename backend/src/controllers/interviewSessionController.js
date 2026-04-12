@@ -2,6 +2,7 @@ import InterviewSession from '../models/InterviewSession.js';
 import Question from '../models/Question.js';
 import Interview from '../models/Interview.js';
 import Candidate from '../models/Candidate.js';
+import Job from '../models/Job.js';
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 import FormData from 'form-data';
@@ -19,7 +20,7 @@ const INTERVIEW_MODULE_URL = process.env.INTERVIEW_MODULE_URL || 'http://localho
  */
 export const getInterviewContext = async (req, res) => {
   try {
-    const { candidateID, jobID } = req.body;
+    const { candidateID, jobID, interviewType: requestedInterviewType } = req.body;
 
     if (!candidateID || !jobID) {
       return res.status(400).json({
@@ -45,9 +46,15 @@ export const getInterviewContext = async (req, res) => {
           order: q.order
         })),
         keywords: session.keywords,
-        sessionToken: session.sessionToken
+        sessionToken: session.sessionToken,
+        interviewType: session.interviewType || 'video'
       });
     }
+
+    const job = await Job.findById(jobID).select('interviewType');
+    const interviewType = requestedInterviewType === 'voice' || requestedInterviewType === 'video'
+      ? requestedInterviewType
+      : (job?.interviewType || 'video');
 
     // Fetch approved questions for this job
     const questions = await Question.find({
@@ -111,6 +118,7 @@ export const getInterviewContext = async (req, res) => {
       sessionToken,
       questions: sessionQuestions, // This should be an array of objects
       keywords: Array.isArray(keywords) ? keywords : [],
+      interviewType,
       status: 'Created',
       startedAt: new Date()
     };
@@ -134,7 +142,8 @@ export const getInterviewContext = async (req, res) => {
         order: q.order
       })),
       keywords,
-      sessionToken
+      sessionToken,
+      interviewType
     });
 
   } catch (error) {
@@ -161,11 +170,13 @@ export const analyzeInterview = async (req, res) => {
     const keywordsRaw = req.body.keywords;
     const jobID = req.body.jobID;
     const duration = parseFloat(req.body.duration) || 0;
+    const requestedInterviewType = req.body.interviewType;
+    const uploadedFile = req.file || (Array.isArray(req.files) ? req.files[0] : null);
 
-    if (!req.file) {
+    if (!uploadedFile) {
       return res.status(400).json({
         success: false,
-        message: 'Video file is required'
+        message: 'Interview recording file is required'
       });
     }
 
@@ -183,9 +194,19 @@ export const analyzeInterview = async (req, res) => {
       return res.status(404).json({ success: false, message: 'Interview session not found' });
     }
 
-    // Update session with video info
-    session.videoPath = req.file.path;
-    session.videoDuration = duration;
+    const interviewType = requestedInterviewType === 'voice' || requestedInterviewType === 'video'
+      ? requestedInterviewType
+      : (session.interviewType || 'video');
+
+    // Update session with recording info
+    session.interviewType = interviewType;
+    session.recordingPath = uploadedFile.path;
+    session.recordingMimeType = uploadedFile.mimetype;
+    session.recordingDuration = duration;
+    if (interviewType === 'video') {
+      session.videoPath = uploadedFile.path;
+      session.videoDuration = duration;
+    }
     session.status = 'Completed';
     session.completedAt = new Date();
     await session.save();
@@ -195,7 +216,7 @@ export const analyzeInterview = async (req, res) => {
       await Interview.findByIdAndUpdate(session.interviewId, { status: 'Completed' });
     }
 
-    console.log(`📹 Video received for session ${sessionToken} (${(req.file.size / 1024 / 1024).toFixed(1)}MB, ${duration}s)`);
+    console.log(`🎙️ Recording received for session ${sessionToken} (${interviewType}, ${(uploadedFile.size / 1024 / 1024).toFixed(1)}MB, ${duration}s)`);
 
     // Send video to InterviewModule for AI analysis
     let score = 0;
@@ -205,22 +226,22 @@ export const analyzeInterview = async (req, res) => {
       const formData = new FormData();
       
       // Handle both disk storage and memory storage
-      if (req.file.path) {
+      if (uploadedFile.path) {
         // Disk storage - use file stream with filename for extension detection
-        const filename = req.file.originalname || path.basename(req.file.path) || 'video.webm';
-        formData.append('video', fs.createReadStream(req.file.path), {
+        const filename = uploadedFile.originalname || path.basename(uploadedFile.path) || 'interview.webm';
+        formData.append('video', fs.createReadStream(uploadedFile.path), {
           filename: filename,
-          contentType: req.file.mimetype || 'video/webm'
+          contentType: uploadedFile.mimetype || 'video/webm'
         });
-      } else if (req.file.buffer) {
+      } else if (uploadedFile.buffer) {
         // Memory storage - convert buffer to readable stream
-        const readableStream = Readable.from(req.file.buffer);
+        const readableStream = Readable.from(uploadedFile.buffer);
         formData.append('video', readableStream, {
-          filename: req.file.originalname || 'video.webm',
-          contentType: req.file.mimetype || 'video/webm'
+          filename: uploadedFile.originalname || 'interview.webm',
+          contentType: uploadedFile.mimetype || 'video/webm'
         });
       } else {
-        throw new Error('No video data available');
+        throw new Error('No recording data available');
       }
       
       // NEW: Send required parameters for Gemini-based analysis
@@ -247,6 +268,7 @@ export const analyzeInterview = async (req, res) => {
       // Add required Gemini analysis parameters
       formData.append('question', allQuestions);
       formData.append('question_type', predominantType);
+      formData.append('interview_type', interviewType);
       if (expectedPoints.length > 0) {
         formData.append('expected_points', expectedPoints.join(','));
       }
@@ -273,7 +295,7 @@ export const analyzeInterview = async (req, res) => {
         formData.append('question_types', questionContext.types.join(','));
       }
 
-      console.log(`🔄 Sending video to InterviewModule at ${INTERVIEW_MODULE_URL}/api/analyze ...`);
+      console.log(`🔄 Sending ${interviewType} recording to InterviewModule at ${INTERVIEW_MODULE_URL}/api/analyze ...`);
       console.log(`   Questions: ${session.questions.length}, Type: ${predominantType}, Skills: ${expectedPoints.join(', ')}`);
 
       const analyzeRes = await axios.post(
@@ -361,15 +383,29 @@ export const analyzeInterview = async (req, res) => {
             };
           }
           
-          // ALWAYS calculate overall score using: 30% visual + 30% audio + 40% content
+          // Keep the same structure for video; normalize audio+content for voice-only interviews.
           const visualScore = result.visual?.final_score || 0;
           const audioScore = result.audio?.final_score || 0;
           const contentScore = geminiEval.success ? geminiEval.overallScore : 0;
-          
-          result.overall_score = Math.round(
-            visualScore * 0.3 + audioScore * 0.3 + contentScore * 0.4
-          );
+
+          if (interviewType === 'voice') {
+            const voiceWeighted = audioScore * 0.3 + contentScore * 0.4;
+            result.overall_score = Math.round(voiceWeighted / 0.7);
+            result.visual = {
+              status: 'skipped',
+              final_score: 0,
+              eye_contact_percentage: 0,
+              emotion_score: 0,
+              dominant_emotion: 'N/A',
+              feedback: 'Visual metrics are disabled for voice interviews'
+            };
+          } else {
+            result.overall_score = Math.round(
+              visualScore * 0.3 + audioScore * 0.3 + contentScore * 0.4
+            );
+          }
           result.final_score = result.overall_score;
+          result.interview_type = interviewType;
           
           console.log(`📊 Score breakdown: Visual=${visualScore}, Audio=${audioScore}, Content=${contentScore} => Overall=${result.overall_score}`);
 
@@ -400,7 +436,9 @@ export const analyzeInterview = async (req, res) => {
           eye_contact_percentage: 0,
           emotion_score: 0,
           dominant_emotion: 'N/A',
-          feedback: 'Video analysis unavailable - AI service was not running'
+          feedback: interviewType === 'voice'
+            ? 'Visual metrics are disabled for voice interviews'
+            : 'Video analysis unavailable - AI service was not running'
         },
         audio: {
           final_score: 0,
@@ -417,6 +455,7 @@ export const analyzeInterview = async (req, res) => {
         },
         overall_score: 0,
         final_score: 0,
+        interview_type: interviewType,
         error: 'InterviewModule service unavailable',
         note: 'Please ensure the Flask AI server and Celery worker are running for full analysis'
       };
@@ -611,24 +650,12 @@ export const getInterviewAnalysis = async (req, res) => {
       });
     }
 
-    // Find the interview session - include PartialAnalysis status
-    // Sort by createdAt desc to get the most recent session first
-    // Also prefer sessions with video by trying to find one with videoPath first
-    let session = await InterviewSession.findOne({
+    // Find the latest completed/scored session for this candidate+job.
+    const session = await InterviewSession.findOne({
       candidateId: candidateID,
       jobId: jobID,
-      status: { $in: ['Scored', 'Completed', 'Analyzing', 'PartialAnalysis'] },
-      videoPath: { $exists: true, $ne: null }
+      status: { $in: ['Scored', 'Completed', 'Analyzing', 'PartialAnalysis'] }
     }).sort({ completedAt: -1, createdAt: -1 }).populate('candidateId', 'name email');
-
-    // If no session with video, fall back to any session
-    if (!session) {
-      session = await InterviewSession.findOne({
-        candidateId: candidateID,
-        jobId: jobID,
-        status: { $in: ['Scored', 'Completed', 'Analyzing', 'PartialAnalysis'] }
-      }).sort({ createdAt: -1 }).populate('candidateId', 'name email');
-    }
 
     if (!session) {
       return res.status(404).json({
@@ -644,20 +671,27 @@ export const getInterviewAnalysis = async (req, res) => {
     const nlp = analysis.nlp || {};
     const gemini = analysis.geminiEvaluation || {};
 
+    const interviewType = session.interviewType || analysis.interview_type || 'video';
+
     // Check if visual analysis was actually performed
     const hasVisualAnalysis = (analysis.visual && analysis.visual.status === 'success') ||
                               (visual.final_score !== undefined) || 
                               (visual.eye_contact_percentage !== undefined) || 
                               (visual.emotion_score !== undefined);
 
-    // Check if video exists - need to resolve full path since videoPath is stored as relative
+    // Check if recording exists.
+    const recordingRelativePath = session.recordingPath || session.videoPath;
+    const recordingDuration = session.recordingDuration || session.videoDuration || 0;
+    const recordingMimeType = session.recordingMimeType || (interviewType === 'voice' ? 'audio/webm' : 'video/webm');
     const videoFullPath = session.videoPath ? path.resolve(session.videoPath) : null;
     const hasVideo = videoFullPath && fs.existsSync(videoFullPath);
+    const recordingFullPath = recordingRelativePath ? path.resolve(recordingRelativePath) : null;
+    const hasRecording = recordingFullPath && fs.existsSync(recordingFullPath);
 
     const overallScore = session.score || 0;
 
     // Generate detailed feedback for low scores (0-2 out of 10)
-    const generateDetailedFeedback = (score, analysis, hasVisual) => {
+    const generateDetailedFeedback = (score, analysis, hasVisual, includeVisualChecks = true) => {
       if (score > 2) return null; // Only show for very low scores
       
       const feedback = {
@@ -668,7 +702,7 @@ export const getInterviewAnalysis = async (req, res) => {
       };
 
       // Add visual analysis status
-      if (!hasVisual) {
+      if (includeVisualChecks && !hasVisual) {
         feedback.detailedIssues.push("Visual analysis not performed (eye contact, facial expressions not evaluated)");
         feedback.recommendations.push("Note: Visual assessment requires updated analysis pipeline");
       }
@@ -746,12 +780,20 @@ export const getInterviewAnalysis = async (req, res) => {
       interview: {
         candidateName: session.candidateId?.name,
         candidateEmail: session.candidateId?.email,
+        interviewType,
         completedAt: session.analyzedAt || session.completedAt,
         status: session.status,
+        recording: {
+          available: hasRecording,
+          type: interviewType,
+          mimeType: recordingMimeType,
+          url: hasRecording ? `/${recordingRelativePath}` : null,
+          duration: recordingDuration
+        },
         
         // Video Info for recruiter review - use static file URL for better streaming
         video: {
-          available: hasVideo,
+          available: interviewType === 'video' && hasVideo,
           url: hasVideo ? `/${session.videoPath}` : null,
           duration: session.videoDuration || 0
         },
@@ -761,11 +803,13 @@ export const getInterviewAnalysis = async (req, res) => {
         
         // Visual Metrics (30%)
         visual: {
-          score: hasVisualAnalysis ? Math.round(analysis.visual?.final_score || visual.final_score || 0) : null,
-          eyeContact: hasVisualAnalysis ? Math.round(analysis.visual?.eye_contact_percentage || visual.eye_contact_percentage || 0) : null,
-          emotionScore: hasVisualAnalysis ? Math.round(analysis.visual?.emotion_score || visual.emotion_score || 0) : null,
-          dominantEmotion: hasVisualAnalysis ? (analysis.visual?.dominant_emotion || visual.dominant_emotion || 'N/A') : 'Analysis not available',
-          feedback: hasVisualAnalysis ? (analysis.visual?.feedback || visual.feedback || '') : 'Visual analysis not performed - this feature is currently unavailable'
+          score: interviewType === 'video' && hasVisualAnalysis ? Math.round(analysis.visual?.final_score || visual.final_score || 0) : null,
+          eyeContact: interviewType === 'video' && hasVisualAnalysis ? Math.round(analysis.visual?.eye_contact_percentage || visual.eye_contact_percentage || 0) : null,
+          emotionScore: interviewType === 'video' && hasVisualAnalysis ? Math.round(analysis.visual?.emotion_score || visual.emotion_score || 0) : null,
+          dominantEmotion: interviewType === 'video' && hasVisualAnalysis ? (analysis.visual?.dominant_emotion || visual.dominant_emotion || 'N/A') : 'Not applicable',
+          feedback: interviewType === 'video'
+            ? (hasVisualAnalysis ? (analysis.visual?.feedback || visual.feedback || '') : 'Visual analysis not performed - this feature is currently unavailable')
+            : 'Visual analysis is not part of voice interviews'
         },
         
         // Audio Metrics (30%)
@@ -789,7 +833,12 @@ export const getInterviewAnalysis = async (req, res) => {
         },
 
         // Detailed feedback for low scores - helps recruiters understand why candidate failed
-        detailedFeedback: generateDetailedFeedback(overallScore, analysis, hasVisualAnalysis)
+        detailedFeedback: generateDetailedFeedback(
+          overallScore,
+          analysis,
+          interviewType === 'video' && hasVisualAnalysis,
+          interviewType === 'video'
+        )
       }
     });
 

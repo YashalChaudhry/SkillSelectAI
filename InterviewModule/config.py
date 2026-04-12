@@ -10,7 +10,7 @@ class Config:
     # Upload settings
     UPLOAD_FOLDER = BASE_DIR / 'static' / 'uploads'
     MAX_CONTENT_LENGTH = 500 * 1024 * 1024  # 500MB max file size
-    ALLOWED_EXTENSIONS = {'mp4', 'avi', 'mov', 'mkv', 'webm'}
+    ALLOWED_EXTENSIONS = {'mp4', 'avi', 'mov', 'mkv', 'webm', 'wav', 'mp3', 'm4a', 'ogg'}
     
     # Model paths
     FACE_LANDMARKER_MODEL = BASE_DIR / 'face_landmarker.task'

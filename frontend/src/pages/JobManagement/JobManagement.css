@@ -4,7 +4,7 @@
    Container & Layout
    ===================== */
 .jm-container {
-  background: linear-gradient(135deg, #0f0720 0%, #1a1625 50%, #2e1f4d 100%);
+  background: var(--app-bg);
   min-height: 100vh;
   padding: 32px 55px;
   font-family: 'Inter', 'Poppins', sans-serif;
@@ -17,8 +17,8 @@
   position: fixed;
   top: 20px;
   right: 20px;
-  background: linear-gradient(135deg, rgba(34, 197, 94, 0.9), rgba(16, 185, 129, 0.9));
-  color: #fff;
+  background: var(--success);
+  color: #FFFFFF;
   padding: 12px 18px;
   border-radius: 12px;
   font-size: 0.9rem;
@@ -26,7 +26,7 @@
   align-items: center;
   gap: 12px;
   font-weight: 600;
-  box-shadow: 0 10px 40px rgba(34, 197, 94, 0.4);
+  box-shadow: 0 10px 30px rgba(34, 197, 94, 0.25);
   animation: slideIn 0.4s ease-out;
   z-index: 1000;
 }
@@ -64,19 +64,19 @@
 .jm-title {
   font-size: 2.6rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--ink);
   margin-bottom: 10px;
 }
 
 .jm-gradient-text {
-  background: linear-gradient(to right, #c084fc, #6366f1);
+  background: linear-gradient(90deg, #9333ea, #b44acd, #a855f7);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 .jm-subtitle {
-  color: #a0a0b0;
+  color: var(--text-muted);
   font-size: 1.05rem;
 }
 
@@ -91,8 +91,8 @@
 }
 
 .jm-stat-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--surface-card);
+  border: 1px solid var(--surface-border);
   border-radius: 20px;
   padding: 24px;
   display: flex;
@@ -103,13 +103,14 @@
 
 .jm-stat-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 40px rgba(168, 85, 247, 0.15);
+  box-shadow: 0 10px 30px rgba(17, 24, 39, 0.08);
 }
 
 .jm-stat-icon {
   width: 56px;
   height: 56px;
-  background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(99, 102, 241, 0.2));
+  background: var(--accent);
+  color: var(--primary);
   border-radius: 16px;
   display: flex;
   align-items: center;
@@ -125,11 +126,11 @@
 .jm-stat-number {
   font-size: 1.8rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--ink);
 }
 
 .jm-stat-label {
-  color: #a0a0b0;
+  color: var(--ink);
   font-size: 0.9rem;
 }
 
@@ -152,8 +153,8 @@
    Cards
    ===================== */
 .jm-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--surface-card);
+  border: 1px solid var(--surface-border);
   border-radius: 20px;
   padding: 28px;
   backdrop-filter: blur(10px);
@@ -169,7 +170,7 @@
 .jm-card-icon {
   width: 40px;
   height: 40px;
-  background: linear-gradient(90deg, #9333ea, #7c3aed);
+  background: var(--primary);
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -178,7 +179,7 @@
 }
 
 .jm-card-header h2 {
-  color: #ffffff;
+  color: var(--ink);
   font-size: 1.3rem;
   font-weight: 600;
   margin: 0;
@@ -186,8 +187,8 @@
 }
 
 .jm-job-count {
-  background: linear-gradient(90deg, #9333ea, #7c3aed);
-  color: #fff;
+  background: var(--primary);
+  color: var(--white);
   padding: 4px 12px;
   border-radius: 20px;
   font-size: 0.85rem;
@@ -209,11 +210,38 @@
   gap: 8px;
 }
 
+.jm-toggle-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.jm-toggle-btn {
+  padding: 11px 12px;
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  color: var(--ink);
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+.jm-toggle-btn:hover {
+  border-color: var(--primary);
+  transform: translateY(-1px);
+}
+
+.jm-toggle-active {
+  border-color: var(--primary);
+  background: rgba(147, 51, 234, 0.12);
+}
+
 .jm-label {
   display: flex;
   align-items: center;
   gap: 6px;
-  color: #ffffff;
+  color: var(--ink);
   font-weight: 500;
   font-size: 0.95rem;
 }
@@ -224,30 +252,30 @@
 
 .jm-input {
   padding: 13px 16px;
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
   border-radius: 10px;
-  color: #ffffff;
+  color: var(--ink);
   font-size: 1rem;
   transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 .jm-input:focus {
   outline: none;
-  border-color: #a855f7;
-  box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.2);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.15);
 }
 
 .jm-input::placeholder {
-  color: #666;
+  color: var(--text-muted);
 }
 
 .jm-textarea {
   padding: 13px 16px;
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
   border-radius: 10px;
-  color: #ffffff;
+  color: var(--ink);
   font-size: 1rem;
   min-height: 130px;
   resize: vertical;
@@ -257,19 +285,19 @@
 
 .jm-textarea:focus {
   outline: none;
-  border-color: #a855f7;
-  box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.2);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.15);
 }
 
 .jm-textarea::placeholder {
-  color: #666;
+  color: var(--text-muted);
 }
 
 /* =====================
    Upload Zone
    ===================== */
 .jm-upload-zone {
-  border: 2px dashed rgba(168, 85, 247, 0.4);
+  border: 2px dashed var(--surface-border);
   border-radius: 12px;
   padding: 32px 20px;
   cursor: pointer;
@@ -278,20 +306,20 @@
 }
 
 .jm-upload-zone:hover {
-  border-color: #a855f7;
-  background: rgba(168, 85, 247, 0.05);
+  border-color: var(--primary);
+  background: var(--accent);
 }
 
 .jm-upload-zone.jm-dragging {
-  border-color: #a855f7;
-  background: rgba(168, 85, 247, 0.1);
+  border-color: var(--primary);
+  background: var(--accent);
   transform: scale(1.02);
 }
 
 .jm-upload-zone.jm-has-files {
   border-style: solid;
   border-color: rgba(34, 197, 94, 0.5);
-  background: rgba(34, 197, 94, 0.05);
+  background: rgba(34, 197, 94, 0.08);
 }
 
 .jm-upload-content {
@@ -313,14 +341,14 @@
 }
 
 .jm-upload-text {
-  color: #ffffff;
+  color: var(--ink);
   font-weight: 500;
   font-size: 1rem;
   margin: 0;
 }
 
 .jm-upload-hint {
-  color: #a0a0b0;
+  color: var(--text-muted);
   font-size: 0.85rem;
 }
 
@@ -335,15 +363,15 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #ffffff;
+  color: var(--ink);
   font-weight: 500;
   font-size: 0.95rem;
   margin-bottom: 10px;
 }
 
 .jm-file-badge {
-  background: linear-gradient(90deg, #9333ea, #7c3aed);
-  color: #fff;
+  background: var(--accent);
+  color: var(--primary);
   padding: 3px 10px;
   border-radius: 10px;
   font-size: 0.85rem;
@@ -357,8 +385,8 @@
 }
 
 .jm-file-item {
-  background: rgba(168, 85, 247, 0.1);
-  border: 1px solid rgba(168, 85, 247, 0.3);
+  background: var(--app-bg);
+  border: 1px solid var(--surface-border);
   border-radius: 8px;
   padding: 8px 12px;
   display: flex;
@@ -378,7 +406,7 @@
 }
 
 .jm-file-name {
-  color: #ffffff;
+  color: var(--ink);
   max-width: 120px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -388,7 +416,7 @@
 .jm-file-remove {
   background: none;
   border: none;
-  color: #ef4444;
+  color: var(--danger);
   font-size: 1rem;
   cursor: pointer;
   line-height: 1;
@@ -405,10 +433,10 @@
    ===================== */
 .jm-submit-btn {
   padding: 15px 22px;
-  background: linear-gradient(90deg, #9333ea, #7c3aed);
+  background: var(--primary);
   border: none;
   border-radius: 12px;
-  color: #fff;
+  color: var(--white);
   font-size: 1.05rem;
   font-weight: 600;
   cursor: pointer;
@@ -421,7 +449,7 @@
 
 .jm-submit-btn:hover:not(:disabled) {
   transform: translateY(-3px);
-  box-shadow: 0 10px 30px rgba(147, 51, 234, 0.4);
+  box-shadow: 0 10px 30px rgba(147, 51, 234, 0.25);
 }
 
 .jm-submit-btn:disabled {
@@ -430,14 +458,14 @@
 }
 
 .jm-submit-btn.jm-loading {
-  background: linear-gradient(90deg, #6b21a8, #5b21b6);
+  background: var(--primary);
 }
 
 .jm-spinner {
   width: 16px;
   height: 16px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-top-color: #fff;
+  border: 2px solid rgba(229, 231, 235, 0.9);
+  border-top-color: var(--white);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
@@ -452,7 +480,7 @@
 .jm-empty-state {
   text-align: center;
   padding: 40px 20px;
-  color: #a0a0b0;
+  color: var(--ink);
 }
 
 .jm-empty-icon {
@@ -462,7 +490,7 @@
 }
 
 .jm-empty-state h3 {
-  color: #ffffff;
+  color: var(--ink);
   font-size: 1.1rem;
   margin-bottom: 6px;
 }
@@ -480,8 +508,8 @@
 }
 
 .jm-job-item {
-  background: rgba(0, 0, 0, 0.25);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--surface-card);
+  border: 1px solid var(--surface-border);
   border-radius: 14px;
   padding: 18px 20px;
   display: flex;
@@ -504,8 +532,8 @@
 }
 
 .jm-job-item:hover {
-  border-color: rgba(168, 85, 247, 0.3);
-  background: rgba(168, 85, 247, 0.05);
+  border-color: var(--surface-border);
+  background: var(--surface);
   transform: translateX(5px);
 }
 
@@ -518,14 +546,14 @@
 .jm-job-avatar {
   width: 44px;
   height: 44px;
-  background: linear-gradient(90deg, #9333ea, #7c3aed);
+  background: linear-gradient(90deg, #9333ea, #b44acd, #a855f7);
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.15rem;
   font-weight: 700;
-  color: #fff;
+  color: var(--white);
 }
 
 .jm-job-details {
@@ -535,7 +563,7 @@
 }
 
 .jm-job-title {
-  color: #ffffff;
+  color: var(--ink);
   font-size: 1.05rem;
   font-weight: 600;
   margin: 0;
@@ -551,7 +579,12 @@
   display: flex;
   align-items: center;
   gap: 5px;
-  color: #a0a0b0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.jm-job-mode {
+  color: var(--text-muted);
   font-size: 0.9rem;
 }
 
@@ -563,7 +596,7 @@
   display: flex;
   align-items: center;
   gap: 5px;
-  color: #22c55e;
+  color: var(--success);
   font-size: 0.85rem;
   font-weight: 500;
 }
@@ -571,7 +604,7 @@
 .jm-status-dot {
   width: 8px;
   height: 8px;
-  background: #22c55e;
+  background: var(--success);
   border-radius: 50%;
   animation: pulse 2s infinite;
 }
@@ -600,12 +633,12 @@
 }
 
 .jm-delete-btn {
-  background: rgba(239, 68, 68, 0.15);
-  color: #f87171;
+  background: rgba(239, 68, 68, 0.12);
+  color: var(--danger);
 }
 
 .jm-delete-btn:hover {
-  background: rgba(239, 68, 68, 0.25);
+  background: rgba(239, 68, 68, 0.2);
   transform: scale(1.05);
 }
 

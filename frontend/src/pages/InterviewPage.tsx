@@ -10,6 +10,7 @@ const InterviewPage: React.FC = () => {
   const [showInstructions, setShowInstructions] = useState(true);
   const candidateID = searchParams.get('candidateID');
   const jobID = searchParams.get('jobID');
+  const interviewType = searchParams.get('interviewType') === 'voice' ? 'voice' : 'video';
 
   useEffect(() => {
     const initializeInterview = async () => {
@@ -46,40 +47,53 @@ const InterviewPage: React.FC = () => {
     initializeInterview();
   }, [candidateID, jobID, navigate]);
 
+  const landingBackgroundStyle: React.CSSProperties = {
+    backgroundImage: "url('/LandingPage.png')",
+    backgroundAttachment: 'fixed',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    backgroundColor: '#0f0720'
+  };
+
   if (isValidating || !questionsReady || !candidateID || !jobID) {
-    return <div>Loading interview...</div>;
+    return (
+      <div style={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: '#FFFFFF',
+        ...landingBackgroundStyle
+      }}>
+        Loading interview...
+      </div>
+    );
   }
 
   if (showInstructions) {
     return (
       <div style={{
         minHeight: '100vh',
-        backgroundImage: "url('/LandingPage.png')",
-        backgroundAttachment: 'fixed',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        backgroundColor: '#0f0720',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         padding: '20px',
-        color: '#e1d8f7'
+        color: '#111827',
+        ...landingBackgroundStyle
       }}>
         <div style={{
-          background: 'rgba(255, 255, 255, 0.1)',
-          backdropFilter: 'blur(20px)',
-          WebkitBackdropFilter: 'blur(20px)',
-          border: '1px solid rgba(255, 255, 255, 0.2)',
+          background: '#FFFFFF',
+          border: '1px solid #E5E7EB',
           borderRadius: '16px',
           padding: '24px',
           maxWidth: '500px',
           width: '100%',
-          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1) inset'
+          boxShadow: '0 10px 30px rgba(17, 24, 39, 0.1)'
         }}>
           <div style={{ textAlign: 'center', marginBottom: '24px' }}>
             <h1 style={{ 
-              color: '#e1d8f7', 
+              color: '#111827', 
               marginBottom: '8px', 
               fontSize: '1.8rem',
               fontWeight: '700',
@@ -88,10 +102,10 @@ const InterviewPage: React.FC = () => {
               Interview Assessment
             </h1>
             <p style={{ 
-              color: '#c0a7eb', 
+              color: '#6B7280', 
               fontSize: '0.9rem',
               margin: 0,
-              opacity: 0.9
+              opacity: 1
             }}>
               Please review the instructions before beginning
             </p>
@@ -105,8 +119,8 @@ const InterviewPage: React.FC = () => {
               marginBottom: '20px'
             }}>
               <div style={{
-                background: 'rgba(192, 167, 235, 0.15)',
-                border: '1px solid rgba(192, 167, 235, 0.3)',
+                background: '#F3F0FF',
+                border: '1px solid #E5E7EB',
                 borderRadius: '8px',
                 padding: '16px',
                 textAlign: 'center'
@@ -114,18 +128,18 @@ const InterviewPage: React.FC = () => {
                 <div style={{ 
                   fontSize: '1.5rem', 
                   fontWeight: '700', 
-                  color: '#c0a7eb',
+                  color: '#111827',
                   marginBottom: '4px'
                 }}>10</div>
                 <div style={{ 
                   fontSize: '0.8rem', 
-                  color: '#e1d8f7',
-                  opacity: 0.9
+                  color: '#6B7280',
+                  opacity: 1
                 }}>Questions</div>
               </div>
               <div style={{
-                background: 'rgba(192, 167, 235, 0.15)',
-                border: '1px solid rgba(192, 167, 235, 0.3)',
+                background: '#F3F0FF',
+                border: '1px solid #E5E7EB',
                 borderRadius: '8px',
                 padding: '16px',
                 textAlign: 'center'
@@ -133,18 +147,18 @@ const InterviewPage: React.FC = () => {
                 <div style={{ 
                   fontSize: '1.5rem', 
                   fontWeight: '700', 
-                  color: '#c0a7eb',
+                  color: '#111827',
                   marginBottom: '4px'
                 }}>60s</div>
                 <div style={{ 
                   fontSize: '0.8rem', 
-                  color: '#e1d8f7',
-                  opacity: 0.9
+                  color: '#6B7280',
+                  opacity: 1
                 }}>Per question</div>
               </div>
               <div style={{
-                background: 'rgba(192, 167, 235, 0.15)',
-                border: '1px solid rgba(192, 167, 235, 0.3)',
+                background: '#F3F0FF',
+                border: '1px solid #E5E7EB',
                 borderRadius: '8px',
                 padding: '16px',
                 textAlign: 'center'
@@ -152,32 +166,32 @@ const InterviewPage: React.FC = () => {
                 <div style={{ 
                   fontSize: '1.5rem', 
                   fontWeight: '700', 
-                  color: '#c0a7eb',
+                  color: '#111827',
                   marginBottom: '4px'
                 }}>●</div>
                 <div style={{ 
                   fontSize: '0.8rem', 
-                  color: '#e1d8f7',
-                  opacity: 0.9
+                  color: '#6B7280',
+                  opacity: 1
                 }}>Recording</div>
               </div>
             </div>
             
             <div style={{
-              background: 'rgba(61, 52, 84, 0.2)',
-              border: '1px solid rgba(61, 52, 84, 0.4)',
+              background: '#F3F0FF',
+              border: '1px solid #E5E7EB',
               borderRadius: '8px',
               padding: '16px'
             }}>
               <p style={{ 
-                color: '#c0a7eb', 
+                color: '#111827', 
                 margin: 0, 
                 fontSize: '0.9rem',
                 lineHeight: '1.5',
                 textAlign: 'center'
               }}>
                 Answer questions at your own pace. Use "Next Question" to advance early. 
-                <br />Position your camera at eye level and speak clearly.
+                <br />{interviewType === 'voice' ? 'Keep your microphone clear and speak confidently.' : 'Position your camera at eye level and speak clearly.'}
               </p>
             </div>
           </div>
@@ -186,8 +200,8 @@ const InterviewPage: React.FC = () => {
             <button 
               onClick={() => setShowInstructions(false)}
               style={{
-                background: 'linear-gradient(135deg, #c0a7eb 0%, #9575cd 100%)',
-                color: '#1a1625',
+                background: '#7C3AED',
+                color: '#FFFFFF',
                 border: 'none',
                 padding: '12px 32px',
                 fontSize: '0.95rem',
@@ -195,15 +209,15 @@ const InterviewPage: React.FC = () => {
                 borderRadius: '6px',
                 cursor: 'pointer',
                 transition: 'all 0.3s ease',
-                boxShadow: '0 3px 12px rgba(192, 167, 235, 0.3)'
+                boxShadow: '0 3px 12px rgba(124, 58, 237, 0.3)'
               }}
               onMouseOver={(e) => {
                 e.currentTarget.style.transform = 'translateY(-1px)';
-                e.currentTarget.style.boxShadow = '0 4px 16px rgba(192, 167, 235, 0.4)';
+                e.currentTarget.style.boxShadow = '0 4px 16px rgba(124, 58, 237, 0.4)';
               }}
               onMouseOut={(e) => {
                 e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = '0 3px 12px rgba(192, 167, 235, 0.3)';
+                e.currentTarget.style.boxShadow = '0 3px 12px rgba(124, 58, 237, 0.3)';
               }}
             >
               Begin Interview
@@ -215,7 +229,7 @@ const InterviewPage: React.FC = () => {
   }
 
   return (
-    <div style={{ width: '100%', height: '100vh' }}>
+    <div style={{ width: '100%', minHeight: '100vh', ...landingBackgroundStyle }}>
       <UnifiedInterviewInterface candidateID={candidateID} jobID={jobID} />
     </div>
   );

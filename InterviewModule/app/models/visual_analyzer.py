@@ -5,7 +5,6 @@ Analyzes eye contact, facial expressions, and emotional engagement
 
 import cv2
 import numpy as np
-from deepface import DeepFace
 import os
 from typing import Dict, List, Tuple, Optional
 import tempfile
@@ -24,6 +23,14 @@ class VisualAnalyzer:
         self.face_cascade = cv2.CascadeClassifier(
             cv2.data.haarcascades + 'haarcascade_frontalface_default.xml'
         )
+        self._deepface = None
+
+    def _get_deepface(self):
+        """Lazy-load DeepFace to avoid heavy imports during API startup."""
+        if self._deepface is None:
+            from deepface import DeepFace
+            self._deepface = DeepFace
+        return self._deepface
         
     def analyze_video(self, video_path: str, sample_interval: int = 30) -> Dict:
         """
@@ -141,6 +148,7 @@ class VisualAnalyzer:
                 
             # Emotion detection with DeepFace (sample frames to save processing)
             try:
+                DeepFace = self._get_deepface()
                 emotion_result = DeepFace.analyze(
                     img_path=frame,
                     actions=['emotion'],

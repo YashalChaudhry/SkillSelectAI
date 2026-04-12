@@ -7,6 +7,7 @@ export interface InterviewQuestion {
 export interface InterviewContext {
   candidateID: string;
   jobID: string;
+  interviewType: 'video' | 'voice';
   questions: InterviewQuestion[];
   keywords: string[];
   sessionToken: string;
@@ -15,7 +16,8 @@ export interface InterviewContext {
 export interface InterviewSubmission {
   candidateID: string;
   sessionToken: string;
-  videoBlob: Blob;
+  mediaBlob: Blob;
+  interviewType: 'video' | 'voice';
   keywords: string[];
   jobID: string;
   duration: number;
@@ -42,6 +44,7 @@ export async function fetchInterviewContext(candidateID: string, jobID: string):
     return {
       candidateID,
       jobID,
+      interviewType: data.interviewType === 'voice' ? 'voice' : 'video',
       questions: data.questions.map((q: any, idx: number) => ({
         id: q.id,
         question: q.question,
@@ -64,12 +67,15 @@ export async function submitInterviewResponse(submission: InterviewSubmission): 
     const formData = new FormData();
     formData.append('candidateID', submission.candidateID);
     formData.append('sessionToken', submission.sessionToken);
-    formData.append('videoBlob', submission.videoBlob, 'interview.webm');
+    const fileField = submission.interviewType === 'voice' ? 'audioBlob' : 'videoBlob';
+    const fileName = submission.interviewType === 'voice' ? 'interview-audio.webm' : 'interview.webm';
+    formData.append(fileField, submission.mediaBlob, fileName);
     formData.append('keywords', JSON.stringify(submission.keywords));
     formData.append('jobID', submission.jobID);
     formData.append('duration', submission.duration.toString());
+    formData.append('interviewType', submission.interviewType);
 
-    console.log('Submitting interview response with video size:', submission.videoBlob.size, 'bytes');
+    console.log('Submitting interview response:', submission.interviewType, 'size:', submission.mediaBlob.size, 'bytes');
 
     const response = await fetch(`${API_BASE_URL}/api/interview-module/analyze`, {
       method: 'POST',

@@ -8,11 +8,6 @@
   width: 100%;
   padding: 0;
   box-sizing: border-box;
-  background: linear-gradient(
-    135deg,
-    #0f0c18 0%,
-    #1a1625 40%,
-    #2e2440 100%
-  );
-  color: #e1d8f7;
+  background: var(--app-bg);
+  color: var(--ink);
 }

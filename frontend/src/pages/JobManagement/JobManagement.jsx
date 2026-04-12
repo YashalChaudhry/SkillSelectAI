@@ -5,6 +5,7 @@ const JobManagement = () => {
   const [jobs, setJobs] = useState([]);
   const [jobName, setJobName] = useState("");
   const [jobDescription, setJobDescription] = useState("");
+  const [interviewType, setInterviewType] = useState("video");
   const [cvFiles, setCvFiles] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
@@ -36,6 +37,7 @@ const JobManagement = () => {
     const formData = new FormData();
     formData.append("title", jobName);
     formData.append("description", jobDescription);
+    formData.append("interviewType", interviewType);
     cvFiles.forEach((file) => formData.append("cvs", file));
 
     try {
@@ -51,6 +53,7 @@ const JobManagement = () => {
       refreshJobs();
       setJobName("");
       setJobDescription("");
+      setInterviewType("video");
       setCvFiles([]);
     } catch (err) {
       alert(err.message);
@@ -148,6 +151,28 @@ const JobManagement = () => {
                 value={jobDescription}
                 onChange={(e) => setJobDescription(e.target.value)}
               />
+            </div>
+
+            <div className="jm-form-group">
+              <label className="jm-label">
+                Interview Type
+              </label>
+              <div className="jm-toggle-group" role="group" aria-label="Interview Type">
+                <button
+                  type="button"
+                  className={`jm-toggle-btn ${interviewType === "video" ? "jm-toggle-active" : ""}`}
+                  onClick={() => setInterviewType("video")}
+                >
+                  Video Interview
+                </button>
+                <button
+                  type="button"
+                  className={`jm-toggle-btn ${interviewType === "voice" ? "jm-toggle-active" : ""}`}
+                  onClick={() => setInterviewType("voice")}
+                >
+                  Voice Interview
+                </button>
+              </div>
             </div>
 
             <div className="jm-form-group">
@@ -258,6 +283,9 @@ const JobManagement = () => {
                       <div className="jm-job-meta">
                         <span className="jm-job-candidates">
                           {job.candidates?.length || 0} candidates
+                        </span>
+                        <span className="jm-job-mode">
+                          {(job.interviewType || "video") === "voice" ? "Voice" : "Video"} mode
                         </span>
                         <span className="jm-job-status">
                           <span className="jm-status-dot"></span>

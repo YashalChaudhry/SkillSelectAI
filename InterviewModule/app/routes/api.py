@@ -46,6 +46,7 @@ def analyze_video():
     Form Data:
         - video: Video file (required)
         - question: Interview question (required)
+        - interview_type: video/voice (optional, default: video)
         - question_type: Type of question - technical/behavioral/situational (optional, default: technical)
         - expected_points: Comma-separated expected points (optional)
         - background: Candidate background/resume summary (optional)
@@ -90,6 +91,9 @@ def analyze_video():
     
     # Extract optional parameters
     question_type = request.form.get('question_type', 'technical').strip()
+    interview_type = request.form.get('interview_type', 'video').strip().lower()
+    if interview_type not in {'video', 'voice'}:
+        interview_type = 'video'
     expected_points_str = request.form.get('expected_points', '')
     expected_points = [p.strip() for p in expected_points_str.split(',') if p.strip()] if expected_points_str else None
     background = request.form.get('background', '').strip() or None
@@ -98,12 +102,14 @@ def analyze_video():
     try:
         print(f"🎬 Submitting analysis task for session: {session_id}")
         print(f"   Question: {question[:80]}...")
+        print(f"   Interview type: {interview_type}")
         print(f"   Type: {question_type}")
         
         task = analyze_video_async.apply_async(
             args=[
                 file_path,
                 question,
+                interview_type,
                 question_type,
                 expected_points,
                 background

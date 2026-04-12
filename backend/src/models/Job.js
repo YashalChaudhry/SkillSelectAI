@@ -4,6 +4,11 @@ import Interview from "./Interview.js";
 const jobSchema = new mongoose.Schema({
   title: String,
   description: String,
+  interviewType: {
+    type: String,
+    enum: ['video', 'voice'],
+    default: 'video'
+  },
   descriptionFilePath: String,
   candidates: [{ 
     type: mongoose.Schema.Types.ObjectId, 

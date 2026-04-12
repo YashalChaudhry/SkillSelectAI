@@ -25,6 +25,11 @@ const interviewSessionSchema = new mongoose.Schema({
     default: []
   },
   keywords: [String],
+  interviewType: {
+    type: String,
+    enum: ['video', 'voice'],
+    default: 'video'
+  },
   status: {
     type: String,
     enum: ['Created', 'InProgress', 'Completed', 'Analyzing', 'Scored', 'Failed', 'PartialAnalysis'],
@@ -33,6 +38,9 @@ const interviewSessionSchema = new mongoose.Schema({
   // Single video for entire interview (all 10 questions together)
   videoPath: String,
   videoDuration: Number,
+  recordingPath: String,
+  recordingMimeType: String,
+  recordingDuration: Number,
   // Analysis results from InterviewModule
   analysisTaskId: String,
   score: {

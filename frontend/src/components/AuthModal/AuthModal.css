@@ -1,15 +1,15 @@
-/* --- THEME VARIABLES --- */
-:root {
-  --modal-bg-dark: #1a1a2e; 
-  --input-bg: #0f0f24;      
-  --accent-lavender: #e0c3fc; 
-  --overlay-gradient-start: #4a237e;
-  --overlay-gradient-end: #3d1246;
-  --text-white: #ffffff;
-  --text-gray: #a0a0a0;
+/* --- THEME VARIABLES (scoped to modal to avoid landing page conflicts) --- */
+.auth-modal-overlay,
+.auth-modal-overlay * {
+  --modal-bg-dark: #FFFFFF;
+  --input-bg: #FFFFFF;
+  --accent-lavender: #7C3AED;
+  --overlay-gradient-start: #9333ea;
+  --overlay-gradient-end: #a855f7;
+  --text-white: #111827;
+  --text-gray: #6B7280;
   
-  /* UPDATED: Neutral black with 60% opacity for a true "dimmed" effect */
-  --backdrop-color: rgba(0, 0, 0, 0.6); 
+  --backdrop-color: rgba(17, 24, 39, 0.25);
 }
 
 /* --- 1. OVERLAY BACKDROP --- */
@@ -33,7 +33,7 @@
   background-color: var(--modal-bg-dark);
   border-radius: 30px;
   /* Stronger shadow to pop against the dimmed background */
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9); 
+  box-shadow: 0 25px 50px -12px rgba(17, 24, 39, 0.2);
   position: relative;
   overflow: hidden;
   width: 850px;
@@ -71,16 +71,17 @@
   text-align: center; color: var(--text-white);
 }
 
-.auth-title { font-weight: 800; margin-bottom: 20px; font-size: 2rem; }
-.white-text { color: var(--text-white); }
-.auth-p { font-size: 1rem; font-weight: 400; line-height: 1.5; margin: 20px 0 30px; color: var(--text-white); }
+.auth-title { font-weight: 800; margin-bottom: 20px; font-size: 2rem; color: var(--text-white); }
+.white-text { color: #ffffff !important; }
+.auth-p { font-size: 1rem; font-weight: 400; line-height: 1.5; margin: 20px 0 30px; color: var(--text-gray); }
+.overlay-panel .auth-p { color: rgba(255, 255, 255, 0.85); }
 
 /* Input Styling */
 .input-group { position: relative; width: 100%; margin: 10px 0; }
 
 .auth-form input {
   background-color: var(--input-bg);
-  border: 2px solid transparent;
+  border: 1px solid #E5E7EB;
   color: var(--text-white);
   padding: 15px 50px 15px 25px;
   width: 100%;
@@ -91,7 +92,7 @@
   box-sizing: border-box;
 }
 .auth-form input::placeholder { color: var(--text-gray); }
-.auth-form input:focus { border-color: var(--accent-lavender); }
+.auth-form input:focus { border-color: var(--accent-lavender); box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15); }
 
 .input-icon {
   position: absolute; right: 25px; top: 50%;
@@ -111,16 +112,20 @@
 .auth-btn:active { transform: scale(0.98); }
 
 .purple-btn {
-  background-color: var(--accent-lavender); color: var(--modal-bg-dark);
-  box-shadow: 0 10px 20px -10px rgba(224, 195, 252, 0.5);
+  background: linear-gradient(90deg, #9333ea, #c026d3);
+  color: #ffffff;
+  box-shadow: 0 10px 20px -10px rgba(147, 51, 234, 0.4);
 }
-.purple-btn:hover { background-color: #cea3fc; box-shadow: 0 15px 25px -10px rgba(224, 195, 252, 0.7); }
+.purple-btn:hover {
+  background: linear-gradient(90deg, #7c28c9, #a821b5);
+  box-shadow: 0 15px 25px -10px rgba(147, 51, 234, 0.5);
+}
 
 .transparent-btn {
-  background-color: transparent; border: 2px solid var(--text-white);
-  color: var(--text-white); width: auto; padding: 12px 40px;
+  background-color: transparent; border: 1px solid rgba(255, 255, 255, 0.6);
+  color: #ffffff; width: auto; padding: 12px 40px;
 }
-.transparent-btn:hover { background-color: var(--text-white); color: var(--accent-lavender); }
+.transparent-btn:hover { background-color: rgba(255, 255, 255, 0.2); color: #ffffff; border-color: #ffffff; }
 
 .forgot-pass-btn {
   color: var(--text-gray); font-size: 0.9rem; text-decoration: none;
@@ -145,9 +150,9 @@
 .container.right-panel-active .overlay-container{ transform: translateX(-100%); }
 
 .overlay {
-  background: linear-gradient(to right, var(--overlay-gradient-start), var(--overlay-gradient-end));
+  background: linear-gradient(135deg, #9333ea, #b44acd, #a855f7);
   background-repeat: no-repeat; background-size: cover; background-position: 0 0;
-  color: #FFFFFF; position: relative; left: -100%; height: 100%; width: 200%;
+  color: #ffffff; position: relative; left: -100%; height: 100%; width: 200%;
   transform: translateX(0); transition: transform 0.6s ease-in-out;
 }
 .container.right-panel-active .overlay { transform: translateX(50%); }

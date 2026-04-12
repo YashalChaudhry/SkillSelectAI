@@ -170,7 +170,7 @@ const Interviews = () => {
     return (
       <div className="interviews-page">
         <div className="loading-container">
-          <div className="spinner"></div>
+          <p>Loading...</p>
         </div>
       </div>
     );
@@ -284,7 +284,6 @@ const Interviews = () => {
             <div className="questions-section">
               {loading ? (
                 <div className="loading-questions">
-                  <div className="spinner"></div>
                   <p>Loading questions...</p>
                 </div>
               ) : questions.length === 0 ? (

@@ -4,7 +4,7 @@
    Container & Layout
    ===================== */
 .cand-container {
-  background: linear-gradient(135deg, #0f0720 0%, #1a1625 50%, #2e1f4d 100%);
+  background: var(--app-bg);
   min-height: 100vh;
   padding: 32px 55px;
   padding-bottom: 120px;
@@ -22,19 +22,19 @@
 .cand-title {
   font-size: 2.6rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--ink);
   margin-bottom: 10px;
 }
 
 .cand-gradient-text {
-  background: linear-gradient(to right, #c084fc, #6366f1);
+  background: linear-gradient(90deg, #9333ea, #b44acd, #a855f7);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 .cand-subtitle {
-  color: #a0a0b0;
+  color: var(--text-muted);
   font-size: 1.05rem;
 }
 
@@ -58,10 +58,10 @@
   width: 100%;
   height: 48px;
   padding: 0 18px;
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
   border-radius: 12px;
-  color: #ffffff;
+  color: var(--ink);
   font-size: 0.95rem;
   transition: border-color 0.3s, box-shadow 0.3s;
   box-sizing: border-box;
@@ -69,12 +69,12 @@
 
 .cand-search-input:focus {
   outline: none;
-  border-color: #a855f7;
-  box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.2);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.15);
 }
 
 .cand-search-input::placeholder {
-  color: #666;
+  color: var(--text-muted);
 }
 
 .cand-filter-box {
@@ -83,8 +83,8 @@
 }
 
 .cand-count-badge {
-  background: linear-gradient(90deg, #9333ea, #7c3aed);
-  color: #fff;
+  background: var(--primary);
+  color: var(--white);
   padding: 10px 20px;
   border-radius: 25px;
   font-size: 0.9rem;
@@ -105,8 +105,8 @@
    Candidate Card
    ===================== */
 .cand-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
   border-radius: 18px;
   padding: 20px;
   cursor: pointer;
@@ -127,10 +127,10 @@
 }
 
 .cand-card:hover {
-  border-color: rgba(168, 85, 247, 0.4);
-  background: rgba(168, 85, 247, 0.08);
+  border-color: var(--surface-border);
+  background: var(--surface);
   transform: translateY(-4px);
-  box-shadow: 0 12px 30px rgba(147, 51, 234, 0.2);
+  box-shadow: 0 12px 30px rgba(17, 24, 39, 0.08);
 }
 
 .cand-card-top {
@@ -143,14 +143,15 @@
 .cand-avatar {
   width: 52px;
   height: 52px;
-  background: linear-gradient(135deg, #9333ea, #7c3aed);
+  background: linear-gradient(90deg, #9333ea, #b44acd, #a855f7);
+  border: 1px solid var(--surface-border);
   border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.3rem;
   font-weight: 700;
-  color: #fff;
+  color: var(--white);
   flex-shrink: 0;
 }
 
@@ -160,7 +161,7 @@
 }
 
 .cand-name {
-  color: #ffffff;
+  color: var(--ink);
   font-size: 1.1rem;
   font-weight: 600;
   margin: 0 0 4px 0;
@@ -170,7 +171,7 @@
 }
 
 .cand-email {
-  color: #a0a0b0;
+  color: var(--text-muted);
   font-size: 0.85rem;
   margin: 0;
   white-space: nowrap;
@@ -185,13 +186,13 @@
   gap: 16px;
   margin-top: 12px;
   padding-top: 12px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid var(--surface-border);
 }
 
 .cand-job-tag {
-  background: rgba(99, 102, 241, 0.15);
-  border: 1px solid rgba(99, 102, 241, 0.3);
-  color: #a5b4fc;
+  background: var(--accent);
+  border: 1px solid var(--surface-border);
+  color: var(--primary);
   padding: 6px 12px;
   border-radius: 20px;
   font-size: 0.78rem;
@@ -223,14 +224,14 @@
   align-items: center;
   justify-content: center;
   padding: 60px 20px;
-  color: #a0a0b0;
+  color: var(--ink);
 }
 
 .cand-spinner {
   width: 40px;
   height: 40px;
-  border: 3px solid rgba(168, 85, 247, 0.2);
-  border-top-color: #a855f7;
+  border: 3px solid var(--surface-border);
+  border-top-color: var(--primary);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
   margin-bottom: 16px;
@@ -244,7 +245,7 @@
   grid-column: 1 / -1;
   text-align: center;
   padding: 60px 20px;
-  color: #a0a0b0;
+  color: var(--ink);
 }
 
 .cand-empty-icon {
@@ -254,7 +255,7 @@
 }
 
 .cand-empty h3 {
-  color: #ffffff;
+  color: var(--ink);
   font-size: 1.3rem;
   margin-bottom: 8px;
 }
@@ -276,9 +277,9 @@
 }
 
 .cand-back-btn {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #ffffff;
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  color: var(--ink);
   padding: 12px 24px;
   border-radius: 12px;
   font-size: 0.95rem;
@@ -289,16 +290,16 @@
 }
 
 .cand-back-btn:hover {
-  background: rgba(168, 85, 247, 0.2);
-  border-color: #a855f7;
+  background: var(--accent);
+  border-color: var(--primary);
 }
 
 /* =====================
    Profile Header
    ===================== */
 .cand-profile-header {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
   border-radius: 20px;
   padding: 28px;
   display: flex;
@@ -310,14 +311,15 @@
 .cand-profile-avatar {
   width: 80px;
   height: 80px;
-  background: linear-gradient(135deg, #9333ea, #7c3aed);
+  background: linear-gradient(90deg, #9333ea, #b44acd, #a855f7);
+  border: 1px solid var(--surface-border);
   border-radius: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 2rem;
   font-weight: 700;
-  color: #fff;
+  color: var(--white);
   flex-shrink: 0;
 }
 
@@ -327,20 +329,20 @@
 }
 
 .cand-profile-name {
-  color: #ffffff;
+  color: var(--ink);
   font-size: 1.8rem;
   font-weight: 700;
   margin: 0 0 6px 0;
 }
 
 .cand-profile-job {
-  color: #c084fc;
+  color: var(--text-muted);
   font-size: 1rem;
   margin: 0 0 4px 0;
 }
 
 .cand-profile-email {
-  color: #a0a0b0;
+  color: var(--ink);
   font-size: 0.95rem;
   margin: 0;
 }
@@ -348,11 +350,11 @@
 .cand-profile-score {
   text-align: center;
   padding-left: 24px;
-  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  border-left: 1px solid var(--surface-border);
 }
 
 .cand-score-label {
-  color: #a0a0b0;
+  color: var(--ink);
   font-size: 0.85rem;
   margin-bottom: 6px;
 }
@@ -372,8 +374,8 @@
 }
 
 .cand-detail-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
   border-radius: 18px;
   padding: 24px;
 }
@@ -383,12 +385,12 @@
 }
 
 .cand-detail-title {
-  color: #ffffff;
+  color: var(--ink);
   font-size: 1.2rem;
   font-weight: 600;
   margin: 0 0 18px 0;
   padding-bottom: 12px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid var(--surface-border);
   display: flex;
   align-items: center;
   gap: 10px;
@@ -399,7 +401,7 @@
   justify-content: space-between;
   align-items: flex-start;
   padding: 10px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--surface-border);
 }
 
 .cand-detail-row:last-child {
@@ -407,20 +409,20 @@
 }
 
 .cand-detail-label {
-  color: #a0a0b0;
+  color: var(--ink);
   font-size: 0.9rem;
   font-weight: 500;
 }
 
 .cand-detail-value {
-  color: #ffffff;
+  color: var(--ink);
   font-size: 0.95rem;
   text-align: right;
   word-break: break-word;
 }
 
 .cand-detail-text {
-  color: #d1d5db;
+  color: var(--ink);
   font-size: 0.95rem;
   line-height: 1.7;
 }
@@ -430,7 +432,7 @@
 }
 
 .cand-detail-empty {
-  color: #6b7280;
+  color: var(--text-muted);
   font-style: italic;
 }
 
@@ -438,8 +440,8 @@
    Interview Analysis
    ===================== */
 .cand-interview-header {
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15));
-  border-color: rgba(102, 126, 234, 0.3);
+  background: var(--surface);
+  border-color: var(--surface-border);
 }
 
 .cand-interview-score {
@@ -450,14 +452,11 @@
 .cand-interview-score-value {
   font-size: 3.5rem;
   font-weight: 700;
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--ink);
 }
 
 .cand-interview-score-label {
-  color: #a0a0b0;
+  color: var(--ink);
   font-size: 0.95rem;
   margin-top: 8px;
 }
@@ -465,12 +464,12 @@
 .cand-video-duration {
   font-size: 0.85rem;
   font-weight: 400;
-  color: #a0a0b0;
+  color: var(--ink);
   margin-left: 10px;
 }
 
 .cand-video-container {
-  background: #0a0a0f;
+  background: var(--surface);
   border-radius: 12px;
   padding: 8px;
   margin-top: 16px;
@@ -480,7 +479,7 @@
   width: 100%;
   max-height: 450px;
   border-radius: 8px;
-  background: #000;
+  background: var(--app-bg);
 }
 
 .cand-video-actions {
@@ -490,8 +489,8 @@
 }
 
 .cand-download-btn {
-  background: linear-gradient(90deg, #9333ea, #7c3aed);
-  color: #fff;
+  background: var(--primary);
+  color: var(--white);
   padding: 10px 20px;
   border-radius: 10px;
   text-decoration: none;
@@ -502,14 +501,14 @@
 
 .cand-download-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(147, 51, 234, 0.3);
+  box-shadow: 0 8px 20px rgba(147, 51, 234, 0.12);
 }
 
 /* =====================
    Metric Cards
    ===================== */
 .cand-metric-card {
-  border-left: 4px solid #667eea;
+  border-left: 4px solid var(--surface-border);
 }
 
 .cand-metric-title {
@@ -521,18 +520,18 @@
 .cand-metric-score {
   font-size: 2rem;
   font-weight: 700;
-  color: #a855f7;
+  color: var(--ink);
   margin-bottom: 16px;
 }
 
 .cand-metric-feedback {
   margin-top: 16px;
   padding-top: 12px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid var(--surface-border);
 }
 
 .cand-metric-feedback p {
-  color: #d1d5db;
+  color: var(--ink);
   margin: 8px 0 0 0;
   line-height: 1.6;
 }
@@ -541,16 +540,16 @@
 .cand-improve-list {
   margin: 8px 0 0 0;
   padding-left: 20px;
-  color: #d1d5db;
+  color: var(--ink);
 }
 
 .cand-strength-list li {
-  color: #4ade80;
+  color: var(--secondary);
   margin-bottom: 6px;
 }
 
 .cand-improve-list li {
-  color: #fbbf24;
+  color: var(--primary);
   margin-bottom: 6px;
 }
 
@@ -599,6 +598,6 @@
     border-left: none;
     padding-left: 0;
     padding-top: 16px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid var(--surface-border);
   }
 }

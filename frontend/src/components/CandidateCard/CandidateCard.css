@@ -1,5 +1,5 @@
 .candidate-card {
-  background-color: #2e2440;
+  background-color: var(--surface-card);
   border-radius: 12px;
   width: 300px;
   height: 100px;

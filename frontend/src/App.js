@@ -5,12 +5,17 @@ import Sidebar from "./components/Sidebar/Sidebar";
 import Candidates from "./pages/Candidates/Candidates";
 import JobManagement from "./pages/JobManagement/JobManagement";
 import Interviews from "./pages/Interviews/Interviews";
+import Ranking from "./pages/Ranking/Ranking";
+import DashboardLanding from "./pages/DashboardLanding/DashboardLanding";
 import LandingPage from "./pages/LandingPage/LandingPage";
 import InterviewPage from "./pages/InterviewPage";
+import Settings from "./pages/Settings/Settings";
+import LoadingProvider from "./components/LoadingOverlay/LoadingProvider";
+import LoadingOverlay from "./components/LoadingOverlay/LoadingOverlay";
 
 function Dashboard() {
   const [showDashboard, setShowDashboard] = useState(false);
-  const [activePage, setActivePage] = useState("candidates");
+  const [activePage, setActivePage] = useState("dashboardLanding");
 
   // 1. LANDING PAGE MODE
   if (!showDashboard) {
@@ -27,9 +32,11 @@ function Dashboard() {
   return (
     <div style={{ 
       display: "flex", 
-      backgroundColor: "#000", 
+      backgroundColor: "var(--app-bg)", 
       minHeight: '100vh',
-      width: '100%'
+      width: '100%',
+      paddingLeft: '80px', // match fixed sidebar width so content doesn't overlap
+      boxSizing: 'border-box'
     }}>
       <Sidebar 
         activePage={activePage} 
@@ -41,11 +48,14 @@ function Dashboard() {
         padding: 0,
         display: 'flex',
         flexDirection: 'column',
-        backgroundColor: '#f5f5f5'
+        backgroundColor: 'var(--app-bg)'
       }}>
+        {activePage === "dashboardLanding" && <DashboardLanding />}
         {activePage === "candidates" && <Candidates />}
         {activePage === "jobManagement" && <JobManagement />}
         {activePage === "interviews" && <Interviews />}
+        {activePage === "ranking" && <Ranking />}
+        {activePage === "settings" && <Settings onLogout={() => setShowDashboard(false)} />}
       </div>
     </div>
   );
@@ -53,10 +63,13 @@ function Dashboard() {
 
 function App() {
   return (
-    <Routes>
-      <Route path="/interview" element={<InterviewPage />} />
-      <Route path="/*" element={<Dashboard />} />
-    </Routes>
+    <LoadingProvider>
+      <LoadingOverlay />
+      <Routes>
+        <Route path="/interview" element={<InterviewPage />} />
+        <Route path="/*" element={<Dashboard />} />
+      </Routes>
+    </LoadingProvider>
   );
 }
 

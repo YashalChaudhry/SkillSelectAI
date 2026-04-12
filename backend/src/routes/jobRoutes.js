@@ -57,18 +57,21 @@ router.get("/", async (req, res) => {
 
 // Create new job with CVs
 router.post("/", upload.array("cvs", 20), async (req, res) => {
-  const { title, description, createdBy } = req.body;
+  const { title, description, createdBy, interviewType } = req.body;
   const cvs = req.files || [];
 
   if (!title || !description) {
     return res.status(400).json({ message: "Missing required fields: title and description are required" });
   }
 
+  const normalizedInterviewType = interviewType === 'voice' ? 'voice' : 'video';
+
   try {
     // Create job document
     const jobDoc = await Job.create({
       title,
       description,
+      interviewType: normalizedInterviewType,
       candidates: [],
       createdBy: createdBy || new mongoose.Types.ObjectId(), // Default to a new ObjectId if not provided
       status: 'Active'
@@ -114,11 +117,16 @@ router.get("/:id", async (req, res) => {
 
 // Update job
 router.put("/:id", async (req, res) => {
-  const { title, description, status } = req.body;
+  const { title, description, status, interviewType } = req.body;
+  const updatePayload = { title, description, status };
+  if (interviewType === 'video' || interviewType === 'voice') {
+    updatePayload.interviewType = interviewType;
+  }
+
   try {
     const job = await Job.findByIdAndUpdate(
       req.params.id,
-      { title, description, status },
+      updatePayload,
       { new: true }
     ).populate("candidates").lean();
     

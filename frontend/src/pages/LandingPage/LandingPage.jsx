@@ -160,13 +160,12 @@ const LandingPage = ({ onLogin }) => {
         <p>© 2025 SkillSelectAI. All rights reserved.</p>
       </footer>
 
-      {/* 5. Conditionally render the Modal */}
-      {showAuthModal && (
-        <AuthModal
-          onClose={closeModal}
-          onAuthSuccess={onLogin}
-        />
-      )}
+      {/* 5. Always mount the Modal, control visibility via isOpen prop */}
+      <AuthModal
+        isOpen={showAuthModal}
+        onClose={closeModal}
+        onAuthSuccess={onLogin}
+      />
 
     </div>
   );

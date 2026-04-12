@@ -19,6 +19,7 @@ def analyze_video_async(
     self,
     video_path,
     question,
+    interview_type="video",
     question_type="technical",
     expected_points=None,
     candidate_background=None
@@ -29,6 +30,7 @@ def analyze_video_async(
     Args:
         video_path (str): Path to uploaded video
         question (str): The interview question
+        interview_type (str): Interview mode (video/voice)
         question_type (str): Type of question (technical/behavioral/situational)
         expected_points (list): Expected points to cover
         candidate_background (str): Candidate's background summary
@@ -56,6 +58,7 @@ def analyze_video_async(
         results = analyzer_instance.analyze_interview_response(
             video_path=video_path,
             question=question,
+            interview_type=interview_type,
             question_type=question_type,
             expected_points=expected_points,
             candidate_background=candidate_background

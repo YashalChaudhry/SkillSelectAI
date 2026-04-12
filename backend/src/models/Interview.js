@@ -23,6 +23,11 @@ const interviewSchema = new mongoose.Schema({
   googleEventId: {
     type: String
   },
+  interviewType: {
+    type: String,
+    enum: ['video', 'voice'],
+    default: 'video'
+  },
   status: {
     type: String,
     enum: ['Scheduled', 'In_Progress', 'Completed', 'Cancelled'],

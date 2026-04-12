@@ -42,9 +42,9 @@ skillselectRouter.post('/interview-context', getInterviewContext);
 skillselectRouter.post('/candidate-score', saveCandidateScore);
 
 // Route 2: POST /api/interview-module/analyze
-// Called by: submitInterviewResponse({ candidateID, sessionToken, videoBlob, keywords, jobID, duration })
+// Called by: submitInterviewResponse({ candidateID, sessionToken, mediaBlob, keywords, jobID, duration, interviewType })
 const interviewModuleRouter = express.Router();
-interviewModuleRouter.post('/analyze', upload.single('videoBlob'), analyzeInterview);
+interviewModuleRouter.post('/analyze', upload.any(), analyzeInterview);
 
 // Route 3: GET /api/interview-analysis/:candidateID/:jobID
 // Called by: Recruiter dashboard to fetch detailed interview analysis

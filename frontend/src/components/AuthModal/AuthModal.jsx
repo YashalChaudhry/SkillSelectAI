@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import './AuthModal.css';
 
-const AuthModal = ({ onClose, onAuthSuccess }) => {
+const AuthModal = ({ isOpen, onClose, onAuthSuccess }) => {
   // Default to false (Sign In) or true (Sign Up) depending on your preference
   const [isSignUpActive, setIsSignUpActive] = useState(false);
   const [signUpName, setSignUpName] = useState('');
@@ -61,6 +61,12 @@ const AuthModal = ({ onClose, onAuthSuccess }) => {
       if (data.token) {
         window.localStorage.setItem('authToken', data.token);
       }
+      if (data.user) {
+        window.localStorage.setItem(
+          'authUser',
+          JSON.stringify({ email: data.user.email, name: data.user.name })
+        );
+      }
       if (onAuthSuccess && data.user) {
         onAuthSuccess(data.user);
       }
@@ -103,6 +109,12 @@ const AuthModal = ({ onClose, onAuthSuccess }) => {
       if (data.token) {
         window.localStorage.setItem('authToken', data.token);
       }
+      if (data.user) {
+        window.localStorage.setItem(
+          'authUser',
+          JSON.stringify({ email: data.user.email, name: data.user.name })
+        );
+      }
       if (onAuthSuccess && data.user) {
         onAuthSuccess(data.user);
       }
@@ -115,6 +127,8 @@ const AuthModal = ({ onClose, onAuthSuccess }) => {
       setIsSubmitting(false);
     }
   };
+
+  if (!isOpen) return null;
 
   const modalContent = (
     <div className="auth-modal-overlay" onClick={onClose}>

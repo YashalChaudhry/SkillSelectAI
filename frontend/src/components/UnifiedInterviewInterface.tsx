@@ -30,7 +30,7 @@ const UnifiedInterviewInterface: React.FC<UnifiedInterviewInterfaceProps> = ({ c
       try {
         const interviewContext = await fetchInterviewContext(candidateID, jobID);
         setContext(interviewContext);
-        await startRecording();
+        await startRecording(interviewContext.interviewType);
         setIsLoading(false);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to initialize interview');
@@ -47,19 +47,22 @@ const UnifiedInterviewInterface: React.FC<UnifiedInterviewInterfaceProps> = ({ c
   }, [candidateID, jobID]);
 
   // Start single MediaRecorder stream (persistent across all questions)
-  const startRecording = async () => {
+  const startRecording = async (interviewType: 'video' | 'voice' = 'video') => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
+      const mode = interviewType;
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: mode === 'video' });
       streamRef.current = stream;
 
       // Set video stream to video element
-      if (videoRef.current) {
+      if (mode === 'video' && videoRef.current) {
         videoRef.current.srcObject = stream;
       }
 
-      const mimeType = MediaRecorder.isTypeSupported('video/webm;codecs=vp8,opus')
-        ? 'video/webm;codecs=vp8,opus'
-        : 'video/webm';
+      const mimeType = mode === 'voice'
+        ? (MediaRecorder.isTypeSupported('audio/webm;codecs=opus') ? 'audio/webm;codecs=opus' : 'audio/webm')
+        : (MediaRecorder.isTypeSupported('video/webm;codecs=vp8,opus')
+            ? 'video/webm;codecs=vp8,opus'
+            : 'video/webm');
 
       const recorder = new MediaRecorder(stream, { mimeType });
       mediaRecorderRef.current = recorder;
@@ -80,7 +83,7 @@ const UnifiedInterviewInterface: React.FC<UnifiedInterviewInterfaceProps> = ({ c
       recordingStartTimeRef.current = Date.now();
     } catch (err) {
       console.error('Failed to start recording:', err);
-      setError('Failed to access camera/microphone');
+      setError(context?.interviewType === 'voice' ? 'Failed to access microphone' : 'Failed to access camera/microphone');
     }
   };
 
@@ -129,7 +132,7 @@ const UnifiedInterviewInterface: React.FC<UnifiedInterviewInterfaceProps> = ({ c
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.6);
+      background: rgba(47, 24, 75, 0.12);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -146,7 +149,7 @@ const UnifiedInterviewInterface: React.FC<UnifiedInterviewInterfaceProps> = ({ c
       max-width: 520px;
       max-height: 80vh;
       overflow-y: auto;
-      box-shadow: 0 32px 64px rgba(0, 0, 0, 0.25);
+      box-shadow: 0 32px 64px rgba(47, 24, 75, 0.05);
       border: 1px solid rgba(226, 232, 240, 0.5);
     `;
     
@@ -244,28 +247,29 @@ const UnifiedInterviewInterface: React.FC<UnifiedInterviewInterfaceProps> = ({ c
 
     try {
       // Wait for recording to fully complete and all chunks to be collected
-      setSubmissionProgress('Finalizing video...');
+      setSubmissionProgress('Finalizing recording...');
       await waitForRecordingToStop();
       
       // Give a small delay to ensure all data is processed
       await new Promise(r => setTimeout(r, 100));
 
-      // Create single video blob from all chunks
-      const videoBlob = new Blob(recordedChunksRef.current, { type: 'video/webm' });
+      const blobType = context.interviewType === 'voice' ? 'audio/webm' : 'video/webm';
+      const mediaBlob = new Blob(recordedChunksRef.current, { type: blobType });
       const duration = (Date.now() - recordingStartTimeRef.current) / 1000;
 
-      console.log('Recording complete. Video chunks:', recordedChunksRef.current.length, 'Total size:', videoBlob.size, 'bytes');
+      console.log('Recording complete. Chunks:', recordedChunksRef.current.length, 'Total size:', mediaBlob.size, 'bytes');
 
-      if (videoBlob.size === 0) {
-        throw new Error('No video data was recorded. Please try again and ensure camera/microphone permissions are granted.');
+      if (mediaBlob.size === 0) {
+        throw new Error('No recording data was captured. Please try again and ensure permissions are granted.');
       }
 
       // Submit to InterviewModule
-      setSubmissionProgress('Uploading video... (1/3)');
+      setSubmissionProgress('Uploading recording... (1/3)');
       const result = await submitInterviewResponse({
         candidateID,
         sessionToken: context.sessionToken,
-        videoBlob,
+        mediaBlob,
+        interviewType: context.interviewType,
         keywords: context.keywords,
         jobID,
         duration
@@ -330,7 +334,7 @@ const UnifiedInterviewInterface: React.FC<UnifiedInterviewInterfaceProps> = ({ c
               cy="50"
               r="45"
               fill="none"
-              stroke="rgba(168, 85, 247, 0.2)"
+              stroke="#E5E7EB"
               strokeWidth="3"
             />
             <circle
@@ -338,7 +342,7 @@ const UnifiedInterviewInterface: React.FC<UnifiedInterviewInterfaceProps> = ({ c
               cy="50"
               r="45"
               fill="none"
-              stroke="#a855f7"
+              stroke="#7C3AED"
               strokeWidth="3"
               strokeDasharray={`${(timeRemaining / 60) * 282.7} 282.7`}
               style={{ transition: 'stroke-dasharray 1s linear' }}
@@ -357,7 +361,7 @@ const UnifiedInterviewInterface: React.FC<UnifiedInterviewInterfaceProps> = ({ c
 
         {/* Video preview area - CENTERED */}
         <div className="video-preview-container">
-          {isRecording ? (
+          {(context.interviewType === 'video' && isRecording) ? (
             <div className="video-container">
               <video 
                 ref={videoRef}
@@ -377,7 +381,7 @@ const UnifiedInterviewInterface: React.FC<UnifiedInterviewInterfaceProps> = ({ c
             </div>
           ) : (
             <div className="video-placeholder">
-              <span>Camera preview will appear here</span>
+              <span>{context.interviewType === 'voice' ? 'Voice-only interview in progress' : 'Camera preview will appear here'}</span>
             </div>
           )}
         </div>

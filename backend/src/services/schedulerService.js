@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { google } from 'googleapis';
 import Interview from '../models/Interview.js';
 import Candidate from '../models/Candidate.js';
+import Job from '../models/Job.js';
 
 // Setup Google Auth (You need these in your .env file)
 console.log('Google OAuth Setup:');
@@ -98,6 +99,8 @@ export const processInvitesForJob = async (jobId) => {
   // 2. Fetch Candidates (Assuming we only invite 'Shortlisted' ones)
   // You might need to adjust this query based on your Candidate model
   const candidates = await Candidate.find({ job: jobId }); 
+  const job = await Job.findById(jobId).select('interviewType');
+  const interviewType = job?.interviewType === 'voice' ? 'voice' : 'video';
   
   if (candidates.length === 0) {
     throw new Error("No candidates found for this job.");
@@ -116,7 +119,7 @@ export const processInvitesForJob = async (jobId) => {
 
     // PHASE 2: The Security Token
     const token = uuidv4();
-    const uniqueLink = `${process.env.FRONTEND_URL || 'http://localhost:3000'}/interview?candidateID=${candidate._id}&jobID=${jobId}`;
+    const uniqueLink = `${process.env.FRONTEND_URL || 'http://localhost:3000'}/interview?candidateID=${candidate._id}&jobID=${jobId}&interviewType=${interviewType}`;
 
     // PHASE 4: Delivery
     // Note: requires candidate.email to exist
@@ -131,6 +134,7 @@ export const processInvitesForJob = async (jobId) => {
       jobId,
       candidateId: candidate._id,
       token,
+      interviewType,
       scheduledAt: interviewDate,
       meetingLink: uniqueLink,
       googleEventId
