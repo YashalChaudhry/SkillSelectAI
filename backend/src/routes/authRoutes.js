@@ -8,6 +8,17 @@ const router = Router();
 const JWT_SECRET = process.env.JWT_SECRET || "change_this_dev_secret";
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || "1d";
 const BCRYPT_ROUNDS = parseInt(process.env.BCRYPT_ROUNDS || "10", 10);
+const ADMIN_USERNAME = process.env.ADMIN_USERNAME || "skillselect_admin";
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "SkillSelect@2026";
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "admin@skillselect.ai";
+
+const ADMIN_DEFAULT_PERMISSIONS = {
+  manageRecruiters: true,
+  manageSystemSettings: true,
+  manageIntegrations: true,
+  viewAnalytics: true,
+  viewTechnicalLogs: true,
+};
 
 function signToken(user) {
   return jwt.sign(
@@ -20,7 +31,7 @@ function signToken(user) {
 // Signup
 router.post("/signup", async (req, res) => {
   try {
-    const { name, email, password, role } = req.body;
+    const { name, email, password } = req.body;
 
     if (!email || !password) {
       return res.status(400).json({ message: "Email and password are required" });
@@ -37,7 +48,7 @@ router.post("/signup", async (req, res) => {
       name,
       email: email.toLowerCase(),
       passwordHash,
-      role,
+      role: "recruiter",
     });
 
     const token = signToken(user);
@@ -49,6 +60,7 @@ router.post("/signup", async (req, res) => {
         name: user.name,
         email: user.email,
         role: user.role,
+        permissions: user.permissions,
       },
     });
   } catch (err) {
@@ -60,13 +72,60 @@ router.post("/signup", async (req, res) => {
 // Login
 router.post("/login", async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, username, password } = req.body;
+    const normalizedEmail = typeof email === "string" ? email.toLowerCase() : "";
+    const normalizedUsername = typeof username === "string" ? username.trim() : "";
 
-    if (!email || !password) {
-      return res.status(400).json({ message: "Email and password are required" });
+    if ((!normalizedEmail && !normalizedUsername) || !password) {
+      return res.status(400).json({ message: "Username/email and password are required" });
     }
 
-    const user = await User.findOne({ email: email.toLowerCase() });
+    // Hardcoded admin login path.
+    if (
+      normalizedUsername === ADMIN_USERNAME ||
+      normalizedEmail === ADMIN_EMAIL.toLowerCase()
+    ) {
+      const adminPasswordOk = password === ADMIN_PASSWORD;
+      if (!adminPasswordOk) {
+        return res.status(401).json({ message: "Invalid credentials" });
+      }
+
+      let adminUser = await User.findOne({ email: ADMIN_EMAIL.toLowerCase() });
+      if (!adminUser) {
+        const passwordHash = await bcrypt.hash(ADMIN_PASSWORD, BCRYPT_ROUNDS);
+        adminUser = await User.create({
+          name: "SkillSelect Admin",
+          email: ADMIN_EMAIL.toLowerCase(),
+          passwordHash,
+          role: "admin",
+          permissions: ADMIN_DEFAULT_PERMISSIONS,
+        });
+      } else {
+        if (adminUser.role !== "admin") {
+          adminUser.role = "admin";
+        }
+        adminUser.permissions = {
+          ...ADMIN_DEFAULT_PERMISSIONS,
+          ...(adminUser.permissions || {}),
+        };
+        await adminUser.save();
+      }
+
+      const token = signToken(adminUser);
+
+      return res.json({
+        token,
+        user: {
+          id: adminUser._id,
+          name: adminUser.name,
+          email: adminUser.email,
+          role: adminUser.role,
+          permissions: adminUser.permissions,
+        },
+      });
+    }
+
+    const user = await User.findOne({ email: normalizedEmail });
     if (!user) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
@@ -85,6 +144,7 @@ router.post("/login", async (req, res) => {
         name: user.name,
         email: user.email,
         role: user.role,
+        permissions: user.permissions,
       },
     });
   } catch (err) {

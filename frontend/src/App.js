@@ -10,6 +10,8 @@ import DashboardLanding from "./pages/DashboardLanding/DashboardLanding";
 import LandingPage from "./pages/LandingPage/LandingPage";
 import InterviewPage from "./pages/InterviewPage";
 import Settings from "./pages/Settings/Settings";
+import AdminLogin from "./pages/Admin/AdminLogin";
+import AdminPanel from "./pages/Admin/AdminPanel";
 import LoadingProvider from "./components/LoadingOverlay/LoadingProvider";
 import LoadingOverlay from "./components/LoadingOverlay/LoadingOverlay";
 
@@ -66,6 +68,8 @@ function App() {
     <LoadingProvider>
       <LoadingOverlay />
       <Routes>
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin/*" element={<AdminPanel />} />
         <Route path="/interview" element={<InterviewPage />} />
         <Route path="/*" element={<Dashboard />} />
       </Routes>

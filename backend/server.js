@@ -10,6 +10,7 @@ import candidateRoutes from "./src/routes/candidateRoutes.js";
 import authRoutes from "./src/routes/authRoutes.js";
 import questionRoutes from "./src/routes/questionRoutes.js";
 import interviewRoutes from "./src/routes/interviewRoutes.js";
+import adminRoutes from "./src/routes/adminRoutes.js";
 import { skillselectRouter, interviewModuleRouter, interviewAnalysisRouter, interviewVideoRouter } from "./src/routes/interviewSessionRoutes.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -49,6 +50,7 @@ app.use('/api/interview-analysis', interviewAnalysisRouter);
 app.use('/api/interview-video', interviewVideoRouter);
 app.use('/api/candidates', candidateRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/admin', adminRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {

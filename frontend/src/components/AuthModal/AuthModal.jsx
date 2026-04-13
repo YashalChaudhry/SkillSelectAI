@@ -64,7 +64,13 @@ const AuthModal = ({ isOpen, onClose, onAuthSuccess }) => {
       if (data.user) {
         window.localStorage.setItem(
           'authUser',
-          JSON.stringify({ email: data.user.email, name: data.user.name })
+          JSON.stringify({
+            id: data.user.id,
+            email: data.user.email,
+            name: data.user.name,
+            role: data.user.role,
+            permissions: data.user.permissions || {},
+          })
         );
       }
       if (onAuthSuccess && data.user) {
@@ -112,7 +118,13 @@ const AuthModal = ({ isOpen, onClose, onAuthSuccess }) => {
       if (data.user) {
         window.localStorage.setItem(
           'authUser',
-          JSON.stringify({ email: data.user.email, name: data.user.name })
+          JSON.stringify({
+            id: data.user.id,
+            email: data.user.email,
+            name: data.user.name,
+            role: data.user.role,
+            permissions: data.user.permissions || {},
+          })
         );
       }
       if (onAuthSuccess && data.user) {
