@@ -1,0 +1,93 @@
+✅ Connected to MongoDB
+🚀 Backend server running in development mode on port 5000
+Extracted skills from job description: [ 'python', 'django', 'flask', 'fastapi' ]
+Parsing CV: /Users/yashal/Desktop/SkillSelectAI/backend/uploads/13f135de-df00-4e15-9a46-e03f81999d10.py
+Job Skills: [ 'python', 'django', 'flask', 'fastapi' ]
+Using 0 backend templates (skill-based)
+Generated 0 questions in 200 attempts
+Difficulty distribution: { Easy: 0, Medium: 0, Hard: 0 }
+Job skills extracted: [ 'python', 'django', 'flask', 'fastapi' ]
+Generated 0 total questions
+Filtered to 0 relevant questions (1%+ skill match)
+Relevance distribution:
+  90-100%: 0 questions
+  70-89%: 0 questions
+  50-69%: 0 questions
+  Below 50%: 0 questions
+Error parsing CV /Users/yashal/Desktop/SkillSelectAI/backend/uploads/13f135de-df00-4e15-9a46-e03f81999d10.py: Error: Python exited with code 1 — stderr: 
+============================================================
+PROCESSING CV #1: 13f135de-df00-4e15-9a46-e03f81999d10.py
+============================================================
+Traceback (most recent call last):
+  File "/Users/yashal/Desktop/SkillSelectAI/CVParsing/parser.py", line 302, in <module>
+    results = process_multiple_cvs(input_paths)
+  File "/Users/yashal/Desktop/SkillSelectAI/CVParsing/parser.py", line 292, in process_multiple_cvs
+    res = process_single_cv(path, i)
+  File "/Users/yashal/Desktop/SkillSelectAI/CVParsing/parser.py", line 276, in process_single_cv
+    raw_text = extract_text_from_pdf(pdf_path)
+  File "/Users/yashal/Desktop/SkillSelectAI/CVParsing/parser.py", line 25, in extract_text_from_pdf
+    return extract_text(pdf_path, laparams=LAParams())
+  File "/Users/yashal/Desktop/SkillSelectAI/CVParsing/venv/lib/python3.13/site-packages/pdfminer/high_level.py", line 177, in extract_text
+    for page in PDFPage.get_pages(
+                ~~~~~~~~~~~~~~~~~^
+        fp,
+        ^^^
+    ...<3 lines>...
+        caching=caching,
+        ^^^^^^^^^^^^^^^^
+    ):
+    ^
+  File "/Users/yashal/Desktop/SkillSelectAI/CVParsing/venv/lib/python3.13/site-packages/pdfminer/pdfpage.py", line 159, in get_pages
+    doc = PDFDocument(parser, password=password, caching=caching)
+  File "/Users/yashal/Desktop/SkillSelectAI/CVParsing/venv/lib/python3.13/site-packages/pdfminer/pdfdocument.py", line 752, in __init__
+    raise PDFSyntaxError("No /Root object! - Is this really a PDF?")
+pdfminer.pdfparser.PDFSyntaxError: No /Root object! - Is this really a PDF?
+
+    at ChildProcess.<anonymous> (file:///Users/yashal/Desktop/SkillSelectAI/backend/src/services/cvParsingService.js:55:19)
+    at ChildProcess.emit (node:events:508:28)
+    at maybeClose (node:internal/child_process:1101:16)
+    at Socket.<anonymous> (node:internal/child_process:457:11)
+    at Socket.emit (node:events:508:28)
+    at Pipe.<anonymous> (node:net:346:12)
+Parsing CV: /Users/yashal/Desktop/SkillSelectAI/backend/uploads/e07c161c-e245-4854-b2bc-e344d79bff49.pdf
+Extracted skills from job description: [
+  'html',          'html5',
+  'semantic html', 'css',
+  'css3',          'sass',
+  'less',          'styling',
+  'javascript',    'es6',
+  'ecmascript',    'java',
+  'spring',        'maven',
+  'jvm'
+]
+Job Skills: [
+  'html',          'html5',
+  'semantic html', 'css',
+  'css3',          'sass',
+  'less',          'styling',
+  'javascript',    'es6',
+  'ecmascript',    'java',
+  'spring',        'maven',
+  'jvm'
+]
+Using 0 full-stack templates (skill-based)
+Generated 0 questions in 200 attempts
+Difficulty distribution: { Easy: 0, Medium: 0, Hard: 0 }
+Job skills extracted: [
+  'html',          'html5',
+  'semantic html', 'css',
+  'css3',          'sass',
+  'less',          'styling',
+  'javascript',    'es6',
+  'ecmascript',    'java',
+  'spring',        'maven',
+  'jvm'
+]
+Generated 0 total questions
+Filtered to 0 relevant questions (1%+ skill match)
+Relevance distribution:
+  90-100%: 0 questions
+  70-89%: 0 questions
+  50-69%: 0 questions
+  Below 50%: 0 questions
+Parsing CV: /Users/yashal/Desktop/SkillSelectAI/backend/uploads/8af309da-9205-4717-9300-393e5c6232eb.pdf

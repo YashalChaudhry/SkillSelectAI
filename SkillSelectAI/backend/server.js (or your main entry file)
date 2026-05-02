@@ -1,0 +1,24 @@
+import express from 'express';
+import cors from 'cors';
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+
+// Routes
+import interviewRoutes from './src/routes/interviewRoutes.js';
+import jobRoutes from './src/routes/jobRoutes.js';
+import questionRoutes from './src/routes/questionRoutes.js';
+
+const app = express();
+
+// Middleware
+app.use(cors());
+app.use(express.json());
+
+// Routes
+app.use('/api/interviews', interviewRoutes);
+app.use('/api/jobs', jobRoutes);
+app.use('/api/questions', questionRoutes);
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});

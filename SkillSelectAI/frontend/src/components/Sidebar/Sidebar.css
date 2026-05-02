@@ -1,0 +1,179 @@
+body {
+  min-height: 100%;
+  margin: 0;
+}
+.sidebar {
+  width: 80px;
+  background-color: var(--white);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  border-right: 1px solid var(--surface-border);
+  box-shadow: 2px 0 15px rgba(147, 51, 234, 0.04);
+}
+
+.sidebar-gradient-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.sidebar-menu {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto;
+}
+
+.sidebar-footer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 32px;
+
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Each icon wrapper box */
+.sidebar-icon-box {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 12px 0;
+  border-radius: 14px;
+  cursor: pointer;
+  position: relative;
+  background-color: transparent;
+  transition: all 0.3s ease;
+}
+
+/* Hover effect */
+.sidebar-icon-box:hover {
+  background: var(--accent);
+  box-shadow: 0 4px 12px rgba(147, 51, 234, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Active state (selected icon) */
+.sidebar-icon-box.active {
+  background: var(--accent);
+  box-shadow: 0 6px 14px rgba(147, 51, 234, 0.12);
+}
+
+/* Icon itself */
+.sidebar-icon {
+  font-size: 26px;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+/* Apply LandingPage gradient to MUI SVG icon shapes */
+.sidebar-icon path,
+.sidebar-icon circle,
+.sidebar-icon rect,
+.sidebar-icon polygon,
+.sidebar-icon line,
+.sidebar-icon polyline {
+  fill: url(#landing-page-gradient);
+}
+
+/* Only apply stroke gradient when the source SVG uses strokes */
+.sidebar-icon [stroke]:not([stroke="none"]) {
+  stroke: url(#landing-page-gradient);
+}
+
+/* Preserve explicit 'none' fills/strokes from the source SVG */
+.sidebar-icon [fill="none"] {
+  fill: none;
+}
+
+.sidebar-icon [stroke="none"] {
+  stroke: none;
+}
+
+.sidebar-icon-box:hover .sidebar-icon {
+  transform: scale(1.1);
+}
+
+.sidebar-icon-box.active .sidebar-icon {
+}
+
+/* Tooltip styling */
+.sidebar-tooltip {
+  position: absolute;
+  left: 70px;
+  background-color: var(--ink);
+  color: var(--white);
+  padding: 6px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  font-size: 14px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.sidebar-icon-box:hover .sidebar-tooltip {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Spacer to push logout button to bottom */
+.sidebar-spacer {
+  flex: 1;
+}
+
+/* Logout button specific styling */
+.sidebar-icon-box.logout-btn {
+  margin-top: 0;
+}
+
+.sidebar-icon-box.logout-btn:hover {
+  background: rgba(239, 68, 68, 0.08);
+  box-shadow: 0 4px 10px rgba(239, 68, 68, 0.08);
+}
+
+.sidebar-icon-box.logout-btn .sidebar-icon {
+  /* Ensure Logout icon is always red (overrides gradient icon styling above) */
+}
+
+.sidebar-icon-box.logout-btn:hover .sidebar-icon {
+}
+
+.sidebar-icon-box.logout-btn .sidebar-icon path:not([fill="none"]),
+.sidebar-icon-box.logout-btn .sidebar-icon circle:not([fill="none"]),
+.sidebar-icon-box.logout-btn .sidebar-icon rect:not([fill="none"]),
+.sidebar-icon-box.logout-btn .sidebar-icon polygon:not([fill="none"]),
+.sidebar-icon-box.logout-btn .sidebar-icon line:not([fill="none"]),
+.sidebar-icon-box.logout-btn .sidebar-icon polyline:not([fill="none"]) {
+  fill: rgb(239, 68, 68);
+}
+
+.sidebar-icon-box.logout-btn .sidebar-icon [stroke]:not([stroke="none"]) {
+  stroke: rgb(239, 68, 68);
+}
+
+.sidebar-icon-box.logout-btn:hover .sidebar-icon path:not([fill="none"]),
+.sidebar-icon-box.logout-btn:hover .sidebar-icon circle:not([fill="none"]),
+.sidebar-icon-box.logout-btn:hover .sidebar-icon rect:not([fill="none"]),
+.sidebar-icon-box.logout-btn:hover .sidebar-icon polygon:not([fill="none"]),
+.sidebar-icon-box.logout-btn:hover .sidebar-icon line:not([fill="none"]),
+.sidebar-icon-box.logout-btn:hover .sidebar-icon polyline:not([fill="none"]) {
+  fill: rgb(220, 38, 38);
+}
+
+.sidebar-icon-box.logout-btn:hover .sidebar-icon [stroke]:not([stroke="none"]) {
+  stroke: rgb(220, 38, 38);
+}

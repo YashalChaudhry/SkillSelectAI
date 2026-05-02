@@ -1,0 +1,643 @@
+/* JobManagement.css - Modern Glass Morphism Design */
+
+/* =====================
+   Container & Layout
+   ===================== */
+.jm-container {
+  background: var(--app-bg);
+  min-height: 100vh;
+  padding: 32px 55px;
+  font-family: 'Inter', 'Poppins', sans-serif;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* =====================
+   Header
+   ===================== */
+.jm-header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.jm-title {
+  font-size: 2.6rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+
+.jm-gradient-text {
+  background: linear-gradient(90deg, #9333ea, #b44acd, #a855f7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.jm-subtitle {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+}
+
+/* =====================
+   Stats Cards
+   ===================== */
+.jm-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.jm-stat-card {
+  background: var(--surface-card);
+  border: 1px solid var(--surface-border);
+  border-radius: 20px;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.jm-stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(17, 24, 39, 0.08);
+}
+
+.jm-stat-icon {
+  width: 56px;
+  height: 56px;
+  background: var(--accent);
+  color: var(--primary);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.jm-stat-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.jm-stat-number {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.jm-stat-label {
+  color: var(--ink);
+  font-size: 0.9rem;
+}
+
+/* =====================
+   Main Content Grid
+   ===================== */
+.jm-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+}
+
+@media (max-width: 1100px) {
+  .jm-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =====================
+   Cards
+   ===================== */
+.jm-card {
+  background: var(--surface-card);
+  border: 1px solid var(--surface-border);
+  border-radius: 20px;
+  padding: 28px;
+  backdrop-filter: blur(10px);
+}
+
+.jm-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.jm-card-icon {
+  width: 40px;
+  height: 40px;
+  background: var(--primary);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.jm-card-header h2 {
+  color: var(--ink);
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 0;
+  flex: 1;
+}
+
+.jm-job-count {
+  background: var(--primary);
+  color: var(--white);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* =====================
+   Form Styles
+   ===================== */
+.jm-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.jm-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.jm-toggle-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.jm-toggle-btn {
+  padding: 11px 12px;
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  color: var(--ink);
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+.jm-toggle-btn:hover {
+  border-color: var(--primary);
+  transform: translateY(-1px);
+}
+
+.jm-toggle-active {
+  border-color: var(--primary);
+  background: rgba(147, 51, 234, 0.12);
+}
+
+.jm-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ink);
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.jm-label-icon {
+  font-size: 1rem;
+}
+
+.jm-input {
+  padding: 13px 16px;
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-radius: 10px;
+  color: var(--ink);
+  font-size: 1rem;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.jm-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.15);
+}
+
+.jm-input::placeholder {
+  color: var(--text-muted);
+}
+
+.jm-textarea {
+  padding: 13px 16px;
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-radius: 10px;
+  color: var(--ink);
+  font-size: 1rem;
+  min-height: 130px;
+  resize: vertical;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  font-family: inherit;
+}
+
+.jm-textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.15);
+}
+
+.jm-textarea::placeholder {
+  color: var(--text-muted);
+}
+
+/* =====================
+   Upload Zone
+   ===================== */
+.jm-upload-zone {
+  border: 2px dashed var(--surface-border);
+  border-radius: 12px;
+  padding: 32px 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.jm-upload-zone:hover {
+  border-color: var(--primary);
+  background: var(--accent);
+}
+
+.jm-upload-zone.jm-dragging {
+  border-color: var(--primary);
+  background: var(--accent);
+  transform: scale(1.02);
+}
+
+.jm-upload-zone.jm-has-files {
+  border-style: solid;
+  border-color: rgba(34, 197, 94, 0.5);
+  background: rgba(34, 197, 94, 0.08);
+}
+
+.jm-upload-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.jm-upload-icon {
+  font-size: 40px;
+  margin-bottom: 8px;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+.jm-upload-text {
+  color: var(--ink);
+  font-weight: 500;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.jm-upload-hint {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+/* =====================
+   File List
+   ===================== */
+.jm-file-list {
+  margin-top: 14px;
+}
+
+.jm-file-count {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--ink);
+  font-weight: 500;
+  font-size: 0.95rem;
+  margin-bottom: 10px;
+}
+
+.jm-file-badge {
+  background: var(--accent);
+  color: var(--primary);
+  padding: 3px 10px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.jm-files {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.jm-file-item {
+  background: var(--app-bg);
+  border: 1px solid var(--surface-border);
+  border-radius: 8px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.jm-file-icon {
+  font-size: 1rem;
+}
+
+.jm-file-name {
+  color: var(--ink);
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.jm-file-remove {
+  background: none;
+  border: none;
+  color: var(--danger);
+  font-size: 1rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+  transition: transform 0.2s;
+}
+
+.jm-file-remove:hover {
+  transform: scale(1.2);
+}
+
+/* =====================
+   Submit Button
+   ===================== */
+.jm-submit-btn {
+  padding: 15px 22px;
+  background: var(--primary);
+  border: none;
+  border-radius: 12px;
+  color: var(--white);
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.jm-submit-btn:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(147, 51, 234, 0.25);
+}
+
+.jm-submit-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.jm-submit-btn.jm-loading {
+  background: var(--primary);
+}
+
+.jm-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(229, 231, 235, 0.9);
+  border-top-color: var(--white);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* =====================
+   Jobs List
+   ===================== */
+.jm-empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--ink);
+}
+
+.jm-empty-icon {
+  font-size: 50px;
+  margin-bottom: 16px;
+  opacity: 0.6;
+}
+
+.jm-empty-state h3 {
+  color: var(--ink);
+  font-size: 1.1rem;
+  margin-bottom: 6px;
+}
+
+.jm-empty-state p {
+  margin: 0;
+}
+
+.jm-jobs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 450px;
+  overflow-y: auto;
+}
+
+.jm-job-item {
+  background: var(--surface-card);
+  border: 1px solid var(--surface-border);
+  border-radius: 14px;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.3s ease;
+  animation: slideUp 0.4s ease-out forwards;
+  opacity: 0;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.jm-job-item:hover {
+  border-color: var(--surface-border);
+  background: var(--surface);
+  transform: translateX(5px);
+}
+
+.jm-job-info {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.jm-job-avatar {
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(90deg, #9333ea, #b44acd, #a855f7);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--white);
+}
+
+.jm-job-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.jm-job-title {
+  color: var(--ink);
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.jm-job-meta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.jm-job-candidates {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.jm-job-mode {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.jm-meta-icon {
+  font-size: 0.9rem;
+}
+
+.jm-job-status {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--success);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.jm-status-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--success);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.jm-job-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.jm-action-btn {
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.3s ease;
+}
+
+.jm-delete-btn {
+  background: rgba(239, 68, 68, 0.12);
+  color: var(--danger);
+}
+
+.jm-delete-btn:hover {
+  background: rgba(239, 68, 68, 0.2);
+  transform: scale(1.05);
+}
+
+/* =====================
+   Responsive
+   ===================== */
+@media (max-width: 768px) {
+  .jm-container {
+    padding: 20px;
+  }
+
+  .jm-title {
+    font-size: 2rem;
+  }
+
+  .jm-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .jm-job-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .jm-job-actions {
+    width: 100%;
+  }
+
+  .jm-action-btn {
+    flex: 1;
+    justify-content: center;
+  }
+}

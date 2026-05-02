@@ -1,0 +1,44 @@
+[
+  {
+    "id": "69a44b73ec53e96cbd443e3d",
+    "name": "Maryam Khan",
+    "email": "maryam.khan@gmail.com",
+    "score": 95
+  },
+  {
+    "id": "69a44b74ec53e96cbd443e3f",
+    "name": "Muhammad Moosa Khalil",
+    "email": "moosamughal21@gmail.com",
+    "score": 95
+  },
+  {
+    "id": "69a44b70ec53e96cbd443e39",
+    "name": "Faiza Alam Warraich",
+    "email": "faizaalamwarraich@gmail.com",
+    "score": 75
+  },
+  {
+    "id": "69a44b76ec53e96cbd443e43",
+    "name": "Ayesha Khan",
+    "email": "ayesha.mushy.khan@gmail.com",
+    "score": 45
+  },
+  {
+    "id": "69a44b6fec53e96cbd443e37",
+    "name": "Esha Qaiser",
+    "email": "eshaqaiser63@gmail.com",
+    "score": 17
+  },
+  {
+    "id": "69a44b75ec53e96cbd443e41",
+    "name": "Muhammad Bilal Masood",
+    "email": "bilalmasood013@gmail.com",
+    "score": 17
+  },
+  {
+    "id": "69a44b71ec53e96cbd443e3b",
+    "name": "Mary Johnson",
+    "email": "mary.johnson@email.com",
+    "score": 16
+  }
+]

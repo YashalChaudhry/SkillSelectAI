@@ -1,0 +1,8 @@
+{
+  "ext": "js,mjs,json,py",
+  "exec": "node server.js",
+  "ignore": [
+    "uploads/*",
+    "matches/*"
+  ]
+}

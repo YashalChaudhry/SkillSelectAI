@@ -1,0 +1,32 @@
+[
+  {
+    "id": "69a42ca59384f92f93fb3266",
+    "name": "Adil Shahzad",
+    "email": "adilshahzad0330@gmail.com",
+    "score": 4
+  },
+  {
+    "id": "69a42cad9384f92f93fb326e",
+    "name": "Ayesha Khan",
+    "email": "ayesha.mushy.khan@gmail.com",
+    "score": 2
+  },
+  {
+    "id": "69a42ca89384f92f93fb3268",
+    "name": "Unnamed Candidate",
+    "email": "ahmedtasadduq6123@gmail.com",
+    "score": 0
+  },
+  {
+    "id": "69a42cab9384f92f93fb326a",
+    "name": "Muhammad Arqam Malik",
+    "email": "arqammalik711@gmail.com",
+    "score": 0
+  },
+  {
+    "id": "69a42cac9384f92f93fb326c",
+    "name": "Muhammad Arqam Malik",
+    "email": "arqammalik711@gmail.com",
+    "score": 0
+  }
+]
